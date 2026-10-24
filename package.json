@@ -10,7 +10,8 @@
     "start": "NODE_ENV=production tsx server/index.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "mission": "tsx scripts/run-mission.ts"
+    "mission": "tsx scripts/run-mission.ts",
+    "e2e:ui": "node tests/e2e/ui-mission.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",
