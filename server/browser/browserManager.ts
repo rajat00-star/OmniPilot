@@ -212,6 +212,35 @@ export class BrowserManager {
   }
 
   /**
+   * Playwright's context.route() handlers are not invoked for redirect hops (verified against
+   * Playwright 1.63 / Chromium 153: the hop is requested without the handler seeing it), so a
+   * public URL could redirect the browser to a private or metadata address and the request would
+   * be sent before the post-navigation chain check ran. Chromium's Fetch interception over CDP does
+   * see every hop, so redirect hops are validated here and failed before any connection is made.
+   * Requests that are not redirect hops are already covered by the context route and pass through.
+   */
+  private async guardRedirects(page: Page): Promise<void> {
+    const cdp = await page.context().newCDPSession(page);
+    cdp.on("Fetch.requestPaused", async (ev) => {
+      let allowed = true;
+      if (ev.redirectedRequestId) {
+        const url = ev.request.url;
+        try {
+          if (!url.startsWith("data:") && !url.startsWith("blob:")) {
+            if (ev.resourceType === "Document") await validateUrl(url, this.policy);
+            else checkUrlStructure(url, this.policy);
+          }
+        } catch {
+          allowed = false;
+        }
+      }
+      if (allowed) await cdp.send("Fetch.continueRequest", { requestId: ev.requestId }).catch(() => {});
+      else await cdp.send("Fetch.failRequest", { requestId: ev.requestId, errorReason: "BlockedByClient" }).catch(() => {});
+    });
+    await cdp.send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
+  }
+
+  /**
    * Open a URL in a fresh page, wait for content, validate the redirect chain and
    * return an observation snapshot. The page is returned so callers can screenshot it;
    * callers must call release().
@@ -239,6 +268,7 @@ export class BrowserManager {
       const ctx = await this.context(key);
       page = await ctx.newPage();
       pages.add(page);
+      await this.guardRedirects(page);
       page.setDefaultTimeout(this.opts.navTimeoutMs);
       let response;
       try {

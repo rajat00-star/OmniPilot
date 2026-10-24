@@ -1,0 +1,6 @@
+REQUEST    http://origin.test/start redirectedFrom= null
+ROUTE(test) start -> fulfilling 302
+FAILED     http://origin.test/start net::ERR_BLOCKED_BY_CLIENT
+REQUEST    http://10.20.30.40/admin redirectedFrom= null
+FAILED     http://10.20.30.40/admin net::ERR_ABORTED
+open() rejected: code= blocked msg= Navigation blocked by OmniPilot URL policy

@@ -1,0 +1,24 @@
+import { BrowserManager } from "./server/browser/browserManager";
+
+const bm = new BrowserManager({ resolve: async () => ["198.41.0.4"] }, { headed: false, navTimeoutMs: 4000 });
+const ctx = await bm.context("diag");
+await ctx.setOffline(true);
+ctx.on("request", (r) => console.log("REQUEST   ", r.url(), "redirectedFrom=", r.redirectedFrom()?.url() ?? null));
+ctx.on("requestfailed", (r) => console.log("FAILED    ", r.url(), r.failure()?.errorText));
+ctx.on("response", (r) => console.log("RESPONSE  ", r.url(), r.status()));
+await ctx.route("http://origin.test/start", (r) => {
+  console.log("ROUTE(test) start -> fulfilling 302");
+  return r.fulfill({ status: 302, headers: { location: "http://10.20.30.40/admin" }, body: "" });
+});
+// Observe-only handler for the redirect target, registered last so it runs first, then falls back to OmniPilot's own handler.
+await ctx.route("http://10.20.30.40/**", (r) => {
+  console.log("ROUTE(probe) saw redirect hop:", r.request().url());
+  return r.fallback();
+});
+try {
+  await bm.open("diag", "http://origin.test/start");
+  console.log("open() resolved (unexpected)");
+} catch (e: any) {
+  console.log("open() rejected: code=", e.code, "msg=", e.message);
+}
+await bm.shutdown();

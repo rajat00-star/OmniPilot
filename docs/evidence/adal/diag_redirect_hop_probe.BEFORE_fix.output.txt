@@ -1,0 +1,14 @@
+Provenance: transcribed verbatim from the terminal output of the AdaL session b4f50c11-9603-4ce6-8283-7a3024ce6a8d
+(2026-10-24) when diag_redirect_hop_probe.ts.txt was run against the UNMODIFIED server/browser/browserManager.ts
+(HEAD 4955585). The run was captured in the session, not redirected to a file at the time.
+Context was set offline; no packet could leave the machine.
+
+REQUEST    http://origin.test/start redirectedFrom= null
+ROUTE(test) start -> fulfilling 302
+RESPONSE   http://origin.test/start 302
+REQUEST    http://10.20.30.40/admin redirectedFrom= http://origin.test/start
+FAILED     http://10.20.30.40/admin net::ERR_INTERNET_DISCONNECTED
+open() rejected: code= network msg= Site unreachable from this environment: page.goto: net::ERR_INTERNET_DISCONNECTED at http://origin.test/start
+
+Reading: the redirect hop to 10.20.30.40 was requested by Chromium and neither the probe route nor OmniPilot's own
+context route ("ROUTE(probe) saw redirect hop" never printed) was invoked for it.

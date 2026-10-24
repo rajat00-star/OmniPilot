@@ -1,0 +1,4 @@
+CDP paused: http://origin.test/start type= Document redirectedRequestId= null
+CDP paused: http://10.20.30.40/admin type= Document redirectedRequestId= interception-job-1.0
+  -> failRequest(BlockedByClient)
+goto rejected: page.goto: net::ERR_BLOCKED_BY_CLIENT at http://origin.test/start
