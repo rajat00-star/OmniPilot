@@ -28,6 +28,8 @@ function setup() {
   fs.writeFileSync(resolve("sources/src_a.txt"), doc);
   src.textFile = "sources/src_a.txt";
   src.textSha256 = sha(doc);
+  fs.writeFileSync(resolve("screens/src_a.jpg"), "jpeg-bytes");
+  src.screenshotFile = "screens/src_a.jpg";
   const failed: SourceCapture = { id: "src_b", targetId: "gone", targetName: "Gone Inc", requestedUrl: "https://gone.test/", redirectChain: [], capturedAt: "2026-10-24T00:00:00Z", ok: false, error: "Site unreachable", stepId: "collect-gone" };
   const m: Mission = {
     id: "msn_test01", prompt: "p", createdAt: "", updatedAt: "", status: "verifying", mode: "deterministic", steps: [], approvals: [], activity: [], frames: [], warnings: [], checks: [], artifacts: [],
@@ -67,6 +69,13 @@ describe("artifact verification", () => {
     }
     const s = computeSummary(m);
     expect(s).toMatchObject({ sourcesAttempted: 2, sourcesCaptured: 1, sourcesFailed: 1, pricesFound: 1, pricesUnavailable: 1, descriptionsFound: 1, checksFailed: 0 });
+  });
+
+  it("requires screenshot evidence for every captured page", async () => {
+    const { m, resolve, files, dir } = setup();
+    fs.unlinkSync(path.join(dir, "screens/src_a.jpg"));
+    const r = await runVerification(m, { resolve }, files);
+    expect(failedNames(r.checks)).toContain("Screenshot evidence for every captured page");
   });
 
   it("detects missing files", async () => {

@@ -160,6 +160,7 @@ export const verifierCheck: Tool<{ filenames: string[] }> = {
     const res = await runVerification(m, {
       resolve: (rel) => ctx.store.filePath(ctx.missionId, rel),
       renderHtml: (html, shot) => ctx.browser.renderHtml(html, ctx.store.filePath(ctx.missionId, shot)),
+      imageStats: (rel) => ctx.browser.imageStats(ctx.store.filePath(ctx.missionId, rel)),
     }, input.filenames);
     ctx.store.update(ctx.missionId, (mm) => {
       mm.checks = res.checks;

@@ -1,5 +1,7 @@
 # Tests
 
+> Latest: see [VALIDATION.md](VALIDATION.md) (2026-10-24 15:xx UTC): 91 tests passed, live missions and control-path checks re-run. The record below is the original build run.
+
 ## How to run
 
 ```bash

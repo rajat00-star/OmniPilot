@@ -55,6 +55,7 @@ The key never leaves the server. The UI only learns whether a key is configured.
 * [Architecture](docs/ARCHITECTURE.md)
 * [Security controls](docs/SECURITY.md)
 * [Demo script](docs/DEMO_SCRIPT.md)
+* [Final validation against track requirements](docs/VALIDATION.md)
 * [Test instructions and results](docs/TEST_RESULTS.md)
 * [Capabilities and known limitations](docs/CAPABILITIES.md)
 * [AdaL development evidence](docs/ADAL.md)

@@ -305,7 +305,7 @@ export function VerificationView({ mission }: { mission: Mission }) {
   }
   const byArtifact = new Map<string, typeof mission.checks>();
   for (const c of mission.checks) {
-    const k = mission.artifacts.find((a) => a.id === c.artifactId)?.filename ?? "Evidence grounding";
+    const k = mission.artifacts.find((a) => a.id === c.artifactId)?.filename ?? "Evidence grounding and screenshots";
     byArtifact.set(k, [...(byArtifact.get(k) ?? []), c]);
   }
   const shot = mission.frames.find((f) => f.url.startsWith("artifact://"))?.screenshotFile;

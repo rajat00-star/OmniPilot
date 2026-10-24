@@ -26,19 +26,24 @@ export const PRODUCT_CATALOG: CatalogEntry[] = [
   { name: "Otter.ai", aliases: ["otter"], tags: ["meetings", "productivity"], urls: ["https://otter.ai/pricing", "https://otter.ai/"] },
 ];
 
+// Topic words only count when they describe the products ("coding assistants", "writing tools"),
+// so instruction verbs such as "Research five..." or "write a report" do not skew the selection.
+const PRODUCT_NOUN = "(?:ai\\s+)?(?:assistants?|tools?|products?|apps?|platforms?|copilots?|agents?|engines?|software)";
 const TOPIC_TAGS: [RegExp, string][] = [
-  [/\b(cod(e|ing)|developer|programming|ide)\b/i, "coding"],
-  [/\b(writ(e|ing)|copy|content|marketing)\b/i, "writing"],
-  [/\b(meeting|transcri)/i, "meetings"],
-  [/\b(search|research)\b/i, "research"],
-  [/\b(notes?|docs?|productivity|workspace)\b/i, "productivity"],
+  [new RegExp(`\\b(?:cod(?:e|ing)|developer|programming|ide)\\s+${PRODUCT_NOUN}`, "i"), "coding"],
+  [new RegExp(`\\b(?:writing|copywriting|content|marketing)\\s+${PRODUCT_NOUN}`, "i"), "writing"],
+  [new RegExp(`\\b(?:meeting|transcription|note-taking)\\s+${PRODUCT_NOUN}`, "i"), "meetings"],
+  [new RegExp(`\\b(?:search|answer|research)\\s+${PRODUCT_NOUN}`, "i"), "research"],
+  [new RegExp(`\\b(?:productivity|workspace|notes?|docs?)\\s+${PRODUCT_NOUN}`, "i"), "productivity"],
 ];
 
 export function pickCatalogTargets(prompt: string, count: number): CatalogEntry[] {
   const lower = prompt.toLowerCase();
   const named = PRODUCT_CATALOG.filter((e) => e.aliases.some((a) => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(lower)));
   if (named.length > 0) return named.slice(0, count);
-  const tags = TOPIC_TAGS.filter(([re]) => re.test(prompt)).map(([, t]) => t);
+  // No explicit topic: default to general-purpose AI assistants, the most common reading of "AI products".
+  const found = TOPIC_TAGS.filter(([re]) => re.test(prompt)).map(([, t]) => t);
+  const tags = found.length ? found : ["general"];
   const scored = PRODUCT_CATALOG.map((e, i) => ({ e, i, score: e.tags.filter((t) => tags.includes(t)).length }));
   scored.sort((a, b) => b.score - a.score || a.i - b.i);
   return scored.slice(0, count).map((s) => s.e);

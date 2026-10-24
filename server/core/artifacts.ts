@@ -53,7 +53,7 @@ export function renderCompetitorCsv(a: Analysis): string {
     captured_at: p.capturedAt ?? "",
     official_description: p.description?.value ?? (p.status === "inaccessible" ? "Unknown (source inaccessible)" : "Not found"),
     description_source_url: p.description?.sourceUrl ?? "",
-    headline: p.headline?.value ?? "Not found",
+    headline: p.headline?.value ?? (p.status === "inaccessible" ? "Unknown" : "Not found"),
     displayed_prices: p.prices.map((x) => x.value).join("; "),
     pricing_status: p.pricingStatus,
     free_option_displayed: p.status === "inaccessible" ? "Unknown" : p.freeTier ? "Yes" : "Not found",

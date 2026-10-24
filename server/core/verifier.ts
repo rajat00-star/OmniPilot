@@ -5,13 +5,16 @@ import { parse as parseHtml } from "node-html-parser";
 import { CSV_COLUMNS, PRICING_STATUSES, REPORT_SECTIONS } from "./artifacts.js";
 import { normalizeWs } from "./extraction.js";
 import { newId, nowIso } from "./store.js";
+import type { ImageStats, RenderResult } from "../browser/browserManager.js";
 import type { ArtifactRecord, CheckResult, Mission, Observation, ObservationCheck, VerificationSummary } from "./types.js";
 
 export interface VerifierIO {
   /** Absolute path for a mission-relative file. */
   resolve(relative: string): string;
   /** Optional offline render of HTML artifacts (Playwright). */
-  renderHtml?(html: string, screenshotRelative: string): Promise<{ consoleErrors: string[]; title: string; textLength: number }>;
+  renderHtml?(html: string, screenshotRelative: string): Promise<RenderResult>;
+  /** Optional pixel statistics for a stored screenshot (mission-relative path). */
+  imageStats?(relative: string): Promise<ImageStats>;
 }
 
 type Add = (c: Omit<CheckResult, "id">) => void;
@@ -133,11 +136,61 @@ export async function verifyLanding(a: ArtifactRecord, text: string, m: Mission,
   try {
     const r = await io.renderHtml(text, shot);
     add({ artifactId: a.id, scope: "render", name: "Renders in browser", status: r.consoleErrors.length ? "failed" : r.textLength > 200 ? "passed" : "warning", detail: r.consoleErrors.length ? r.consoleErrors.slice(0, 2).join("; ") : `Rendered offline in Chromium, ${r.textLength} chars visible, screenshot saved` });
+    visualChecks(a, r, add);
     return shot;
   } catch (e) {
     add({ artifactId: a.id, scope: "render", name: "Renders in browser", status: "failed", detail: (e as Error).message.split("\n")[0] });
     return undefined;
   }
+}
+
+export const VISUAL_THRESHOLDS = { minLumaStd: 6, minNonUniform: 0.005, headingContrast: 3, textContrast: 4.5 };
+
+/** Visual checks on the rendered landing page: measured from the screenshot pixels and the rendered layout. */
+export function visualChecks(a: ArtifactRecord, r: RenderResult, add: Add): void {
+  const T = VISUAL_THRESHOLDS;
+  const blank = r.pixels.lumaStd < T.minLumaStd || r.pixels.nonUniformShare < T.minNonUniform;
+  add({ artifactId: a.id, scope: "render", name: "Screenshot is not blank", status: blank ? "failed" : "passed", detail: `${r.pixels.width}×${r.pixels.height}px, luminance σ=${r.pixels.lumaStd}, ${(r.pixels.nonUniformShare * 100).toFixed(1)}% non-background pixels` });
+  const hero = r.layout.h1?.inFold && r.layout.cta?.inFold;
+  add({ artifactId: a.id, scope: "render", name: "Headline and call to action above the fold", status: hero ? "passed" : "failed", detail: `viewport ${r.layout.viewport.width}×${r.layout.viewport.height}: headline ${r.layout.h1 ? (r.layout.h1.inFold ? "visible" : "below fold") : "missing"}, CTA ${r.layout.cta ? (r.layout.cta.inFold ? "visible" : "below fold") : "missing"}` });
+  const hc = r.layout.h1?.contrast ?? null;
+  const bc = r.layout.body?.contrast ?? null;
+  const cc = r.layout.cta?.contrast ?? null;
+  const ok = (hc ?? 0) >= T.headingContrast && (bc ?? 0) >= T.textContrast && (cc ?? 0) >= T.headingContrast;
+  add({ artifactId: a.id, scope: "render", name: "Text contrast meets WCAG AA", status: ok ? "passed" : "warning", detail: `headline ${hc ?? "n/a"}:1 (≥${T.headingContrast}), body ${bc ?? "n/a"}:1 (≥${T.textContrast}), CTA ${cc ?? "n/a"}:1 (≥${T.headingContrast})` });
+}
+
+/** Every captured source should have a non-blank screenshot linked to the step that took it. */
+export async function checkScreenshots(m: Mission, io: VerifierIO, add: Add): Promise<void> {
+  const captured = m.sources.filter((s) => s.ok && s.targetId !== "manual");
+  if (!captured.length) return;
+  const missing: string[] = [];
+  const blank: string[] = [];
+  let measured = 0;
+  for (const s of captured) {
+    if (!s.screenshotFile || !fs.existsSync(io.resolve(s.screenshotFile))) {
+      missing.push(s.targetName);
+      continue;
+    }
+    if (!io.imageStats) continue;
+    try {
+      const st = await io.imageStats(s.screenshotFile);
+      measured++;
+      if (st.lumaStd < VISUAL_THRESHOLDS.minLumaStd || st.nonUniformShare < VISUAL_THRESHOLDS.minNonUniform) blank.push(`${s.targetName} (${s.finalUrl})`);
+    } catch {
+      missing.push(`${s.targetName} (unreadable)`);
+    }
+  }
+  add({
+    scope: "render",
+    name: "Screenshot evidence for every captured page",
+    status: missing.length ? "failed" : blank.length ? "warning" : "passed",
+    detail: missing.length
+      ? `Missing for: ${missing.join(", ")}`
+      : blank.length
+        ? `${blank.length} near-blank capture(s), review: ${blank.join("; ")}`
+        : `${captured.length} screenshots present${measured ? `, ${measured} pixel-checked non-blank` : ""}, each linked to its capture step`,
+  });
 }
 
 export function verifyEvidenceJson(a: ArtifactRecord, text: string, m: Mission, add: Add): void {
@@ -227,6 +280,7 @@ export async function runVerification(
     else if (a.kind === "json") verifyEvidenceJson(a, text, m, add);
   }
   const observationChecks = checkGrounding(m, io, add);
+  await checkScreenshots(m, io, add);
   const perArtifact = new Map<string, CheckResult["status"]>();
   for (const c of checks) {
     if (!c.artifactId) continue;

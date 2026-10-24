@@ -9,7 +9,8 @@
 * Independent verification: read-back hashes, parsers, required columns/sections, malformed and empty records, zero-price placeholders, citation resolution, offline render, excerpt re-grounding.
 * Live SSE event stream, pause, take over, resume, stop, consequential-action approval.
 * URL, redirect and path security controls; untrusted-content handling.
-* 84 automated tests plus a Playwright UI end-to-end script.
+* Visual verification from screenshots: pixel statistics flag blank captures, the landing-page render is checked for headline and CTA above the fold and WCAG text contrast, and every captured page must have a screenshot linked to its step.
+* 91 automated tests, a Playwright UI end-to-end script and a live control-path script (`tests/e2e/live-controls.mjs`).
 
 ## Implemented but not yet exercised end to end
 * **Claude mode.** The planner and synthesis code paths, schema conversion and error handling are implemented and unit-tested for missing credentials and schema handling, but no live Claude API call has been made from this build because no API key was available. Treat Claude mode as unverified until it has been run with a real key.
@@ -17,7 +18,7 @@
 ## Not implemented
 * Electron desktop packaging (the workspace runs in a browser tab; Chromium can run as a visible window with `OMNIPILOT_HEADED=1`).
 * Interactive in-UI remote control of the headless browser (manual takeover in headless mode is via the address bar; clicking in the page needs headed mode).
-* Image understanding of screenshots. Screenshots are captured and shown as visual evidence only; nothing "reads" them.
+* Image understanding of screenshots. Visual checks measure pixels and rendered layout; no model interprets image content.
 * Authenticated sites, form submission, publishing or messaging integrations.
 * Multi-user access control. The server is a local single-user app bound to 127.0.0.1.
 

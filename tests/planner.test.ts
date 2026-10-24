@@ -95,3 +95,15 @@ describe("plan validation rejects invalid model plans", () => {
     expect(() => validatePlan({ ...plan, steps }, registry)).not.toThrow();
   });
 });
+
+describe("seed-list target selection", () => {
+  it("does not treat instruction verbs as product topics", () => {
+    const plan = basePlan();
+    expect(plan.targets.map((t) => t.name)).toEqual(["ChatGPT", "Claude", "Google Gemini", "Microsoft Copilot", "Mistral Le Chat"]);
+  });
+
+  it("uses topic words that describe the products", () => {
+    const plan = deterministicPlan({ prompt: "Research three AI coding assistants and write a CSV report" }, registry);
+    expect(plan.targets.map((t) => t.name).sort()).toEqual(["Claude", "Cursor", "GitHub Copilot"]);
+  });
+});
