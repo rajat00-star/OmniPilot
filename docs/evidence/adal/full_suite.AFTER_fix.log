@@ -1,0 +1,36 @@
+
+> omnipilot@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /Users/rajatsanger/Developer/OmniPilot
+
+ ✓ tests/paths.test.ts (11 tests) 2ms
+ ✓ tests/urlSafety.test.ts (25 tests) 8ms
+ ✓ tests/stateMachine.test.ts (4 tests) 2ms
+ ✓ tests/extraction.test.ts (5 tests) 6ms
+ ✓ tests/verifier.test.ts (11 tests) 40ms
+ ✓ tests/planner.test.ts (12 tests) 17ms
+ ✓ tests/llm.test.ts (6 tests) 10ms
+ ✓ tests/api.test.ts (5 tests) 44ms
+ ✓ tests/visual.test.ts (4 tests) 549ms
+ ✓ tests/redirectGuard.test.ts (15 tests) 1767ms
+   ✓ redirect hops are validated before any connection is attempted (13)
+     ✓ treats an unparseable Location as a non-redirect: nothing is followed and nothing hangs 548ms
+   ✓ multi-hop redirect chains (2)
+     ✓ still follows a legitimate multi-hop chain and records every hop 539ms
+ ✓ tests/engine.test.ts (8 tests) 7986ms
+   ✓ mission engine with a real browser (8)
+     ✓ runs a full mission: navigation, extraction, artifacts, read-back verification 1518ms
+     ✓ reports extraction failures and blocked redirects honestly and degrades the mission 806ms
+     ✓ fails the mission when no evidence at all can be captured 707ms
+     ✓ cancels a running mission, closing in-flight navigation 1502ms
+     ✓ pauses between browser actions and resumes 1715ms
+     ✓ requires explicit approval for consequential tools and honours denial 908ms
+     ✓ treats injected page instructions as data 806ms
+
+ Test Files  11 passed (11)
+      Tests  106 passed (106)
+   Start at  22:03:05
+   Duration  8.36s (tests 88%, import 11%, transform 1%)
+

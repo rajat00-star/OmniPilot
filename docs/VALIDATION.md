@@ -14,7 +14,7 @@ Status key: **Verified** = executed and passed in the stated environment. **Part
 | OS / arch | macOS (Darwin 27.2.0), arm64 |
 | Node / npm | v26.11.1 / 11.20.0 (docs target Node 20+, earlier validation used Node 22) |
 | Playwright | 1.63.0, Chromium headless shell build 1243, installed with `npx playwright install chromium` |
-| Base commit | `4955585` (changes uncommitted at the time of writing) |
+| Base commit | `4955585`; the fix is in `f763ccd` |
 | `NODE_ENV` | The shell had `NODE_ENV=production`. With that, `npm ci` skips devDependencies and `typecheck`/`build`/`test` fail with "command not found". Measured runs used `NODE_ENV=development` (install, typecheck, build) and `NODE_ENV=test` (tests). |
 | API key | None used. No Claude/API call was made. |
 | Network | Package and browser installation, plus one exception: the two pre-fix runs of the original `engine.test.ts` failure made Chromium attempt a connection to the private address `10.20.30.40` (no answer was received). All diagnosis and the new tests run offline or against loopback only, and the fixed code never reaches that address. |
@@ -51,7 +51,7 @@ Evidence type matters: *unit* = pure code tests; *mocked browser* = real Chromiu
 | 7 | End-to-end multi-tool workflow | **Verified (local fixture)** | `tests/engine.test.ts` full-mission test | Five-competitor live mission not re-run here. |
 | 7b | URL/redirect safety (supporting security control) | **Verified (unit + mocked browser)** | `tests/urlSafety.test.ts`, `tests/redirectGuard.test.ts`, `tests/engine.test.ts` | Tested on macOS/Node 26 only; not tested behind a restricted proxy. |
 | 8 | Active use of AdaL by Sylph | **Partial** | `docs/ADAL.md`, `docs/evidence/adal/` | One session. No Browser Use run, session export or recording. |
-| 9 | Genuine evidence of AdaL usage | **Partial** | `docs/evidence/adal/README.md` | Real logs, patch and diagnostics exist; no commit yet (pending approval); no screen recording. |
+| 9 | Genuine evidence of AdaL usage | **Partial** | `docs/evidence/adal/README.md` | Real logs, patch and diagnostics exist and are committed (`f763ccd` and follow-up); no screen recording. |
 | – | Five competitors fully researched (signature mission) | **Not verified here / Blocked** | Part B only | Needs unrestricted network and approval to browse; Part B reached 2 of 5. |
 | – | Live Claude mode | **Blocked** | None | Needs an API key you approve for paid use. A key variable exists in the shell but was not read or used. |
 | – | Image understanding of screenshots (multimodal) | **Not met** | – | Only pixel-statistics and layout checks exist (`tests/visual.test.ts`, local). No model interprets images. |

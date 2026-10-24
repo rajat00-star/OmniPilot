@@ -1,0 +1,56 @@
+
+> omnipilot@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /Users/rajatsanger/Developer/OmniPilot
+
+ ✓ tests/paths.test.ts (11 tests) 3ms
+ ✓ tests/urlSafety.test.ts (25 tests) 8ms
+ ✓ tests/stateMachine.test.ts (4 tests) 2ms
+ ✓ tests/extraction.test.ts (5 tests) 5ms
+ ✓ tests/verifier.test.ts (11 tests) 55ms
+ ✓ tests/llm.test.ts (6 tests) 7ms
+ ✓ tests/planner.test.ts (12 tests) 10ms
+ ✓ tests/api.test.ts (5 tests) 38ms
+ ✓ tests/visual.test.ts (4 tests) 2194ms
+   ✓ visual verification of rendered artifacts (4)
+     ✓ passes a legible page with hero above the fold 1846ms
+ ❯ tests/engine.test.ts (8 tests | 1 failed) 21341ms
+   ❯ mission engine with a real browser (8)
+     ✓ runs a full mission: navigation, extraction, artifacts, read-back verification 2933ms
+     × reports extraction failures and blocked redirects honestly and degrades the mission 12845ms
+     ✓ fails the mission when no evidence at all can be captured 707ms
+     ✓ cancels a running mission, closing in-flight navigation 1503ms
+     ✓ pauses between browser actions and resumes 1614ms
+     ✓ requires explicit approval for consequential tools and honours denial 908ms
+     ✓ refuses to run consequential tools ad hoc and validates ad-hoc input 3ms
+     ✓ treats injected page instructions as data 809ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/engine.test.ts > mission engine with a real browser > reports extraction failures and blocked redirects honestly and degrades the mission
+AssertionError: expected 'Navigation timed out: page.goto: Time…' to match /blocked/i
+
+- Expected:
+/blocked/i
+
++ Received:
+"Navigation timed out: page.goto: Timeout 6000ms exceeded."
+
+ ❯ tests/engine.test.ts:92:26
+     90|     const sneaky = done.sources.find((s) => s.targetId === "sneaky")!;
+     91|     expect(sneaky.ok).toBe(false);
+     92|     expect(sneaky.error).toMatch(/blocked/i);
+       |                          ^
+     93|     expect(done.steps.find((s) => s.id === "collect-missing")!.status)…
+     94|     expect(done.steps.find((s) => s.id === "collect-missing")!.error?.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 9 passed (10)
+      Tests  1 failed | 90 passed (91)
+   Start at  21:53:06
+   Duration  21.73s (tests 94%, import 4%, transform 2%)
+

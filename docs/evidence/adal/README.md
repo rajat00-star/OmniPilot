@@ -1,7 +1,7 @@
 # AdaL session evidence index
 
 Session: `b4f50c11-9603-4ce6-8283-7a3024ce6a8d`, date 2026-10-24, machine: macOS arm64, Node v26.11.1, npm 11.20.0, Playwright 1.63.0.
-Starting commit: `4955585`. No commit containing these changes exists yet (see `docs/ADAL.md`).
+Starting commit: `4955585`. Fix commit: `f763ccd`. The `*.log` files are in a follow-up commit because `.gitignore` excludes `*.log` (they were added with `git add -f`).
 
 Every file below is real tool output from that session or a source file from it. Nothing was typed in by hand except where stated.
 ANSI colour codes were stripped from `*.log` files with `sed`; no other edits were made.

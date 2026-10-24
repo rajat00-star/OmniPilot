@@ -13,7 +13,7 @@
 | Runtime | Node v26.11.1, npm 11.20.0, Playwright 1.63.0 (Chromium headless shell build 1243) |
 | Shell environment | `NODE_ENV=production` was set in the shell (this made the first `npm ci` skip devDependencies; see below); an `ANTHROPIC_API_KEY` variable existed in the shell but was never read, printed or used |
 | Base commit | `4955585` on `main`, clean working tree at the start |
-| Resulting commit | **None yet.** Changes are uncommitted pending the owner's approval. This row will be filled in with the commit hash after approval. |
+| Resulting commit | `f763ccd` (fix, tests, docs, diagnostics). A follow-up commit adds the `*.log` evidence files (ignored by `.gitignore`, so they were force-added) and records this hash. |
 
 Evidence index with provenance for every file: [`docs/evidence/adal/README.md`](evidence/adal/README.md).
 
@@ -51,10 +51,10 @@ Test commands were run with `NODE_ENV=test` and the build/typecheck with `NODE_E
 
 ## Remaining work to complete the requirement
 
-Requirements 8 and 9 stay **Partial** until there is more genuine evidence, for example: a second session that implements a real item from `docs/CAPABILITIES.md`; Browser Use operation of the running app at `http://127.0.0.1:8787`; an exported session record or screen recording; and the commit hash of AdaL-authored changes in the table above.
+Requirements 8 and 9 stay **Partial** until there is more genuine evidence, for example: a second session that implements a real item from `docs/CAPABILITIES.md`; Browser Use operation of the running app at `http://127.0.0.1:8787`; an exported session record or screen recording; and further commits authored with AdaL.
 
 ## Evidence log
 
 | Date | What AdaL did | Evidence | Commit |
 |---|---|---|---|
-| 2026-10-24 | Audit, validation, diagnosis and fix of the redirect-hop SSRF gap; 15 regression tests; docs updated | [`docs/evidence/adal/`](evidence/adal/README.md) | _pending approval_ |
+| 2026-10-24 | Audit, validation, diagnosis and fix of the redirect-hop SSRF gap; 15 regression tests; docs updated | [`docs/evidence/adal/`](evidence/adal/README.md) | `f763ccd` |
