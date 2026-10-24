@@ -1,0 +1,82 @@
+/* OmniPilot design tokens. Graphite neutrals, one restrained indigo accent, semantic status hues. */
+:root {
+  /* Surfaces (graphite, not pure black) */
+  --bg-0: #0d0e12;
+  --bg-1: #121319;
+  --bg-2: #171920;
+  --bg-3: #1d2029;
+  --bg-4: #242834;
+  --bg-hover: #222530;
+  --bg-active: #2a2e3b;
+
+  /* Lines */
+  --line-1: #23262f;
+  --line-2: #2d313c;
+  --line-3: #3a3f4c;
+
+  /* Text */
+  --text-1: #eceef3;
+  --text-2: #b4b9c6;
+  --text-3: #858b99;
+  --text-4: #5f6573;
+
+  /* Accent: electric indigo, used sparingly */
+  --accent: #7c7aff;
+  --accent-strong: #8f8dff;
+  --accent-soft: rgba(124, 122, 255, 0.14);
+  --accent-line: rgba(124, 122, 255, 0.38);
+
+  /* Status */
+  --success: #3fcf8e;
+  --success-soft: rgba(63, 207, 142, 0.12);
+  --warning: #f2b84b;
+  --warning-soft: rgba(242, 184, 75, 0.12);
+  --danger: #f2626b;
+  --danger-soft: rgba(242, 98, 107, 0.12);
+  --info: #5cb6f5;
+  --info-soft: rgba(92, 182, 245, 0.12);
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 13.5px;
+  --fs-lg: 15px;
+  --fs-xl: 18px;
+  --fs-2xl: 24px;
+  --fs-3xl: 32px;
+  --lh-tight: 1.25;
+  --lh-body: 1.55;
+
+  /* Spacing (4px grid) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* Shape & depth */
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-pop: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --focus: 0 0 0 2px var(--bg-0), 0 0 0 4px var(--accent);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+
+  /* Layout */
+  --sidebar-w: 248px;
+  --panel-w: 360px;
+  --chrome-h: 44px;
+}
