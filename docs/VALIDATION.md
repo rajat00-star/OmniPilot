@@ -44,13 +44,13 @@ Evidence type matters: *unit* = pure code tests; *mocked browser* = real Chromiu
 | 2 | Natural-language multi-step task execution | **Verified (deterministic, local)** / **Not verified (Claude)** | `tests/planner.test.ts`, `tests/engine.test.ts` | Claude planning path never run live (`tests/llm.test.ts` covers missing-key and schema handling only). |
 | 3 | Real browser / authorized application interaction | **Verified (local fixture)** / **Not verified on this machine (live sites)** | `tests/engine.test.ts`, `tests/visual.test.ts`; live captures only in Part B | Live public-site capture was not repeated here. |
 | 4 | Outcome verification | **Verified (unit + local E2E)** | `tests/verifier.test.ts` (11), `tests/engine.test.ts`, `tests/visual.test.ts` | Proves integrity and traceability, not that vendor claims are true. |
-| 5 | Transparent progress, actions, results, errors | **Verified (API/SSE tests)**; UI not re-checked here | `tests/api.test.ts` | `npm run e2e:ui` not run on this machine. |
+| 5 | Transparent progress, actions, results, errors | **Verified (API/SSE tests; real UI on a fixture site via Browser Use)** | `tests/api.test.ts`, `docs/evidence/adal/ui/` | `npm run e2e:ui` (external sites) not run on this machine. |
 | 6a | User approval | **Verified (local E2E)** | `tests/engine.test.ts` approval/denial tests | The consequential-step gate is tested only with a test tool; no real plan produces one. |
-| 6b | Cancellation | **Verified (local E2E)** | `tests/engine.test.ts` "cancels a running mission" | Live-controls script not run here. |
-| 6c | Manual takeover | **Partial** | Pause/resume in `tests/engine.test.ts` | In-page clicking needs headed mode (`OMNIPILOT_HEADED=1`); not tested anywhere. |
+| 6b | Cancellation | **Verified (local E2E; real UI Stop button on a fixture site)** | `tests/engine.test.ts` "cancels a running mission", `docs/evidence/adal/ui/09-cancelled.jpg` | Live-controls script not run here. |
+| 6c | Manual takeover | **Partial** | Pause/resume in `tests/engine.test.ts`; Pause and Resume buttons in the real UI (`docs/evidence/adal/ui/08-paused-takeover.jpg`) | The "Take over" button was not clicked. In-page clicking needs headed mode (`OMNIPILOT_HEADED=1`); not tested anywhere. |
 | 7 | End-to-end multi-tool workflow | **Verified (local fixture)** | `tests/engine.test.ts` full-mission test | Five-competitor live mission not re-run here. |
 | 7b | URL/redirect safety (supporting security control) | **Verified (unit + mocked browser)** | `tests/urlSafety.test.ts`, `tests/redirectGuard.test.ts`, `tests/engine.test.ts` | Tested on macOS/Node 26 only; not tested behind a restricted proxy. |
-| 8 | Active use of AdaL by Sylph | **Partial** | `docs/ADAL.md`, `docs/evidence/adal/` | One session. No Browser Use run, session export or recording. |
+| 8 | Active use of AdaL by Sylph | **Partial** | `docs/ADAL.md`, `docs/evidence/adal/` | One session. Browser Use run on the fixture-backed UI only; no session export or recording. |
 | 9 | Genuine evidence of AdaL usage | **Partial** | `docs/evidence/adal/README.md` | Real logs, patch and diagnostics exist and are committed (`f763ccd` and follow-up); no screen recording. |
 | – | Five competitors fully researched (signature mission) | **Not verified here / Blocked** | Part B only | Needs unrestricted network and approval to browse; Part B reached 2 of 5. |
 | – | Live Claude mode | **Blocked** | None | Needs an API key you approve for paid use. A key variable exists in the shell but was not read or used. |
