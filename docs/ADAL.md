@@ -84,4 +84,4 @@ Requirements 8 and 9 stay **Partial** until there is more genuine evidence, for 
 | Date | What AdaL did | Evidence | Commit |
 |---|---|---|---|
 | 2026-10-24 | Audit, validation, diagnosis and fix of the redirect-hop SSRF gap; 15 regression tests; docs updated | [`docs/evidence/adal/`](evidence/adal/README.md) | `f763ccd`, `7887bde` |
-| 2026-10-24/25 | Browser Use testing of the real UI on a fixture site: plan, target edit, approve, results, artifact read-back, pause/resume, stop | [`docs/evidence/adal/ui/`](evidence/adal/ui/) | _uncommitted_ |
+| 2026-10-24/25 | Browser Use testing of the real UI on a fixture site: plan, target edit, approve, results, artifact read-back, pause/resume, stop | [`docs/evidence/adal/ui/`](evidence/adal/ui/) | `decef72` |
