@@ -39,4 +39,21 @@ Captured 2026-10-24/25 in the same session, after commits `f763ccd` and `7887bde
 
 Not captured: the paused-state API read (status `paused`, first step `running`) was read from the terminal and is described in `ADAL.md` but not saved as a file. One screenshot of a mis-aimed click was not kept.
 
+## Phase A: final-demo validation, fixture-backed — `phaseA/`
+
+Captured 2026-10-25 (local time) from commit `cf7c4ec`, no API key, fixture URLs only. First the shipped app (`NODE_ENV=development npm run build`, then `env -u ANTHROPIC_API_KEY OMNIPILOT_DATA_DIR=/tmp/omnipilot-phaseA-data npm start` on :8787), then the fixture launcher (`env -u ANTHROPIC_API_KEY npx tsx tests/e2e/fixture-app.ts 8788`). Details in `docs/ADAL.md`.
+
+| File | What it is |
+|---|---|
+| `phaseA/01a-shipped-npm-start-composer.jpg`, `phaseA/01b-shipped-app-rejects-loopback-target.jpg` | Shipped `npm start` app: composer, then the planner refusing a loopback target ("Private, loopback or metadata address 127.0.0.1 is blocked") |
+| `phaseA/02-add-target-three-rows-unsaved.jpg`, `phaseA/03-plan-rebuilt-9-steps-persisted.jpg` | Three targets added with "Add target", then applied; plan rebuilt to 9 steps |
+| `phaseA/04-multi-competitor-completed.jpg`, `phaseA/05-verification-tab.jpg` | Completed 3-competitor mission (3/3 sources, 2/3 prices, 12/12 grounded, 26/26 checks) and its Verification tab |
+| `phaseA/06-take-over-paused.jpg`, `phaseA/07-manual-navigation-beta.jpg` | "Take over": mission paused, then a manual address-bar navigation to a fixture page |
+| `phaseA/08-stopped-cancelled.jpg` | Stop: mission cancelled, no artifacts |
+| `phaseA/api_readback.txt` | Script output: HTTP downloads vs disk (byte compare), source hash recomputation, excerpt grounding, parsed CSV rows, path traversal, final states |
+| `phaseA/research-report.md.downloaded-via-ui` | Report downloaded by clicking the artifact link in the browser |
+| `phaseA/full_suite.PhaseA.log` | `npm test` run after the Phase A browser work (no code changed): 11 files, 106 passed. Typecheck exited 0 but was not saved to a file |
+
+Not captured as files (seen in the terminal only): the startup banner of `npm start`, the `paused` status read after Take over, the typecheck exit code, and the browser console check.
+
 Not available: a recording or export of the AdaL session itself, screenshots, and Browser Use runs. None were made and none are claimed.

@@ -53,6 +53,30 @@ Everything below was observed. Evidence: [`docs/evidence/adal/ui/`](evidence/ada
 
 **About the earlier "timeout":** no navigation timeout occurred in the UI testing. What did happen: the browser window claimed by the Browser Use session was lost after a long idle gap (the sidebar later read "8h ago"; session timestamps jumped from 16:43Z to 00:40Z). The app (`/api/health` 200) and the shared Chrome (`:9222`) were both still running and unaffected, and re-attaching fixed it. The cause of the lost window handle is not known. It is independent of the app and of the API key. Separately, the first target rename "not persisting" was the unapplied-edit behaviour described above, not a bug.
 
+## Phase A: final-demo validation (fixture-backed, no API key)
+
+Run 2026-10-25 local time from `cf7c4ec` (clean tree). No external site, LAN or metadata address was opened; no Claude/API call was made; the key variable in the shell was removed from the app's environment and never read. Evidence: [`docs/evidence/adal/phaseA/`](evidence/adal/phaseA/).
+
+**Startup (documented):** `npm run build` then `npm start` (http://127.0.0.1:8787). Run here as `NODE_ENV=development npm run build` and `env -u ANTHROPIC_API_KEY OMNIPILOT_DATA_DIR=/tmp/omnipilot-phaseA-data npm start`. The `env -u` is needed on this machine because an API key exists in the shell and, going by `server/config.ts`, the app would otherwise enter Claude mode (inferred from the code; deliberately not tried); the data-dir variable only keeps `./data` clean. The startup banner `reasoning mode: deterministic (ANTHROPIC_API_KEY not set)` was seen in the terminal and is not saved as a file; `/api/health` output in `phaseA/api_readback.txt` (`configured: false`) is the saved confirmation for the fixture app.
+
+**Fixture missions need the launcher.** The shipped app refuses loopback targets by design: a mission containing `http://127.0.0.1:9/acme` failed at planning with "Private, loopback or metadata address 127.0.0.1 is blocked" and nothing was requested (`01b`). So all fixture missions ran through `env -u ANTHROPIC_API_KEY npx tsx tests/e2e/fixture-app.ts 8788` (same server and UI, deterministic mode forced, loopback allowed for the fixture site only).
+
+| Step | Result |
+|---|---|
+| Mission creation, plan preview | Works. "Plan preview · nothing has run yet". |
+| Target editing | Works. "Add target" twice, renamed/filled three targets; "Approve and run" stays disabled while edits are unapplied; after "Apply and rebuild plan" the server held the three targets and the plan was rebuilt to 9 steps (`02`, `03`; the earlier 7-step single-target plan was seen in the previous UI session, not captured in this phase). |
+| Approve and run, status | Mission `msn_bb575a736caa` completed: 9/9 steps, 3/3 sources, 3/3 competitors, 2/3 prices (Gamma Labs "Not found", not zero), 12/12 observations grounded, 14 inferences needing review, 26/26 checks passed (`04`, `05`). |
+| Artifact generation and read-back | Four artifacts, all verified. HTTP downloads byte-identical to disk; `research-report.md` downloaded by a browser click is byte-identical; source hashes match recomputation; 12/12 excerpts found verbatim in stored captures; parsed CSV has the 3 expected rows; path traversal returns 400 (`phaseA/api_readback.txt`). |
+| Take over, manual browse, Resume | Works. Take over paused the mission and showed the banner (`06`). Opening the fixture `/beta` page from the address bar opened a new tab and was recorded as a second source (`07`). Resume completed the mission (`msn_4dd985eb172a`, 7/7 steps, 4 artifacts passed). |
+| Stop | Works. `msn_fc0faccd7598`: Cancelled, all 7 steps cancelled, 0 artifacts, no files directory (`08`). |
+| Pause button | Not re-tested in this phase. It was verified in the earlier UI session (above). Take over uses the same pause mechanism. |
+| Tests | `NODE_ENV=test npm test`: 11 files, 106 passed; `npm run typecheck`: exit 0. No code changed in this phase. |
+| Console | 0 errors and 0 warnings on the last page viewed (the check covers only the page loaded since the last navigation). |
+
+**Observations (not defects found, not fixed):** step ids for added targets are `collect-custom-2` / `collect-custom-3`; a page opened by hand during Take over is counted as a captured source; the composer shows a "Ctrl ↵" hint (visible in `01a`); pressing Enter after filling the box did not draft a plan in the earlier UI session (not re-tested in this phase).
+
+**Still not tested:** headed-mode takeover (no visible window), the consequential-step approval gate in the UI, Claude mode, external sites, and the shipped app (`npm start`) running a real research mission.
+
 ## Measured results
 
 | Check | Before the fix | After the fix |
@@ -85,3 +109,4 @@ Requirements 8 and 9 stay **Partial** until there is more genuine evidence, for 
 |---|---|---|---|
 | 2026-10-24 | Audit, validation, diagnosis and fix of the redirect-hop SSRF gap; 15 regression tests; docs updated | [`docs/evidence/adal/`](evidence/adal/README.md) | `f763ccd`, `7887bde` |
 | 2026-10-24/25 | Browser Use testing of the real UI on a fixture site: plan, target edit, approve, results, artifact read-back, pause/resume, stop | [`docs/evidence/adal/ui/`](evidence/adal/ui/) | `decef72` |
+| 2026-10-25 | Phase A: documented startup, 3-competitor fixture mission, Take over/manual browse/Resume, Stop, artifact read-back | [`docs/evidence/adal/phaseA/`](evidence/adal/phaseA/) | _uncommitted_ |
