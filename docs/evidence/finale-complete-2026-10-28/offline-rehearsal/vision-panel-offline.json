@@ -1,0 +1,12 @@
+{
+  "mission": "msn_6e43c5283c06",
+  "title": "Read pricing screenshots (multimodal)",
+  "text": "READ PRICING SCREENSHOTS (MULTIMODAL) Text matching finds prices but not which plan they belong to. Claude can read the captured pricing screenshots and pair plan names with prices and limits. Each pairing is checked against the captured page text and shown as an inference that needs review. Not available in rule-based mode. Start the server with ANTHROPIC_API_KEY set to use it.",
+  "buttonsInPanel": 0,
+  "errors": [
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+  ],
+  "blocked": [
+    "GET https://fonts.googleapis.com/css2"
+  ]
+}

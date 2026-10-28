@@ -1,0 +1,129 @@
+{
+  "mission": "msn_e8b87606bacb",
+  "viewports": {
+    "desktop-1440x900": {
+      "judgeView": true,
+      "missionControls": [],
+      "tags": [
+        "Live web capture",
+        "Analysis: rule-based, no AI",
+        "Captured 10/28/2026, 4:42:32 PM"
+      ],
+      "objective": "Compare three AI meeting assistants using only their public pages: https://otter.ai/ https://otter.ai/pricing https://fireflies.ai/ https://fireflies.ai/pricing https://fathom.video/ https://fathom.video/pricing Report their main features, publicly listed pricing, and plan limits. Include source URLs for every factual finding. Generate a CSV and a report. Mark inaccessible pages and missing information clearly; do not invent prices or features.",
+      "findings": [
+        {
+          "text": "otter.ai displays 7 prices on its captured pages: $19.99/month, $8.33, $4.17, ….",
+          "source": "https://otter.ai/",
+          "check": "Quote re-matched"
+        },
+        {
+          "text": "fireflies.ai displays 6 prices on its captured pages: $0, $18, $10, ….",
+          "source": "https://fireflies.ai/pricing",
+          "check": "Quote re-matched"
+        },
+        {
+          "text": "fathom.video displays 4 prices on its captured pages: $15, $25, $0, ….",
+          "source": "https://www.fathom.ai/pricing",
+          "check": "Quote re-matched"
+        }
+      ],
+      "findingsEmptyNote": "",
+      "limitations": [
+        "24 inferences (audience signals, positioning, market gaps) are heuristics awaiting human review.",
+        "Vendor pages change. Findings describe the pages at capture time and repeat what vendors say about themselves."
+      ],
+      "conclusionLabel": "ConclusionRule-based · computed from the record",
+      "conclusionText": "Compared 3 competitors; 3 had at least one captured page (6 of 6 pages overall). Displayed prices were found for otter.ai, fireflies.ai, fathom.video. Comparisons rest on quoted vendor pages; audience and positioning statements are heuristic inferences.",
+      "cards": [
+        "otter.aiCapturedotter.ai2 of 2 pages captured“Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.” EvidencePricing7 displayed prices · free option shownStated features4 vendor headings quotedAudienceTeams & collaboration, Sales & suppo",
+        "fireflies.aiCapturedfireflies.ai2 of 2 pages captured“Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.” EvidencePricing6 displayed prices · free option shownStated featu",
+        "fathom.videoCapturedfathom.ai2 of 2 pages captured“Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.” EvidencePricing4 displayed prices · free option shownStated features5 vendor headings quotedAudi"
+      ],
+      "pricing": [
+        {
+          "state": "prices",
+          "text": "otter.aiPrices displayed$19.99/month$8.33$4.17$19.99$6.67$79.99$13.59“Start for free” Evidence"
+        },
+        {
+          "state": "prices",
+          "text": "fireflies.aiPrices displayed$0$18$10$29$19$39$0 amounts are shown exactly as the page displays them.“Free” Evidence"
+        },
+        {
+          "state": "prices",
+          "text": "fathom.videoPrices displayed$15$25$0$16$0 amounts are shown exactly as the page displays them.“Free plan” Evidence"
+        }
+      ],
+      "docScrollWidth": 1440,
+      "docClientWidth": 1440,
+      "overflowing": [],
+      "errors": [
+        "console: Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+      ],
+      "blockedRequests": [
+        "GET https://fonts.googleapis.com/css2"
+      ]
+    },
+    "mobile-390x844": {
+      "judgeView": true,
+      "missionControls": [],
+      "tags": [
+        "Live web capture",
+        "Analysis: rule-based, no AI",
+        "Captured 10/28/2026, 4:42:32 PM"
+      ],
+      "objective": "Compare three AI meeting assistants using only their public pages: https://otter.ai/ https://otter.ai/pricing https://fireflies.ai/ https://fireflies.ai/pricing https://fathom.video/ https://fathom.video/pricing Report their main features, publicly listed pricing, and plan limits. Include source URLs for every factual finding. Generate a CSV and a report. Mark inaccessible pages and missing information clearly; do not invent prices or features.",
+      "findings": [
+        {
+          "text": "otter.ai displays 7 prices on its captured pages: $19.99/month, $8.33, $4.17, ….",
+          "source": "https://otter.ai/",
+          "check": "Quote re-matched"
+        },
+        {
+          "text": "fireflies.ai displays 6 prices on its captured pages: $0, $18, $10, ….",
+          "source": "https://fireflies.ai/pricing",
+          "check": "Quote re-matched"
+        },
+        {
+          "text": "fathom.video displays 4 prices on its captured pages: $15, $25, $0, ….",
+          "source": "https://www.fathom.ai/pricing",
+          "check": "Quote re-matched"
+        }
+      ],
+      "findingsEmptyNote": "",
+      "limitations": [
+        "24 inferences (audience signals, positioning, market gaps) are heuristics awaiting human review.",
+        "Vendor pages change. Findings describe the pages at capture time and repeat what vendors say about themselves."
+      ],
+      "conclusionLabel": "ConclusionRule-based · computed from the record",
+      "conclusionText": "Compared 3 competitors; 3 had at least one captured page (6 of 6 pages overall). Displayed prices were found for otter.ai, fireflies.ai, fathom.video. Comparisons rest on quoted vendor pages; audience and positioning statements are heuristic inferences.",
+      "cards": [
+        "otter.aiCapturedotter.ai2 of 2 pages captured“Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.” EvidencePricing7 displayed prices · free option shownStated features4 vendor headings quotedAudienceTeams & collaboration, Sales & suppo",
+        "fireflies.aiCapturedfireflies.ai2 of 2 pages captured“Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.” EvidencePricing6 displayed prices · free option shownStated featu",
+        "fathom.videoCapturedfathom.ai2 of 2 pages captured“Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.” EvidencePricing4 displayed prices · free option shownStated features5 vendor headings quotedAudi"
+      ],
+      "pricing": [
+        {
+          "state": "prices",
+          "text": "otter.aiPrices displayed$19.99/month$8.33$4.17$19.99$6.67$79.99$13.59“Start for free” Evidence"
+        },
+        {
+          "state": "prices",
+          "text": "fireflies.aiPrices displayed$0$18$10$29$19$39$0 amounts are shown exactly as the page displays them.“Free” Evidence"
+        },
+        {
+          "state": "prices",
+          "text": "fathom.videoPrices displayed$15$25$0$16$0 amounts are shown exactly as the page displays them.“Free plan” Evidence"
+        }
+      ],
+      "docScrollWidth": 390,
+      "docClientWidth": 390,
+      "overflowing": [],
+      "errors": [
+        "console: Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+      ],
+      "blockedRequests": [
+        "GET https://fonts.googleapis.com/css2"
+      ]
+    }
+  }
+}

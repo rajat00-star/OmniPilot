@@ -1,0 +1,97 @@
+ADAL STATE 2026-10-28T11:55:10Z
+== CLI
+which adal: /Users/rajatsanger/.adal/bin/adal
+which sylph: sylph not found
+login-shell which adal: /Users/rajatsanger/.adal/bin/adal
+login-shell which sylph: not found
+/Users/rajatsanger/.adal/bin/adal --version: 1.11.0
+/Users/rajatsanger/.adal/bin/adal --version: 1.11.0
+npm -g: no adal/sylph package
+/Applications: no AdaL/Sylph app
+
+== docs/evidence/adal (names and sizes)
+      6151  docs/evidence/adal/README.md
+       763  docs/evidence/adal/build.AFTER_fix.log
+       287  docs/evidence/adal/diag_cdp_fetch_interception.output.txt
+      1286  docs/evidence/adal/diag_cdp_fetch_interception.ts.txt
+       345  docs/evidence/adal/diag_redirect_hop_probe.AFTER_fix.output.txt
+      1001  docs/evidence/adal/diag_redirect_hop_probe.BEFORE_fix.output.txt
+      1224  docs/evidence/adal/diag_redirect_hop_probe.ts.txt
+      1585  docs/evidence/adal/full_suite.AFTER_fix.log
+      1584  docs/evidence/adal/full_suite.AFTER_ui_session.log
+      2363  docs/evidence/adal/full_suite.BEFORE_fix.log
+     91846  docs/evidence/adal/phaseA/01a-shipped-npm-start-composer.jpg
+     86335  docs/evidence/adal/phaseA/01b-shipped-app-rejects-loopback-target.jpg
+    152780  docs/evidence/adal/phaseA/02-add-target-three-rows-unsaved.jpg
+    152516  docs/evidence/adal/phaseA/03-plan-rebuilt-9-steps-persisted.jpg
+    154106  docs/evidence/adal/phaseA/04-multi-competitor-completed.jpg
+    153428  docs/evidence/adal/phaseA/05-verification-tab.jpg
+    122320  docs/evidence/adal/phaseA/06-take-over-paused.jpg
+    127143  docs/evidence/adal/phaseA/07-manual-navigation-beta.jpg
+    102061  docs/evidence/adal/phaseA/08-stopped-cancelled.jpg
+      3394  docs/evidence/adal/phaseA/api_readback.txt
+      1584  docs/evidence/adal/phaseA/full_suite.PhaseA.log
+      6317  docs/evidence/adal/phaseA/research-report.md.downloaded-via-ui
+      1843  docs/evidence/adal/phaseB/README.md
+      6152  docs/evidence/adal/phaseB/competitor-analysis.csv
+     68383  docs/evidence/adal/phaseB/evidence.json
+      5530  docs/evidence/adal/phaseB/landing-page-concept.html
+     11692  docs/evidence/adal/phaseB/research-report.md
+      2507  docs/evidence/adal/phaseB/safety_watcher.log.txt
+    115481  docs/evidence/adal/phaseB/screens/landing-page-concept-render.png
+     64215  docs/evidence/adal/phaseB/screens/src_097972e14afc.jpg
+     70326  docs/evidence/adal/phaseB/screens/src_0c17b46be6ef.jpg
+     47300  docs/evidence/adal/phaseB/screens/src_2e379e43dca5.jpg
+     85213  docs/evidence/adal/phaseB/screens/src_c06336593f49.jpg
+     31013  docs/evidence/adal/phaseB/screens/src_c2788f1906c1.jpg
+     62084  docs/evidence/adal/phaseB/screens/src_c72172c05d88.jpg
+     66867  docs/evidence/adal/phaseB/screens/src_d27bcdd34a65.jpg
+     61964  docs/evidence/adal/phaseB/screens/src_da256f0ca8a6.jpg
+     82373  docs/evidence/adal/phaseB/screens/src_f3fcdec44d07.jpg
+     71488  docs/evidence/adal/phaseB/screens/src_f686a3ae668a.jpg
+     10655  docs/evidence/adal/phaseB/sources/src_097972e14afc.txt
+     27771  docs/evidence/adal/phaseB/sources/src_0c17b46be6ef.txt
+      7491  docs/evidence/adal/phaseB/sources/src_2e379e43dca5.txt
+      6192  docs/evidence/adal/phaseB/sources/src_c06336593f49.txt
+       893  docs/evidence/adal/phaseB/sources/src_c2788f1906c1.txt
+      8119  docs/evidence/adal/phaseB/sources/src_c72172c05d88.txt
+      8179  docs/evidence/adal/phaseB/sources/src_d27bcdd34a65.txt
+      9605  docs/evidence/adal/phaseB/sources/src_da256f0ca8a6.txt
+      6570  docs/evidence/adal/phaseB/sources/src_f3fcdec44d07.txt
+      3275  docs/evidence/adal/phaseB/sources/src_f686a3ae668a.txt
+      6698  docs/evidence/adal/phaseB/validation_readback.txt
+      5844  docs/evidence/adal/phaseB/verification-report.md
+      2259  docs/evidence/adal/redirect-guard-source.patch
+       534  docs/evidence/adal/redirect_guard_test.AFTER_fix.log
+      3970  docs/evidence/adal/redirect_guard_test.BEFORE_fix.log
+        62  docs/evidence/adal/typecheck.AFTER_fix.log
+        62  docs/evidence/adal/typecheck.AFTER_ui_session.log
+     91846  docs/evidence/adal/ui/01-composer-deterministic-mode.jpg
+    149054  docs/evidence/adal/ui/02-plan-preview-fixture-urls.jpg
+    148937  docs/evidence/adal/ui/03-unsaved-edit-lost-on-reload.jpg
+    149299  docs/evidence/adal/ui/04-target-edit-persisted-after-apply.jpg
+    154120  docs/evidence/adal/ui/05-mission-completed-results.jpg
+    143031  docs/evidence/adal/ui/06-evidence-tab.jpg
+    153471  docs/evidence/adal/ui/07-verification-tab.jpg
+    124876  docs/evidence/adal/ui/08-paused-takeover.jpg
+    101955  docs/evidence/adal/ui/09-cancelled.jpg
+      2608  docs/evidence/adal/ui/api_readback.txt
+      1076  docs/evidence/adal/ui/competitor-analysis.csv.downloaded-via-ui
+
+== AdaL local data on disk (names, sizes, mtimes only; no file opened; adal_oauth_creds.json exists and was NOT read)
+AdaL home: ~/.adal (CLI 1.11.0 at ~/.adal/bin/adal); ~/.adalflow holds model-call cache DBs
+     18932  2026-10-24 21:44  ~/.adal/sessions/conversation_a37d9115-0866-4e3a-96b7-292afc94b223.jsonl
+   2721590  2026-10-25 10:15  ~/.adal/sessions/conversation_b4f50c11-9603-4ce6-8283-7a3024ce6a8d.jsonl
+       992  2026-10-24 21:44  ~/.adal/sessions/a37d9115-0866-4e3a-96b7-292afc94b223_metadata.json
+      2364  2026-10-25 10:15  ~/.adal/sessions/b4f50c11-9603-4ce6-8283-7a3024ce6a8d_metadata.json
+       229  2026-10-24 22:11  ~/.adal/sessions/b4f50c11-9603-4ce6-8283-7a3024ce6a8d_capabilities.json
+      3200  2026-10-25 20:03  ~/.adal/crash_logs/a37d9115-0866-4e3a-96b7-292afc94b223_20261025_200356.log
+      3200  2026-10-25 20:03  ~/.adal/crash_logs/b4f50c11-9603-4ce6-8283-7a3024ce6a8d_20261025_200356.log
+        84  2026-10-24 21:41  ~/.adal/warmup-timing.log
+  dir ~/.adal/sessions/21c75354-973a-460d-a588-b5f389dc4fff/ : 0 files ()
+  dir ~/.adal/sessions/9ab6f080-901f-4646-a971-5a2d134ba38e/ : 0 files ()
+  dir ~/.adal/sessions/a37d9115-0866-4e3a-96b7-292afc94b223/ : 0 files ()
+  dir ~/.adal/sessions/b4f50c11-9603-4ce6-8283-7a3024ce6a8d/ : 80 files (4 scratch; 20 screenshots; 55 snapshots; 1 tool-results; )
+bash_logs: 0 files; debug_logs: 0 files
+Sessions: b4f50c11-… (the one documented in docs/ADAL.md), a37d9115-…, 21c75354-…, 9ab6f080-… (not in docs/ADAL.md: a37d9115 has only an 18 KB transcript from 2026-10-24 21:44, before the documented session; 21c75354 and 9ab6f080 are empty folders)
+No AdaL session export or screen recording found inside the repo; the raw conversation transcripts above exist only in ~/.adal.

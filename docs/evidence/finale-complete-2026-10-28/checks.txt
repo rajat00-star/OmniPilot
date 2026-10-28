@@ -1,0 +1,7 @@
+ANTHROPIC_API_KEY= NODE_ENV=development npm run typecheck -> exit 0
+ANTHROPIC_API_KEY= NODE_ENV=test npm test -> exit 0
+ Test Files  17 passed (17)
+      Tests  146 passed (146)
+ANTHROPIC_API_KEY= NODE_ENV=development npm run build -> exit 0
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

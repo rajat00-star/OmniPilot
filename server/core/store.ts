@@ -88,6 +88,7 @@ export class MissionStore {
         updatedAt: m.updatedAt,
         artifactCount: m.artifacts.length,
         mode: m.mode,
+        dataSource: m.dataSource,
       }));
   }
 

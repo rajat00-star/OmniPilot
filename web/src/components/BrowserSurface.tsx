@@ -102,7 +102,7 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
             onKeyDown={(e) => e.key === "Enter" && go()}
             readOnly={!canNavigate}
             aria-label="Address"
-            placeholder={canNavigate ? "Enter a public URL to open it in the controlled browser" : ""}
+            placeholder={canNavigate ? (mission.dataSource === "fixture" ? "Enter a fixture-site URL (offline demo: the public web is blocked)" : "Enter a public URL to open it in the controlled browser") : ""}
             title={canNavigate ? "Navigate the controlled browser (URL policy applies)" : "The agent is driving. Pause or take over to navigate manually."}
             spellCheck={false}
           />

@@ -37,14 +37,14 @@ const TOPIC_TAGS: [RegExp, string][] = [
   [new RegExp(`\\b(?:productivity|workspace|notes?|docs?)\\s+${PRODUCT_NOUN}`, "i"), "productivity"],
 ];
 
-export function pickCatalogTargets(prompt: string, count: number): CatalogEntry[] {
+export function pickCatalogTargets(prompt: string, count: number, catalog: CatalogEntry[] = PRODUCT_CATALOG): CatalogEntry[] {
   const lower = prompt.toLowerCase();
-  const named = PRODUCT_CATALOG.filter((e) => e.aliases.some((a) => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(lower)));
+  const named = catalog.filter((e) => e.aliases.some((a) => new RegExp(`\\b${a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i").test(lower)));
   if (named.length > 0) return named.slice(0, count);
   // No explicit topic: default to general-purpose AI assistants, the most common reading of "AI products".
   const found = TOPIC_TAGS.filter(([re]) => re.test(prompt)).map(([, t]) => t);
   const tags = found.length ? found : ["general"];
-  const scored = PRODUCT_CATALOG.map((e, i) => ({ e, i, score: e.tags.filter((t) => tags.includes(t)).length }));
+  const scored = catalog.map((e, i) => ({ e, i, score: e.tags.filter((t) => tags.includes(t)).length }));
   scored.sort((a, b) => b.score - a.score || a.i - b.i);
   return scored.slice(0, count).map((s) => s.e);
 }

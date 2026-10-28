@@ -1,0 +1,91 @@
+diff --git a/server/security/urlSafety.ts b/server/security/urlSafety.ts
+index 49be188..b377682 100644
+--- a/server/security/urlSafety.ts
++++ b/server/security/urlSafety.ts
+@@ -4,6 +4,11 @@ import net from "node:net";
+ export interface UrlPolicy {
+   /** Test-only escape hatch so fixture servers on 127.0.0.1 can be exercised. Never set from user input. */
+   allowLoopback?: boolean;
++  /**
++   * Offline demo mode: only these exact origins (e.g. "http://127.0.0.1:41001") may be opened, and
++   * everything else, including the public web, is blocked. Set by the demo launcher, never from user input.
++   */
++  allowOnlyOrigins?: string[];
+   /** Override DNS for tests. */
+   resolve?: (host: string) => Promise<string[]>;
+ }
+@@ -62,6 +67,41 @@ const V4_BLOCKED = [
+   "240.0.0.0/4",
+ ];
+ 
++/** Expand an IPv6 literal (hex or trailing dotted-quad) into eight 16-bit groups, or null when malformed. */
++function expandIpv6(ip: string): number[] | null {
++  let text = ip.split("%")[0];
++  const dotted = text.match(/^(.*:)(\d+\.\d+\.\d+\.\d+)$/);
++  if (dotted) {
++    const o = dotted[2].split(".").map(Number);
++    if (o.some((n) => n > 255)) return null;
++    text = `${dotted[1]}${((o[0] << 8) | o[1]).toString(16)}:${((o[2] << 8) | o[3]).toString(16)}`;
++  }
++  const halves = text.split("::");
++  if (halves.length > 2) return null;
++  const head = halves[0] ? halves[0].split(":") : [];
++  const tail = halves.length === 2 && halves[1] ? halves[1].split(":") : [];
++  const missing = 8 - head.length - tail.length;
++  if (halves.length === 1 ? missing !== 0 : missing < 1) return null;
++  const all = [...head, ...Array(halves.length === 2 ? missing : 0).fill("0"), ...tail];
++  const nums = all.map((g) => (/^[0-9a-f]{1,4}$/.test(g) ? parseInt(g, 16) : NaN));
++  return nums.length === 8 && nums.every((n) => !Number.isNaN(n)) ? nums : null;
++}
++
++function v4FromGroups(hi: number, lo: number): string {
++  return [hi >>> 8, hi & 255, lo >>> 8, lo & 255].join(".");
++}
++
++/** The IPv4 address embedded in an IPv6 address by a transition mechanism, if any. */
++function embeddedIpv4(g: number[]): string | null {
++  const zeroTo = (n: number) => g.slice(0, n).every((x) => x === 0);
++  if (zeroTo(5) && g[5] === 0xffff) return v4FromGroups(g[6], g[7]); // ::ffff:0:0/96 IPv4-mapped
++  if (zeroTo(4) && g[4] === 0xffff && g[5] === 0) return v4FromGroups(g[6], g[7]); // ::ffff:0:0:0/96 SIIT
++  if (g[0] === 0x64 && g[1] === 0xff9b && g.slice(2, 6).every((x) => x === 0)) return v4FromGroups(g[6], g[7]); // 64:ff9b::/96 NAT64
++  if (g[0] === 0x2002) return v4FromGroups(g[1], g[2]); // 2002::/16 6to4
++  if (zeroTo(6) && (g[6] !== 0 || g[7] > 1)) return v4FromGroups(g[6], g[7]); // ::/96 IPv4-compatible (not :: or ::1)
++  return null;
++}
++
+ export function isPrivateIp(ip: string, allowLoopback = false): boolean {
+   const family = net.isIP(ip);
+   if (family === 4) {
+@@ -72,14 +112,13 @@ export function isPrivateIp(ip: string, allowLoopback = false): boolean {
+     const lower = ip.toLowerCase().replace(/^\[|\]$/g, "");
+     if (lower === "::1") return !allowLoopback;
+     if (lower === "::") return true;
+-    // IPv4-mapped / translated addresses: check the embedded v4 address.
+-    const mapped = lower.match(/^(?:::ffff:(?:0:)?|64:ff9b::)(\d+\.\d+\.\d+\.\d+)$/);
+-    if (mapped) return isPrivateIp(mapped[1], allowLoopback);
+-    const hexMapped = lower.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/);
+-    if (hexMapped) {
+-      const n = (parseInt(hexMapped[1], 16) << 16) + parseInt(hexMapped[2], 16);
+-      const v4 = [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join(".");
+-      return isPrivateIp(v4, allowLoopback);
++    // Addresses that embed an IPv4 address (mapped, compatible, NAT64, SIIT, 6to4): judge the embedded address.
++    // The URL parser rewrites "[64:ff9b::127.0.0.1]" to "[64:ff9b::7f00:1]", so this must work on the hex form.
++    const groups = expandIpv6(lower);
++    if (groups) {
++      if (groups[0] === 0x64 && groups[1] === 0xff9b && groups[2] === 1) return true; // 64:ff9b:1::/48 local-use NAT64
++      const embedded = embeddedIpv4(groups);
++      if (embedded) return isPrivateIp(embedded, allowLoopback);
+     }
+     const first = parseInt(lower.split(":")[0] || "0", 16);
+     if ((first & 0xfe00) === 0xfc00) return true; // fc00::/7 unique local
+@@ -109,6 +148,10 @@ export function checkUrlStructure(raw: string, policy: UrlPolicy = {}): URL {
+   if (url.username || url.password) {
+     throw new UnsafeUrlError("URLs with embedded credentials are not permitted", raw, "credentials");
+   }
++  if (policy.allowOnlyOrigins) {
++    if (policy.allowOnlyOrigins.includes(url.origin)) return url;
++    throw new UnsafeUrlError(`Offline demo mode: only the local demo fixture sites can be opened (${url.origin} is blocked)`, raw, "offline_mode");
++  }
+   const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, "");
+   if (!host) throw new UnsafeUrlError("URL has no host", raw, "invalid");
+   if (net.isIP(host)) {

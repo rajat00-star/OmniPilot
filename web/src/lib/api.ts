@@ -13,12 +13,16 @@ export type {
   MissionStatus,
   StepStatus,
   VerificationSummary,
+  VisionRun,
 } from "../../../server/core/types";
 export type { Analysis, CompetitorProfile, MarketGap } from "../../../server/core/analysis";
 
 export interface Health {
   ok: boolean;
   reasoning: { mode: "claude" | "deterministic"; configured: boolean; model: string | null };
+  /** "fixture" when the server runs the offline demo against fictional vendor sites. */
+  dataSource: "live" | "fixture";
+  fixtureSites: { name: string; urls: string[] }[];
   browser: { engine: string; headed: boolean; manualTakeover: "window" | "pause-only" };
   tools: { name: string; description: string; consequential: boolean }[];
 }
@@ -60,6 +64,8 @@ export const api = {
   resume: (id: string) => req<Mission>(`/api/missions/${id}/resume`, { method: "POST" }),
   resolveApproval: (id: string, approvalId: string, approved: boolean) =>
     req<Mission>(`/api/missions/${id}/approvals/${approvalId}`, { method: "POST", body: JSON.stringify({ approved }) }),
+  readPricing: (id: string) =>
+    req<{ mission: Mission }>(`/api/missions/${id}/vision/pricing`, { method: "POST", body: JSON.stringify({ confirmPaidCall: true }) }),
   browse: (id: string, url: string) => req<{ summary: string; mission: Mission }>(`/api/missions/${id}/browse`, { method: "POST", body: JSON.stringify({ url }) }),
 };
 

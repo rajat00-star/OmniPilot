@@ -43,6 +43,18 @@ describe("deterministic planner", () => {
     expect(plan.targets[0].urls).toEqual(["https://claude.com/pricing"]);
   });
 
+  it("never drops instruction URLs silently and keeps different ports as different sites", () => {
+    const plan = deterministicPlan(
+      { prompt: "Compare https://a.example.com/1 https://a.example.com/2 https://a.example.com/3 https://a.example.com/4 https://b.example.com:8443/x and write a CSV" },
+      registry,
+    );
+    expect(plan.targets.map((t) => t.name)).toEqual(["a.example.com", "b.example.com:8443"]);
+    expect(plan.targets[0].urls).toHaveLength(3);
+    const note = plan.plannerNotes.find((n) => n.startsWith("Not included"));
+    expect(note).toContain("https://a.example.com/4");
+    expect(plan.plannerNotes).toContain("Targets taken from 4 URL(s) in your instruction.");
+  });
+
   it("rejects unsafe URLs embedded in the instruction", () => {
     expect(() => deterministicPlan({ prompt: "Research http://169.254.169.254/latest and report" }, registry)).toThrow(PlanValidationError);
   });

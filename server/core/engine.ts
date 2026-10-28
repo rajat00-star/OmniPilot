@@ -1,4 +1,4 @@
-import { createPlan, replanTargets, type PlanInput } from "./planner.js";
+import { createPlan, replanTargets, type FixtureCatalog, type PlanInput } from "./planner.js";
 import { assertMissionTransition, assertStepTransition, isTerminal } from "./stateMachine.js";
 import { MissionStore, newId, nowIso } from "./store.js";
 import type { ApprovalRequest, Mission, MissionStatus, ReasoningMode, StepRun, Target } from "./types.js";
@@ -6,6 +6,7 @@ import { ToolError, type ToolContext, type ToolRegistry } from "../tools/registr
 import type { BrowserManager } from "../browser/browserManager.js";
 import { releaseCurrentPage } from "../tools/browserTools.js";
 import { config } from "../config.js";
+import { describeUsage } from "../llm/claude.js";
 import type { UrlPolicy } from "../security/urlSafety.js";
 
 interface RunState {
@@ -13,6 +14,8 @@ interface RunState {
   paused: boolean;
   resumeWaiters: (() => void)[];
   approvalWaiters: Map<string, (approved: boolean) => void>;
+  /** Notified on pause and resume so step time budgets only count time the agent is driving. */
+  pauseListeners: Set<(paused: boolean) => void>;
 }
 
 export class MissionEngine {
@@ -23,7 +26,7 @@ export class MissionEngine {
     readonly registry: ToolRegistry,
     readonly browser: BrowserManager,
     private readonly modeResolver: () => ReasoningMode,
-    private readonly opts: { stepTimeoutMs: number; maxParallel: number; urlPolicy?: UrlPolicy } = { stepTimeoutMs: config.stepTimeoutMs, maxParallel: 2 },
+    private readonly opts: { stepTimeoutMs: number; maxParallel: number; urlPolicy?: UrlPolicy; fixture?: FixtureCatalog } = { stepTimeoutMs: config.stepTimeoutMs, maxParallel: 2 },
   ) {}
 
   private setStatus(id: string, to: MissionStatus): void {
@@ -58,6 +61,7 @@ export class MissionEngine {
       updatedAt: nowIso(),
       status: "draft",
       mode,
+      dataSource: this.opts.fixture ? "fixture" : "live",
       steps: [],
       sources: [],
       observations: [],
@@ -70,9 +74,13 @@ export class MissionEngine {
     };
     this.store.create(m);
     this.setStatus(m.id, "planning");
-    this.store.log(m.id, { level: "info", message: `Planning in ${mode === "claude" ? "Claude" : "deterministic"} mode`, tool: "planner" });
+    this.store.log(m.id, { level: "info", message: `Planning in ${mode === "claude" ? "Claude" : "deterministic"} mode${this.opts.fixture ? " against the offline demo fixture (not live research)" : ""}`, tool: "planner" });
     try {
-      const { plan, warnings } = await createPlan(input, this.registry, mode, undefined, this.opts.urlPolicy);
+      // Claude planning gets the same time budget as a step; after it the rule-based planner takes over.
+      const { plan, warnings } = await createPlan(input, this.registry, mode, undefined, this.opts.urlPolicy, this.opts.fixture, {
+        deadlineMs: this.opts.stepTimeoutMs,
+        onUsage: (u) => this.store.log(m.id, { level: "info", message: describeUsage("planning", u), tool: "planner", data: { ...u } }),
+      });
       this.store.update(m.id, (mm) => {
         mm.plan = plan;
         mm.steps = plan.steps.map(toRun);
@@ -107,7 +115,7 @@ export class MissionEngine {
     if (!m.steps.length) throw new ToolError("Plan has no steps", "invalid_state");
     this.setStatus(id, "running");
     this.store.log(id, { level: "info", message: "Plan approved. Execution started." });
-    const run: RunState = { abort: new AbortController(), paused: false, resumeWaiters: [], approvalWaiters: new Map() };
+    const run: RunState = { abort: new AbortController(), paused: false, resumeWaiters: [], approvalWaiters: new Map(), pauseListeners: new Set() };
     this.runs.set(id, run);
     void this.execute(id, run).catch((e) => {
       this.store.log(id, { level: "error", message: `Engine error: ${(e as Error).message}` });
@@ -147,6 +155,7 @@ export class MissionEngine {
     const m = this.mustGet(id);
     if (!run || m.status !== "running") throw new ToolError(`Cannot pause a mission that is ${m.status}`, "invalid_state");
     run.paused = true;
+    for (const l of run.pauseListeners) l(true);
     this.setStatus(id, "paused");
     this.store.log(id, { level: "warning", message: `${reason}. Execution will hold before the next browser action.` });
     return this.store.get(id)!;
@@ -157,6 +166,7 @@ export class MissionEngine {
     const m = this.mustGet(id);
     if (!run || m.status !== "paused") throw new ToolError(`Cannot resume a mission that is ${m.status}`, "invalid_state");
     run.paused = false;
+    for (const l of run.pauseListeners) l(false);
     this.setStatus(id, "running");
     for (const w of run.resumeWaiters.splice(0)) w();
     this.store.log(id, { level: "info", message: "Resumed." });
@@ -210,6 +220,7 @@ export class MissionEngine {
       store: this.store,
       browser: this.browser,
       signal,
+      budgetMs: this.opts.stepTimeoutMs,
       mission: () => this.store.get(id)!,
       log: (level, message, data, tool) => this.store.log(id, { level, message, data, tool, stepId }),
       frame: (f) => this.store.update(id, (m) => {
@@ -275,6 +286,8 @@ export class MissionEngine {
     if (isTerminal(m.status)) return;
     const failedCritical = m.steps.filter((s) => s.critical && (s.status === "failed" || s.status === "skipped"));
     const failedAny = m.steps.filter((s) => s.status === "failed" || s.status === "skipped");
+    // A step that succeeded only partly (e.g. one of a competitor's pages was blocked) is not a clean run.
+    const partial = m.steps.some((s) => s.status === "succeeded" && s.verification === "warning");
     const checksFailed = m.checks.some((c) => c.status === "failed");
     const captured = m.sources.some((s) => s.ok && s.targetId !== "manual");
     let to: MissionStatus;
@@ -285,7 +298,7 @@ export class MissionEngine {
     } else if (!captured) {
       to = "failed";
       error = "No competitor source could be captured, so no research evidence exists. Artifacts were still written and record every field as Unknown.";
-    } else if (failedAny.length || checksFailed || m.warnings.length) {
+    } else if (failedAny.length || partial || checksFailed || m.warnings.length) {
       to = "completed_with_warnings";
     } else {
       to = "completed";
@@ -345,15 +358,15 @@ export class MissionEngine {
       const stepAbort = new AbortController();
       const onParentAbort = () => stepAbort.abort();
       run.abort.signal.addEventListener("abort", onParentAbort, { once: true });
-      let timer: NodeJS.Timeout | undefined;
+      let budget: StepBudget | undefined;
       try {
         const result = await Promise.race([
           tool.run(this.ctx(id, stepId, stepAbort.signal, run), parsed.data),
           new Promise<never>((_, rej) => {
-            timer = setTimeout(() => {
+            budget = new StepBudget(this.opts.stepTimeoutMs, run, () => {
               stepAbort.abort();
               rej(new ToolError(`Step exceeded its ${Math.round(this.opts.stepTimeoutMs / 1000)}s time budget`, "timeout", "Retry the mission or reduce the number of targets.", true));
-            }, this.opts.stepTimeoutMs);
+            });
           }),
         ]);
         if (run.abort.signal.aborted) return;
@@ -383,10 +396,51 @@ export class MissionEngine {
         this.store.log(id, { level: step.critical ? "error" : "warning", stepId, message: `Failed: ${step.title} — ${te.message}`, tool: tool.name, data: te.recovery ? { recovery: te.recovery } : undefined });
         return;
       } finally {
-        clearTimeout(timer);
+        budget?.dispose();
         run.abort.signal.removeEventListener("abort", onParentAbort);
       }
     }
+  }
+}
+
+/**
+ * A step's time budget counts only time the agent is in control: the clock stops while the
+ * mission is paused or taken over, so a long manual takeover never fails the step it interrupted.
+ */
+class StepBudget {
+  private timer?: NodeJS.Timeout;
+  private startedAt = 0;
+  private readonly listener = (paused: boolean) => (paused ? this.stop() : this.start());
+
+  constructor(
+    private remainingMs: number,
+    private readonly run: RunState,
+    private readonly onExpire: () => void,
+  ) {
+    run.pauseListeners.add(this.listener);
+    if (!run.paused) this.start();
+  }
+
+  private start(): void {
+    if (this.timer) return;
+    this.startedAt = Date.now();
+    this.timer = setTimeout(() => {
+      this.dispose();
+      this.onExpire();
+    }, Math.max(0, this.remainingMs));
+  }
+
+  private stop(): void {
+    if (!this.timer) return;
+    clearTimeout(this.timer);
+    this.timer = undefined;
+    this.remainingMs -= Date.now() - this.startedAt;
+  }
+
+  dispose(): void {
+    clearTimeout(this.timer);
+    this.timer = undefined;
+    this.run.pauseListeners.delete(this.listener);
   }
 }
 

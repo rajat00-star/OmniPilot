@@ -57,4 +57,56 @@ describe("URL validation", () => {
     expect(isPrivateIp("10.0.0.1", true)).toBe(true);
     expect(() => checkUrlStructure("http://127.0.0.1:3000/", { allowLoopback: true })).not.toThrow();
   });
+
+  // Regression: the URL parser rewrites embedded IPv4 in IPv6 literals to hex ("[64:ff9b::127.0.0.1]" becomes
+  // "[64:ff9b::7f00:1]"), and the old matcher only understood the dotted form, so NAT64, IPv4-compatible and
+  // 6to4 literals pointing at loopback, private ranges and cloud metadata were accepted.
+  it.each([
+    ["http://[64:ff9b::127.0.0.1]/", "NAT64 -> loopback"],
+    ["http://[64:ff9b::a9fe:a9fe]/", "NAT64 -> 169.254.169.254 metadata"],
+    ["http://[64:ff9b::10.0.0.5]/", "NAT64 -> 10.0.0.5"],
+    ["http://[::127.0.0.1]/", "IPv4-compatible -> loopback"],
+    ["http://[::a9fe:a9fe]/", "IPv4-compatible -> metadata"],
+    ["http://[::ffff:0:127.0.0.1]/", "SIIT-translated -> loopback"],
+    ["http://[2002:7f00:1::]/", "6to4 -> loopback"],
+    ["http://[2002:a9fe:a9fe::1]/", "6to4 -> metadata"],
+    ["http://[2002:c0a8:101::1]/", "6to4 -> 192.168.1.1"],
+    ["http://[64:ff9b:1::1]/", "local-use NAT64 prefix"],
+  ])("blocks IPv6 literal with an embedded private IPv4: %s (%s)", (url) => {
+    try {
+      checkUrlStructure(url);
+      throw new Error("expected rejection");
+    } catch (e) {
+      expect(e).toBeInstanceOf(UnsafeUrlError);
+      expect((e as UnsafeUrlError).code).toBe("private_ip");
+    }
+  });
+
+  it("still allows IPv6 literals whose embedded IPv4 is public, and ordinary global IPv6", () => {
+    for (const ok of ["http://[64:ff9b::8.8.8.8]/", "http://[2002:808:808::1]/", "http://[2606:4700::1111]/", "http://[2a00:1450:4001::1]/"]) {
+      expect(() => checkUrlStructure(ok)).not.toThrow();
+    }
+  });
+
+  it("applies the same rule to addresses returned by DNS (AAAA records)", async () => {
+    await expect(validateUrl("https://evil.example.com/", { resolve: async () => ["64:ff9b::7f00:1"] })).rejects.toMatchObject({ code: "private_dns" });
+    await expect(validateUrl("https://evil.example.com/", { resolve: async () => ["2002:a9fe:a9fe::1"] })).rejects.toMatchObject({ code: "private_dns" });
+    expect(isPrivateIp("::")).toBe(true);
+    expect(isPrivateIp("::1")).toBe(true);
+  });
+
+  it("offline demo policy allows only the listed fixture origins", async () => {
+    const policy = { allowOnlyOrigins: ["http://127.0.0.1:41001", "http://127.0.0.1:41002"] };
+    await expect(validateUrl("http://127.0.0.1:41001/pricing", policy)).resolves.toBeInstanceOf(URL);
+    for (const blocked of ["https://claude.com/pricing", "http://127.0.0.1:8787/api/health", "http://127.0.0.1:41003/", "http://localhost:41001/", "https://127.0.0.1:41001/", "http://169.254.169.254/"]) {
+      try {
+        checkUrlStructure(blocked, policy);
+        throw new Error(`not blocked: ${blocked}`);
+      } catch (e) {
+        expect(e).toBeInstanceOf(UnsafeUrlError);
+        expect((e as UnsafeUrlError).code).toBe("offline_mode");
+      }
+    }
+    expect(() => checkUrlStructure("file:///etc/passwd", policy)).toThrow(UnsafeUrlError);
+  });
 });

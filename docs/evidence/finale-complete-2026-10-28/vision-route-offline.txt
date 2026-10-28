@@ -1,0 +1,2 @@
+health reasoning: {'mode': 'deterministic', 'configured': False, 'model': None} | dataSource: fixture
+POST vision (confirmPaidCall:true) on offline demo: {"error":"Claude is not configured on this server","code":"invalid_state","recovery":"Start the server with ANTHROPIC_API_KEY set to use screenshot reading."} HTTP 409

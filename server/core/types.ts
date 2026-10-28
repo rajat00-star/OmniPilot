@@ -188,6 +188,9 @@ export interface BrowserFrame {
   detail?: string;
 }
 
+/** Where captured pages come from: the live public web, or the labelled offline demo fixture. */
+export type DataSource = "live" | "fixture";
+
 export interface Mission {
   id: string;
   prompt: string;
@@ -195,6 +198,8 @@ export interface Mission {
   updatedAt: string;
   status: MissionStatus;
   mode: ReasoningMode;
+  /** Absent on records from before data sources were tracked; those were live. */
+  dataSource?: DataSource;
   plan?: Plan;
   steps: StepRun[];
   sources: SourceCapture[];
@@ -206,9 +211,33 @@ export interface Mission {
   activity: ActivityEntry[];
   frames: BrowserFrame[];
   analysis?: unknown;
+  /** Paid, user-confirmed screenshot readings by Claude (multimodal companion). */
+  visionRuns?: VisionRun[];
   finalSummary?: string;
   error?: string;
   warnings: string[];
+}
+
+export interface VisionPage {
+  sourceId: string;
+  targetName: string;
+  url: string;
+  pricingVisible?: boolean;
+  /** Plan readings kept because plan name and price were found in the stored capture. */
+  kept: number;
+  discarded: { plan: string; price: string; reason: string }[];
+  limitsDropped?: number;
+  error?: string;
+}
+
+export interface VisionRun {
+  id: string;
+  at: string;
+  model: string;
+  pages: VisionPage[];
+  inputTokens: number;
+  outputTokens: number;
+  costUsd?: number;
 }
 
 export interface MissionListItem {
@@ -219,4 +248,5 @@ export interface MissionListItem {
   updatedAt: string;
   artifactCount: number;
   mode: ReasoningMode;
+  dataSource?: DataSource;
 }

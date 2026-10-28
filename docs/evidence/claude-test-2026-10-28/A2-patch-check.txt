@@ -1,0 +1,28 @@
+-rw-------@ 1 rajatsanger  staff  34090 Oct 28 16:15 /Users/rajatsanger/.claude/uploads/243be953-c991-4544-8352-8c036fcfce73/a45d2e42-omnipilot-claude-mode-hardening.patch
+15884cc76c4ca985ab6a1300bbf635764a478750a4316623328dbad1a1710c40  /Users/rajatsanger/.claude/uploads/243be953-c991-4544-8352-8c036fcfce73/a45d2e42-omnipilot-claude-mode-hardening.patch
+13
+error: tests/popupGuard.test.ts: No such file or directory
+error: tests/claudeMode.test.ts: No such file or directory
+error: patch failed: server/tools/registry.ts:10
+error: server/tools/registry.ts: patch does not apply
+error: patch failed: server/tools/missionTools.ts:6
+error: server/tools/missionTools.ts: patch does not apply
+error: patch failed: server/llm/claude.ts:52
+error: server/llm/claude.ts: patch does not apply
+error: patch failed: server/index.ts:8
+error: server/index.ts: patch does not apply
+error: patch failed: server/core/planner.ts:3
+error: server/core/planner.ts: patch does not apply
+error: patch failed: server/core/engine.ts:6
+error: server/core/engine.ts: patch does not apply
+error: patch failed: server/core/analysis.ts:2
+error: server/core/analysis.ts: patch does not apply
+error: patch failed: server/config.ts:2
+error: server/config.ts: patch does not apply
+error: patch failed: server/browser/browserManager.ts:146
+error: server/browser/browserManager.ts: patch does not apply
+error: scripts/claude-check.ts: No such file or directory
+error: patch failed: package.json:9
+error: package.json: patch does not apply
+reverse-check exit=1
+check exit=0

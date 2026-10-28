@@ -1,0 +1,15 @@
+== https://example.com/
+{"error":"Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked)","code":"navigation_failed","recovery":"Check the URL or try another source."}
+HTTP 400
+== http://127.0.0.1:8788/api/health
+{"error":"Offline demo mode: only the local demo fixture sites can be opened (http://127.0.0.1:8788 is blocked)","code":"navigation_failed","recovery":"Check the URL or try another source."}
+HTTP 400
+== http://localhost:42001/
+{"error":"Offline demo mode: only the local demo fixture sites can be opened (http://localhost:42001 is blocked)","code":"navigation_failed","recovery":"Check the URL or try another source."}
+HTTP 400
+== http://127.0.0.1:42999/
+{"error":"Offline demo mode: only the local demo fixture sites can be opened (http://127.0.0.1:42999 is blocked)","code":"navigation_failed","recovery":"Check the URL or try another source."}
+HTTP 400
+== http://127.0.0.1:42001/pricing
+{"summary":"Opened http://127.0.0.1:42001/pricing — \"Lumina Assist pricing\"","evidenceIds":["src_7b06b292a176"],"output":{"url":"http://127.0.0.1:42001/pricing","title":"Lumina Assist pricing"},"mission":{"id":"msn_2d1d7c07397d","prompt":"Research five competing AI products. Find their official 
+HTTP 200

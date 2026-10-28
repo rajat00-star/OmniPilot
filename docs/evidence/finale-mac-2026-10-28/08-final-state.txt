@@ -1,0 +1,54 @@
+== my ports (8788, 42001-42005) after stop:
+7054 gone
+== 8787/41001-41005 (pre-existing PID 5728, not mine, left running):
+COMMAND  PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    5728 rajatsanger   28u  IPv4 0xda10efc20dd6723      0t0  TCP 127.0.0.1:8787 (LISTEN)
+PID NAME
+5728 127.0.0.1:41001
+5728 127.0.0.1:41002
+5728 127.0.0.1:41003
+5728 127.0.0.1:41004
+5728 127.0.0.1:41005
+== adal status/diff:
+?? docs/evidence/adal/phaseB/
+== final git status
+ M .gitignore
+ M README.md
+ M docs/CAPABILITIES.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/FINALE.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/demo-offline.ts
+?? server/demo/
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/isolation.test.ts
+?? tests/offlineDemo.test.ts
+ 26 files changed, 255 insertions(+), 40 deletions(-)
+diff-check exit=0
+apply -R --check exit=0 (expected nonzero now: server/app.ts changed)
+31

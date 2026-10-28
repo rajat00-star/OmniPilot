@@ -1,0 +1,1374 @@
+diff --git a/tests/dashboard.test.ts b/tests/dashboard.test.ts
+new file mode 100644
+index 0000000..d17d63d
+--- /dev/null
++++ b/tests/dashboard.test.ts
+@@ -0,0 +1,256 @@
++import type { AddressInfo } from "node:net";
++import type { Server } from "node:http";
++import { createElement } from "react";
++import { renderToStaticMarkup } from "react-dom/server";
++import { afterAll, beforeAll, describe, expect, it } from "vitest";
++import { createApp } from "../server/app";
++import type { Analysis } from "../server/core/analysis";
++import { isTerminal } from "../server/core/stateMachine";
++import type { Mission } from "../server/core/types";
++import { startDemoVendors, type DemoVendors } from "../server/demo/fixtureVendors";
++import { parseHash, judgeHash } from "../web/src/App";
++import { ResearchDashboard } from "../web/src/components/Dashboard";
++import { JudgeView } from "../web/src/components/JudgeView";
++import { INTEGRITY_DISCLAIMER, buildDashboard, isCitable, priceAmount } from "../web/src/lib/dashboard";
++import { tempDir } from "./helpers/fixtures";
++
++// The judge dashboard is built from a real mission run against the offline fixture vendors, never from canned results.
++const SIGNATURE =
++  "Research five competing AI products. Find their official product descriptions and publicly displayed pricing. Compare their positioning, target audiences, and differentiators. Identify potential market gaps, create a structured competitor-analysis CSV, write an evidence-backed research report, and generate a landing-page concept for my hypothetical product. Verify every generated artifact and show me the evidence.";
++
++let vendors: DemoVendors;
++let ctx: ReturnType<typeof createApp>;
++let server: Server;
++let base: string;
++let mission: Mission;
++
++const post = (p: string, body?: unknown) => fetch(base + p, { method: "POST", headers: { "content-type": "application/json" }, body: body === undefined ? undefined : JSON.stringify(body) });
++
++beforeAll(async () => {
++  vendors = await startDemoVendors({ basePort: 0, latencyMs: 0 });
++  ctx = createApp({ dataDir: tempDir(), urlPolicy: { allowOnlyOrigins: vendors.origins }, forceMode: "deterministic", fixture: { catalog: vendors.catalog } });
++  server = ctx.app.listen(0, "127.0.0.1");
++  await new Promise((r) => server.once("listening", r));
++  base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
++  const m = (await (await post("/api/missions", { prompt: SIGNATURE, productName: "VerityDesk" })).json()) as Mission;
++  await post(`/api/missions/${m.id}/approve`);
++  const start = Date.now();
++  for (;;) {
++    const cur = ctx.store.get(m.id)!;
++    if (isTerminal(cur.status)) break;
++    if (Date.now() - start > 150_000) throw new Error(`timeout; status=${cur.status}`);
++    await new Promise((r) => setTimeout(r, 150));
++  }
++  // The same JSON the UI receives.
++  mission = (await (await fetch(`${base}/api/missions/${m.id}`)).json()) as Mission;
++}, 180_000);
++
++afterAll(async () => {
++  server.close();
++  await ctx.browser.shutdown();
++  await vendors.close();
++});
++
++const clone = (m: Mission): Mission => JSON.parse(JSON.stringify(m));
++const analysisOf = (m: Mission) => m.analysis as Analysis;
++const html = (m: Mission) => renderToStaticMarkup(createElement(ResearchDashboard, { mission: m }));
++const judge = (m: Mission | undefined, id = mission.id) => renderToStaticMarkup(createElement(JudgeView, { mission: m, missionId: id, onExit: () => {} }));
++const squash = (s: string) => s.replace(/\s+/g, " ").trim();
++const decode = (s: string) => s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
++
++describe("research dashboard view model (real fixture mission)", () => {
++  it("summarises the objective and up to three findings, each backed by a stored quote", async () => {
++    const d = buildDashboard(mission)!;
++    expect(d.objective).toBe(mission.plan!.objective);
++    expect(d.dataSource).toBe("fixture");
++    expect(d.analysisBy).toBe("rules");
++    expect(d.findings.length).toBeGreaterThan(0);
++    expect(d.findings.length).toBeLessThanOrEqual(3);
++    // One finding per competitor before any competitor gets a second.
++    expect(new Set(d.findings.map((f) => f.targetName)).size).toBe(d.findings.length);
++    for (const f of d.findings) {
++      expect(isCitable(f.evidence)).toBe(true);
++      const o = mission.observations.find((x) => x.id === f.evidence.obsId)!;
++      expect(o.kind).toBe("observation");
++      expect(o.sourceUrl).toBe(f.evidence.sourceUrl);
++      // The excerpt really is in the page text that was captured for that source.
++      const src = mission.sources.find((s) => s.id === o.sourceId)!;
++      expect(src.ok).toBe(true);
++      const text = await (await fetch(`${base}/api/missions/${mission.id}/files/${src.textFile}`)).text();
++      expect(squash(text)).toContain(squash(o.excerpt!));
++    }
++  });
++
++  it("keeps displayed prices, a $0 tier, a free option and missing pricing apart", () => {
++    const d = buildDashboard(mission)!;
++    const byName = Object.fromEntries(d.cards.map((c) => [c.name, c]));
++    expect(d.cards.filter((c) => c.pricing.state === "prices")).toHaveLength(mission.summary!.pricesFound);
++    for (const c of d.cards) {
++      for (const p of c.pricing.prices) {
++        const o = mission.observations.find((x) => x.id === p.obsId)!;
++        expect(o.field).toBe("displayed_price");
++        expect(o.targetId).toBe(c.targetId);
++      }
++      if (c.pricing.state !== "prices") expect(c.pricing.prices).toHaveLength(0);
++    }
++    // The fixture vendor with a "$0 per month" tier keeps its $0 as a displayed price.
++    const zero = d.cards.find((c) => c.pricing.zeroPrices.length)!;
++    expect(zero).toBeDefined();
++    expect(zero.pricing.state).toBe("prices");
++    expect(priceAmount(zero.pricing.zeroPrices[0].value)).toBe(0);
++    // A vendor with no displayed price stays "not found", even when it shows a free plan line.
++    const noPrice = d.cards.filter((c) => c.pricing.state === "not_found");
++    expect(noPrice.length).toBe(d.cards.length - mission.summary!.pricesFound);
++    expect(d.limitations.join(" ")).toMatch(/A missing price is unknown, not free and not \$0/);
++    expect(byName["Atlas Agents"].failures[0].error).toMatch(/HTTP 403/);
++  });
++
++  it("lists limitations from the record and labels the conclusion by its real origin", () => {
++    const d = buildDashboard(mission)!;
++    const lim = d.limitations.join(" ");
++    expect(lim).toMatch(/Offline demo: fixture pages.*not live research/);
++    expect(lim).toMatch(/Atlas Agents \([^)]*HTTP 403/);
++    expect(lim).toMatch(/awaiting human review/);
++    expect(d.conclusion.by).toBe("rules");
++    expect(d.conclusion.text).toContain(`${mission.summary!.sourcesCaptured} of ${mission.summary!.sourcesAttempted} pages`);
++  });
++
++  it("builds the feature matrix only from vendor-stated headings of the same competitor", () => {
++    const d = buildDashboard(mission)!;
++    expect(d.features.length).toBeGreaterThan(0);
++    expect(d.features.length).toBeLessThanOrEqual(10);
++    for (const row of d.features) {
++      for (const [targetId, e] of Object.entries(row.cells)) {
++        if (!e) continue;
++        const o = mission.observations.find((x) => x.id === e.obsId)!;
++        expect(o.field).toBe("vendor_claim");
++        expect(o.targetId).toBe(targetId);
++      }
++    }
++  });
++
++  it("reports verification counts straight from the mission summary and artifacts", () => {
++    const v = buildDashboard(mission)!.verification;
++    const s = mission.summary!;
++    expect(v.pagesCaptured).toBe(s.sourcesCaptured);
++    expect(v.pagesAttempted).toBe(s.sourcesAttempted);
++    expect(v.artifactsTotal).toBe(mission.artifacts.length);
++    expect(v.artifactsVerified).toBe(mission.artifacts.filter((a) => a.verification === "passed").length);
++    expect(v.checksPassed).toBe(s.checksPassed);
++    expect(v.needsReview).toBe(s.claimsNeedingReview);
++    expect(v.needsReview).toBeGreaterThan(0);
++  });
++});
++
++describe("research dashboard edge cases", () => {
++  it("drops a quote that failed re-matching from the findings", () => {
++    const first = buildDashboard(mission)!.findings[0];
++    const m = clone(mission);
++    m.observations.find((o) => o.id === first.evidence.obsId)!.check = "ungrounded";
++    const d = buildDashboard(m)!;
++    expect(d.findings.map((f) => f.evidence.obsId)).not.toContain(first.evidence.obsId);
++  });
++
++  it("shows no finding at all rather than an unsupported one", () => {
++    const m = clone(mission);
++    for (const o of m.observations) o.excerpt = undefined;
++    const d = buildDashboard(m)!;
++    expect(d.findings).toHaveLength(0);
++    expect(d.features).toHaveLength(0);
++    expect(decode(html(m))).toContain("No finding could be backed by a quoted excerpt");
++  });
++
++  it("marks a competitor with no captured page as inaccessible, not as unpriced or free", () => {
++    const m = clone(mission);
++    const p = analysisOf(m).profiles[0];
++    p.status = "inaccessible";
++    const d = buildDashboard(m)!;
++    const card = d.cards.find((c) => c.targetId === p.targetId)!;
++    expect(card.pricing.state).toBe("inaccessible");
++    expect(d.limitations.join(" ")).toContain(`No page was captured for ${p.name}`);
++    expect(html(m)).toMatch(/data-pricing-state="inaccessible"[\s\S]*?Source inaccessible/);
++  });
++
++  it("labels the conclusion AI-generated only when Claude wrote it", () => {
++    const m = clone(mission);
++    const a = analysisOf(m);
++    a.generatedBy = "claude";
++    expect(buildDashboard(m)!.conclusion.by).toBe("rules"); // Claude mode, but no Claude-written gap: still rule-based text.
++    a.gaps = [{ id: "gap_x", statement: "Teams lack cited answers.", rationale: "r", basis: [m.observations[0].id], confidence: "low", by: "claude" }];
++    const d = buildDashboard(m)!;
++    expect(d.conclusion).toEqual({ by: "claude", text: "Teams lack cited answers." });
++    const out = html(m);
++    expect(out).toContain("AI-generated by Claude");
++    expect(out).toContain("Analysis: Claude, evidence-cited");
++    expect(html(mission)).not.toContain("AI-generated");
++  });
++
++  it("renders nothing without an analysis", () => {
++    const m = clone(mission);
++    m.analysis = undefined;
++    expect(buildDashboard(m)).toBeUndefined();
++    expect(html(m)).toBe("");
++  });
++});
++
++describe("dashboard markup", () => {
++  const out = () => decode(html(mission));
++
++  it("has the summary, cards, matrix, pricing and verification sections", () => {
++    const o = out();
++    for (const s of ["Executive summary", "Key findings from captured pages", "Limitations and open questions", "Competitors", "Feature comparison", "Publicly displayed pricing", "Verification transparency"]) expect(o).toContain(s);
++    expect(o).toContain("Rule-based · computed from the record");
++    expect(o).toContain("Offline fixture data");
++    expect((o.match(/data-testid="competitor-card"/g) ?? []).length).toBe(analysisOf(mission).profiles.length);
++  });
++
++  it("links every finding to its source URL and never calls findings verified facts", () => {
++    const o = out();
++    for (const f of buildDashboard(mission)!.findings) expect(o).toContain(`href="${f.evidence.sourceUrl}"`);
++    expect(o).toContain(INTEGRITY_DISCLAIMER);
++    expect(o).not.toMatch(/verified facts?/i);
++    // External links open without handing the vendor page a reference to this app.
++    for (const a of o.match(/<a [^>]*href="https?:[^"]*"[^>]*>/g) ?? []) expect(a).toContain('rel="noreferrer noopener"');
++  });
++
++  it("marks inferences and missing pricing in the rendered page", () => {
++    const o = out();
++    expect(o).toContain("Inferred");
++    expect(o).toContain("No price displayed on captured pages. Missing, not $0.");
++    expect(o).toMatch(/data-pricing-state="not_found"[\s\S]*?Not found/);
++  });
++});
++
++describe("judge mode", () => {
++  const buttons = (s: string) => [...s.matchAll(/<button[^>]*>([\s\S]*?)<\/button>/g)].map((m) => squash(m[1].replace(/<[^>]+>/g, " ")));
++
++  it("presents the dashboard read-only, with only evidence buttons and a way back", () => {
++    const o = decode(judge(mission));
++    expect(o).toContain("Judge mode · read-only");
++    expect(o).toContain("Exit judge mode");
++    expect(o).toContain('data-testid="research-dashboard"');
++    expect(o).toContain("Offline demo mode");
++    expect(o).not.toMatch(/<input|<textarea|<form/);
++    const labels = buttons(o);
++    expect(labels).toContain("Exit judge mode");
++    for (const l of labels) expect(l).not.toMatch(/stop|pause|take over|resume|approve|discard|delete|retry|new mission|run/i);
++    // Deliverables can be opened, nothing can be changed.
++    for (const a of mission.artifacts) expect(o).toContain(`/api/missions/${mission.id}/files/${a.filename}`);
++  });
++
++  it("refuses to present a mission that has not completed", () => {
++    const m = clone(mission);
++    m.status = "running";
++    const o = decode(judge(m));
++    expect(o).toContain("Judge mode shows completed missions only");
++    expect(o).not.toContain('data-testid="research-dashboard"');
++    expect(decode(judge(undefined))).toContain("Loading mission");
++  });
++
++  it("routes #/judge/<id> separately from the workspace", () => {
++    expect(parseHash(judgeHash(mission.id))).toEqual({ id: mission.id, judge: true });
++    expect(parseHash(`#/m/${mission.id}`)).toEqual({ id: mission.id, judge: false });
++    expect(parseHash("#/")).toEqual({ judge: false });
++    expect(parseHash("#/judge/")).toEqual({ id: undefined, judge: true });
++  });
++});
+diff --git a/tests/e2e/offline-demo-ui.mjs b/tests/e2e/offline-demo-ui.mjs
+index aa78c5d..21a7232 100644
+--- a/tests/e2e/offline-demo-ui.mjs
++++ b/tests/e2e/offline-demo-ui.mjs
+@@ -103,6 +103,26 @@ note("observations grounded", `${m.summary.observationsGrounded}/${m.summary.obs
+ note("checks passed / failed / warnings", `${m.summary.checksPassed} / ${m.summary.checksFailed} / ${m.summary.checksWarned}`);
+ note("failed sources", m.sources.filter((s) => !s.ok).map((s) => `${s.targetName}: ${s.error}`).join(" | "));
+ 
++// 5b. Judge mode: read-only presentation, evidence drill-down, and the way back
++await page.getByRole("tab", { name: /Results/ }).click();
++await page.getByTestId("research-dashboard").waitFor();
++await page.getByRole("button", { name: "Judge mode" }).click();
++await page.getByTestId("judge-view").waitFor();
++await page.waitForTimeout(600);
++note("judge: mission controls shown", await page.getByRole("button", { name: /^(Stop|Pause|Take over|Resume agent|Approve and run|Discard)$/ }).count());
++note("judge: competitor cards", await page.getByTestId("competitor-card").count());
++await shot("10-judge");
++await page.locator(".findings .ev-btn").first().click();
++await page.getByRole("dialog").waitFor();
++note("judge: evidence dialog source", await page.getByRole("dialog").locator("a[href^='http']").first().getAttribute("href"));
++await shot("11-judge-evidence");
++await page.keyboard.press("Escape");
++await page.getByRole("dialog").waitFor({ state: "detached" });
++note("judge: still in judge mode after closing evidence", new URL(page.url()).hash.startsWith("#/judge/"));
++await page.keyboard.press("Escape");
++await page.locator(".mission-status-line").waitFor();
++note("judge: Escape returns to workspace", new URL(page.url()).hash === `#/m/${id}`);
++
+ // 6. Stop mid-run
+ await page.getByRole("button", { name: "New mission" }).click();
+ await page.getByRole("button", { name: /Signature mission/ }).click();
+diff --git a/web/src/App.tsx b/web/src/App.tsx
+index c017774..ccdc95e 100644
+--- a/web/src/App.tsx
++++ b/web/src/App.tsx
+@@ -1,5 +1,5 @@
+ import { useCallback, useEffect, useState } from "react";
+-import { FileSearch, FlaskConical, Globe, Hand, ListChecks, Loader2, Pause, Play, ShieldCheck, Square, Table2 } from "lucide-react";
++import { FileSearch, FlaskConical, Globe, Hand, ListChecks, Loader2, Pause, Play, Presentation, ShieldCheck, Square, Table2 } from "lucide-react";
+ import { api, ApiError, useMissionStream, type Health, type Mission, type MissionListItem, type Target } from "./lib/api";
+ import { MISSION_LABEL, MISSION_TONE, isActive, isDone } from "./lib/format";
+ import { Sidebar } from "./components/Sidebar";
+@@ -8,6 +8,8 @@ import { PlanReview, StepGraph } from "./components/PlanReview";
+ import { BrowserSurface } from "./components/BrowserSurface";
+ import { AgentPanel } from "./components/AgentPanel";
+ import { EvidenceView, ResultsView, VerificationView } from "./components/Results";
++import { JudgeView } from "./components/JudgeView";
++import { isDisplayed } from "./lib/dashboard";
+ import { Badge, Button, StatusDot } from "./components/ui";
+ 
+ type View = "browser" | "plan" | "results" | "evidence" | "verification";
+@@ -20,22 +22,35 @@ const VIEWS: { id: View; label: string; icon: typeof Globe }[] = [
+   { id: "verification", label: "Verification", icon: ShieldCheck },
+ ];
+ 
+-function useHashSelection(): [string | undefined, (id?: string) => void] {
+-  const read = () => (location.hash.startsWith("#/m/") ? location.hash.slice(4) : undefined);
+-  const [id, setId] = useState<string | undefined>(read);
++interface Route {
++  id?: string;
++  /** #/judge/<id>: the read-only presentation view of a finished mission. */
++  judge: boolean;
++}
++
++export function parseHash(hash: string): Route {
++  if (hash.startsWith("#/judge/")) return { id: decodeURIComponent(hash.slice(8)) || undefined, judge: true };
++  if (hash.startsWith("#/m/")) return { id: hash.slice(4) || undefined, judge: false };
++  return { judge: false };
++}
++
++export const judgeHash = (id: string) => `#/judge/${encodeURIComponent(id)}`;
++
++function useHashSelection(): [Route, (id?: string) => void] {
++  const [route, setRoute] = useState<Route>(() => parseHash(location.hash));
+   useEffect(() => {
+-    const on = () => setId(read());
++    const on = () => setRoute(parseHash(location.hash));
+     window.addEventListener("hashchange", on);
+     return () => window.removeEventListener("hashchange", on);
+   }, []);
+-  return [id, (next) => (location.hash = next ? `#/m/${next}` : "#/")];
++  return [route, (next) => (location.hash = next ? `#/m/${next}` : "#/")];
+ }
+ 
+ export function App() {
+   const [health, setHealth] = useState<Health>();
+   const [healthError, setHealthError] = useState<string>();
+   const [missions, setMissions] = useState<MissionListItem[]>([]);
+-  const [selectedId, select] = useHashSelection();
++  const [{ id: selectedId, judge }, select] = useHashSelection();
+   const { mission: streamed, connected } = useMissionStream(selectedId);
+   const [view, setView] = useState<View>("browser");
+   const [busy, setBusy] = useState(false);
+@@ -93,6 +108,12 @@ export function App() {
+       select(m.id);
+     });
+ 
++  const exitJudge = useCallback(() => {
++    if (selectedId) location.hash = `#/m/${selectedId}`;
++  }, [selectedId]);
++
++  if (judge && selectedId) return <JudgeView mission={mission} missionId={selectedId} onExit={exitJudge} />;
++
+   return (
+     <div className="app">
+       <Sidebar
+@@ -171,6 +192,11 @@ function MissionWorkspace({ mission, health, view, setView, busy, error, act }:
+           </h1>
+         </div>
+         <div className="mission-controls">
++          {isDisplayed(s) && Boolean(mission.analysis) && (
++            <Button size="sm" icon={Presentation} onClick={() => (location.hash = judgeHash(mission.id))} title="Read-only presentation of these results">
++              Judge mode
++            </Button>
++          )}
+           {s === "running" && (
+             <>
+               <Button size="sm" icon={Pause} onClick={() => act(() => api.pause(mission.id))} disabled={busy}>
+diff --git a/web/src/components/Dashboard.tsx b/web/src/components/Dashboard.tsx
+new file mode 100644
+index 0000000..25bfb30
+--- /dev/null
++++ b/web/src/components/Dashboard.tsx
+@@ -0,0 +1,480 @@
++import { useEffect, useMemo, useRef, useState } from "react";
++import { AlertTriangle, Bot, Check, ExternalLink, FileText, ImageIcon, Info, Minus, Quote, ShieldCheck, X } from "lucide-react";
++import type { Analysis, Mission } from "../lib/api";
++import { fileUrl } from "../lib/api";
++import { INTEGRITY_DISCLAIMER, buildDashboard, evidenceIndex, type CompetitorCard, type Dashboard, type Evidence, type PricingCell } from "../lib/dashboard";
++import { host, type Tone } from "../lib/format";
++import { Badge, SectionTitle, Stat } from "./ui";
++
++type Open = (e: Evidence) => void;
++
++const CHECK_LABEL: Record<Evidence["check"], { label: string; tone: Tone }> = {
++  grounded: { label: "Quote re-matched", tone: "success" },
++  ungrounded: { label: "Quote not re-matched", tone: "danger" },
++  needs_review: { label: "Needs human review", tone: "info" },
++  unverified: { label: "Not re-matched", tone: "neutral" },
++};
++
++function KindBadge({ e }: { e: Evidence }) {
++  if (e.kind === "inference") return <Badge tone="info">Inference</Badge>;
++  if (e.kind === "unknown") return <Badge tone="warning">Unknown</Badge>;
++  return <Badge tone="success">Quoted from page</Badge>;
++}
++
++function EvidenceButton({ e, onOpen, label = "Evidence" }: { e: Evidence; onOpen: Open; label?: string }) {
++  return (
++    <button type="button" className="ev-btn" onClick={() => onOpen(e)} aria-label={`${label}: ${e.targetName} ${e.field.replace(/_/g, " ")}`} title={e.sourceUrl ?? "Show evidence"}>
++      <Quote size={12} aria-hidden />
++      {label}
++    </button>
++  );
++}
++
++const STATUS_BADGE: Record<CompetitorCard["status"], { label: string; tone: Tone }> = {
++  captured: { label: "Captured", tone: "success" },
++  partial: { label: "Partial", tone: "warning" },
++  inaccessible: { label: "Inaccessible", tone: "danger" },
++};
++
++/** The judge-facing summary of a finished mission. Read-only: it renders the stored record and opens evidence. */
++export function ResearchDashboard({ mission }: { mission: Mission }) {
++  const dash = useMemo(() => buildDashboard(mission), [mission]);
++  const index = useMemo(() => evidenceIndex(mission), [mission]);
++  const [open, setOpen] = useState<Evidence>();
++  if (!dash) return null;
++  return (
++    <div className="dashboard" data-testid="research-dashboard">
++      <ExecutiveSummary dash={dash} onOpen={setOpen} />
++      <CompetitorCards mission={mission} cards={dash.cards} onOpen={setOpen} />
++      <FeatureMatrix dash={dash} onOpen={setOpen} />
++      <PricingTable cards={dash.cards} onOpen={setOpen} />
++      <VerificationPanel mission={mission} dash={dash} index={index} onOpen={setOpen} />
++      {open && <EvidenceDialog mission={mission} e={open} index={index} onOpen={setOpen} onClose={() => setOpen(undefined)} />}
++    </div>
++  );
++}
++
++function ExecutiveSummary({ dash, onOpen }: { dash: Dashboard; onOpen: Open }) {
++  const { conclusion } = dash;
++  return (
++    <section className="card hero-card dash-summary" aria-labelledby="dash-exec">
++      <div className="dash-summary-top">
++        <h2 className="eyebrow" id="dash-exec">
++          Executive summary
++        </h2>
++        <div className="dash-tags">
++          <Badge tone={dash.dataSource === "fixture" ? "warning" : "accent"}>{dash.dataSource === "fixture" ? "Offline fixture data" : "Live web capture"}</Badge>
++          <Badge tone={dash.analysisBy === "claude" ? "accent" : "neutral"}>{dash.analysisBy === "claude" ? "Analysis: Claude, evidence-cited" : "Analysis: rule-based, no AI"}</Badge>
++          {dash.capturedAt && <span className="dash-meta">Captured {new Date(dash.capturedAt).toLocaleString()}</span>}
++        </div>
++      </div>
++      <div className="dash-objective">
++        <span className="dash-label">Objective</span>
++        <p>{dash.objective}</p>
++      </div>
++
++      <div className="dash-label">Key findings from captured pages</div>
++      {dash.findings.length ? (
++        <ol className="findings">
++          {dash.findings.map((f) => (
++            <li key={f.evidence.obsId}>
++              <div className="finding-text">{f.text}</div>
++              <div className="finding-meta">
++                <a className="mono" href={f.evidence.sourceUrl} target="_blank" rel="noreferrer noopener">
++                  {host(f.evidence.sourceUrl ?? "")}
++                </a>
++                <Badge tone={CHECK_LABEL[f.evidence.check].tone}>{CHECK_LABEL[f.evidence.check].label}</Badge>
++                <EvidenceButton e={f.evidence} onOpen={onOpen} />
++              </div>
++            </li>
++          ))}
++        </ol>
++      ) : (
++        <p className="unknown">No finding could be backed by a quoted excerpt from a captured page, so none is shown.</p>
++      )}
++
++      <div className="dash-cols">
++        <div>
++          <div className="dash-label">Limitations and open questions</div>
++          <ul className="limitations">
++            {dash.limitations.map((l) => (
++              <li key={l}>
++                <AlertTriangle size={14} aria-hidden />
++                <span>{l}</span>
++              </li>
++            ))}
++          </ul>
++        </div>
++        <div className={`conclusion by-${conclusion.by}`}>
++          <div className="dash-label">
++            Conclusion
++            {conclusion.by === "claude" ? (
++              <Badge tone="accent" icon={Bot}>
++                AI-generated by Claude · inference
++              </Badge>
++            ) : (
++              <Badge tone="neutral">Rule-based · computed from the record</Badge>
++            )}
++          </div>
++          <p>{conclusion.text}</p>
++        </div>
++      </div>
++    </section>
++  );
++}
++
++function CompetitorCards({ mission, cards, onOpen }: { mission: Mission; cards: CompetitorCard[]; onOpen: Open }) {
++  return (
++    <section className="card" aria-label="Competitors">
++      <SectionTitle count={cards.length}>Competitors</SectionTitle>
++      <div className="comp-grid">
++        {cards.map((c) => {
++          const self = c.description ?? c.headline;
++          return (
++            <article key={c.targetId} className={`comp-card status-${c.status}`} data-testid="competitor-card">
++              <div className="comp-shot">
++                {c.screenshotFile ? <img src={fileUrl(mission.id, c.screenshotFile)} alt={`Captured page of ${c.name}`} loading="lazy" /> : <ImageIcon size={20} aria-label="No screenshot captured" />}
++              </div>
++              <div className="comp-body">
++                <div className="comp-head">
++                  <h4>{c.name}</h4>
++                  <Badge tone={STATUS_BADGE[c.status].tone}>{STATUS_BADGE[c.status].label}</Badge>
++                </div>
++                <a className="mono comp-url" href={c.primaryUrl} target="_blank" rel="noreferrer noopener">
++                  {host(c.primaryUrl)}
++                </a>
++                <div className="comp-pages">
++                  {c.pagesCaptured} of {c.pagesAttempted} pages captured
++                </div>
++                {self ? (
++                  <p className="comp-desc">
++                    “{self.value}” <EvidenceButton e={self} onOpen={onOpen} />
++                  </p>
++                ) : (
++                  <p className="unknown">{c.status === "inaccessible" ? "Unknown: no page captured." : "No description found on captured pages."}</p>
++                )}
++                <dl className="comp-facts">
++                  <dt>Pricing</dt>
++                  <dd>
++                    <PricingSummary p={c.pricing} />
++                  </dd>
++                  <dt>Stated features</dt>
++                  <dd>{c.features.length ? `${c.features.length} vendor headings quoted` : <span className="unknown">None captured</span>}</dd>
++                  <dt>Audience</dt>
++                  <dd>
++                    {c.audiences.length ? (
++                      <>
++                        {c.audiences.map((a) => a.value).join(", ")} <Badge tone="info">Inferred</Badge>
++                      </>
++                    ) : (
++                      <span className="unknown">Unknown</span>
++                    )}
++                  </dd>
++                </dl>
++              </div>
++            </article>
++          );
++        })}
++      </div>
++    </section>
++  );
++}
++
++function PricingSummary({ p }: { p: PricingCell }) {
++  if (p.state === "inaccessible") return <span className="unknown">Unknown: source inaccessible</span>;
++  if (p.state === "not_found") return <span className="unknown">No price on captured pages{p.freeOption ? " · free option shown" : ""}</span>;
++  return (
++    <>
++      {p.prices.length} displayed {p.prices.length === 1 ? "price" : "prices"}
++      {p.freeOption && " · free option shown"}
++    </>
++  );
++}
++
++function FeatureMatrix({ dash, onOpen }: { dash: Dashboard; onOpen: Open }) {
++  const cards = dash.cards;
++  return (
++    <section className="card" aria-label="Feature comparison">
++      <SectionTitle count={dash.features.length}>Feature comparison</SectionTitle>
++      <p className="dash-note">
++        Rows are feature headings quoted from vendor pages. A tick means the heading appears on that competitor's captured pages. A dash means it was not seen there, which does not mean the product lacks it.
++      </p>
++      {dash.features.length ? (
++        <div className="table-wrap">
++          <table className="table matrix">
++            <thead>
++              <tr>
++                <th scope="col">Vendor-stated feature</th>
++                {cards.map((c) => (
++                  <th key={c.targetId} scope="col">
++                    {c.name}
++                  </th>
++                ))}
++              </tr>
++            </thead>
++            <tbody>
++              {dash.features.map((r) => (
++                <tr key={r.label}>
++                  <th scope="row" className="cell-strong">
++                    {r.label}
++                  </th>
++                  {cards.map((c) => {
++                    const e = r.cells[c.targetId];
++                    return (
++                      <td key={c.targetId} className="matrix-cell">
++                        {e ? (
++                          <button type="button" className="matrix-hit" onClick={() => onOpen(e)} aria-label={`${c.name} states “${e.value}”. Show evidence`} title={e.excerpt}>
++                            <Check size={14} aria-hidden />
++                            Stated
++                          </button>
++                        ) : c.status === "inaccessible" ? (
++                          <span className="unknown">Unknown</span>
++                        ) : (
++                          <span className="matrix-miss" aria-label="Not seen on captured pages">
++                            <Minus size={14} aria-hidden />
++                          </span>
++                        )}
++                      </td>
++                    );
++                  })}
++                </tr>
++              ))}
++            </tbody>
++          </table>
++        </div>
++      ) : (
++        <p className="unknown">No feature headings were captured.</p>
++      )}
++    </section>
++  );
++}
++
++function PricingTable({ cards, onOpen }: { cards: CompetitorCard[]; onOpen: Open }) {
++  return (
++    <section className="card" aria-label="Pricing">
++      <SectionTitle>Publicly displayed pricing</SectionTitle>
++      <p className="dash-note">Prices are copied as the captured page displays them. Missing pricing is shown as missing, never as free or $0.</p>
++      <div className="table-wrap">
++        <table className="table pricing">
++          <thead>
++            <tr>
++              <th scope="col">Competitor</th>
++              <th scope="col">Pricing status</th>
++              <th scope="col">Displayed prices</th>
++              <th scope="col">Free option</th>
++            </tr>
++          </thead>
++          <tbody>
++            {cards.map((c) => {
++              const p = c.pricing;
++              return (
++                <tr key={c.targetId} data-pricing-state={p.state}>
++                  <th scope="row" className="cell-strong">
++                    {c.name}
++                  </th>
++                  <td>
++                    {p.state === "prices" ? (
++                      <Badge tone="success">Prices displayed</Badge>
++                    ) : p.state === "not_found" ? (
++                      <Badge tone="warning">Not found</Badge>
++                    ) : (
++                      <Badge tone="danger">Source inaccessible</Badge>
++                    )}
++                  </td>
++                  <td>
++                    {p.prices.length ? (
++                      <div className="price-list">
++                        {p.prices.map((x) => (
++                          <button key={x.obsId} type="button" className="price price-btn" onClick={() => onOpen(x)} title={x.excerpt} aria-label={`${c.name} price ${x.value}. Show evidence`}>
++                            {x.value}
++                          </button>
++                        ))}
++                        {p.zeroPrices.length > 0 && <span className="cell-sub">$0 amounts are shown exactly as the page displays them.</span>}
++                      </div>
++                    ) : (
++                      <span className="unknown">{p.state === "inaccessible" ? "Unknown: no page captured" : "No price displayed on captured pages. Missing, not $0."}</span>
++                    )}
++                  </td>
++                  <td>
++                    {p.freeOption ? (
++                      <span className="free-line">
++                        “{p.freeOption.excerpt ?? p.freeOption.value}” <EvidenceButton e={p.freeOption} onOpen={onOpen} />
++                      </span>
++                    ) : (
++                      <span className="muted">{p.state === "inaccessible" ? "Unknown" : "None seen"}</span>
++                    )}
++                  </td>
++                </tr>
++              );
++            })}
++          </tbody>
++        </table>
++      </div>
++    </section>
++  );
++}
++
++function VerificationPanel({ mission, dash, index, onOpen }: { mission: Mission; dash: Dashboard; index: Map<string, Evidence>; onOpen: Open }) {
++  const v = dash.verification;
++  const review = mission.observations.filter((o) => o.check === "needs_review").map((o) => index.get(o.id)!);
++  const gaps = (mission.analysis as Analysis | undefined)?.gaps ?? [];
++  const checksTotal = v.checksPassed + v.checksFailed + v.checksWarned;
++  return (
++    <section className="card" aria-label="Verification">
++      <SectionTitle>Verification transparency</SectionTitle>
++      <div className="stat-grid">
++        <Stat label="Pages captured" value={`${v.pagesCaptured}/${v.pagesAttempted}`} tone={v.pagesCaptured < v.pagesAttempted ? "warning" : "success"} sub={v.pagesCaptured < v.pagesAttempted ? `${v.pagesAttempted - v.pagesCaptured} not captured` : "all captured"} />
++        <Stat label="Artifacts verified" value={`${v.artifactsVerified}/${v.artifactsTotal}`} tone={v.artifactsVerified < v.artifactsTotal ? "warning" : "success"} sub="read back from disk" />
++        <Stat label="Artifact checks passed" value={`${v.checksPassed}/${checksTotal}`} tone={v.checksFailed ? "danger" : v.checksWarned ? "warning" : "success"} sub={`${v.checksFailed} failed · ${v.checksWarned} warnings`} />
++        <Stat label="Quotes re-matched" value={`${v.observationsGrounded}/${v.observationsTotal}`} tone={v.observationsUngrounded ? "danger" : undefined} sub={`${v.observationsUngrounded} not re-matched`} />
++        <Stat label="Unresolved review items" value={v.needsReview + gaps.length} tone="info" sub={`${v.needsReview} inferences · ${gaps.length} market gaps`} />
++      </div>
++      <div className="callout subtle integrity" role="note">
++        <ShieldCheck size={15} aria-hidden />
++        <span>
++          <strong>What these checks mean.</strong> {INTEGRITY_DISCLAIMER} Inferences and market gaps are heuristics until a person reviews them.
++        </span>
++      </div>
++      {(review.length > 0 || gaps.length > 0) && (
++        <details className="review-items">
++          <summary>Show the {review.length + gaps.length} unresolved review items</summary>
++          <ul>
++            {review.map((e) => (
++              <li key={e.obsId}>
++                <Badge tone="info">Inference</Badge>
++                <span>
++                  {e.targetName}: {e.field.replace(/_/g, " ")} “{e.value}”
++                </span>
++                <EvidenceButton e={e} onOpen={onOpen} label="Basis" />
++              </li>
++            ))}
++            {gaps.map((g) => (
++              <li key={g.id}>
++                <Badge tone="info">Market gap</Badge>
++                <span>{g.statement}</span>
++                <span className="cell-sub">
++                  {g.by === "claude" ? "Claude" : "rules"} · {g.confidence} confidence · {g.basis.length} observations
++                </span>
++              </li>
++            ))}
++          </ul>
++        </details>
++      )}
++    </section>
++  );
++}
++
++function EvidenceDialog({ mission, e, index, onOpen, onClose }: { mission: Mission; e: Evidence; index: Map<string, Evidence>; onOpen: Open; onClose(): void }) {
++  const close = useRef<HTMLButtonElement>(null);
++  useEffect(() => close.current?.focus(), [e.obsId]);
++  const basis = e.basis.map((id) => index.get(id)).filter((x): x is Evidence => Boolean(x));
++  const check = CHECK_LABEL[e.check];
++  return (
++    <div className="ev-backdrop" onClick={onClose}>
++      <div
++        className="ev-dialog"
++        role="dialog"
++        aria-modal="true"
++        aria-labelledby="ev-title"
++        onClick={(ev) => ev.stopPropagation()}
++        onKeyDown={(ev) => {
++          if (ev.key === "Escape") {
++            ev.stopPropagation();
++            onClose();
++          }
++        }}
++      >
++        <div className="ev-head">
++          <div>
++            <div className="eyebrow">
++              {e.targetName} · {e.field.replace(/_/g, " ")}
++            </div>
++            <h3 id="ev-title">{e.value}</h3>
++          </div>
++          <button ref={close} type="button" className="icon-btn" onClick={onClose} aria-label="Close evidence">
++            <X size={16} aria-hidden />
++          </button>
++        </div>
++        <div className="ev-badges">
++          <KindBadge e={e} />
++          <Badge tone={check.tone}>{check.label}</Badge>
++          <span className="cell-sub">{e.method}</span>
++        </div>
++        {e.checkNote && <div className="cell-sub">{e.checkNote}</div>}
++        {e.check === "ungrounded" && (
++          <div className="callout warn-inline" role="alert">
++            <AlertTriangle size={15} aria-hidden />
++            <span>This value could not be re-matched against the stored capture. Treat it as unsupported.</span>
++          </div>
++        )}
++        {e.kind === "inference" && (
++          <div className="callout subtle">
++            <Info size={15} aria-hidden />
++            <span>
++              This is a heuristic inference, not a vendor statement.{" "}
++              {basis.length ? `It rests on the ${basis.length} observations listed below` : e.sourceUrl ? "It comes from keyword matches on the source page below" : "No observation is recorded behind it"}, and it needs human review.
++            </span>
++          </div>
++        )}
++        {e.sourceUrl ? (
++          <dl className="ev-facts">
++            <dt>Source</dt>
++            <dd>
++              <a className="mono" href={e.sourceUrl} target="_blank" rel="noreferrer noopener">
++                {e.sourceUrl} <ExternalLink size={12} aria-hidden />
++              </a>
++            </dd>
++            {e.pageTitle && (
++              <>
++                <dt>Page title</dt>
++                <dd>{e.pageTitle}</dd>
++              </>
++            )}
++            {e.capturedAt && (
++              <>
++                <dt>Captured</dt>
++                <dd>{new Date(e.capturedAt).toLocaleString()}</dd>
++              </>
++            )}
++          </dl>
++        ) : (
++          !basis.length && <p className="unknown">No source is recorded for this item.</p>
++        )}
++        {e.excerpt && (
++          <blockquote className="ev-quote">
++            <span className="dash-label">Captured excerpt</span>“{e.excerpt}”
++          </blockquote>
++        )}
++        {basis.length > 0 && (
++          <div>
++            <div className="dash-label">Based on</div>
++            <ul className="ev-basis">
++              {basis.map((b) => (
++                <li key={b.obsId}>
++                  <button type="button" className="link-btn" onClick={() => onOpen(b)}>
++                    {b.targetName}: {b.field.replace(/_/g, " ")} “{b.value.length > 90 ? `${b.value.slice(0, 89)}…` : b.value}”
++                  </button>
++                </li>
++              ))}
++            </ul>
++          </div>
++        )}
++        {(e.screenshotFile || e.textFile) && (
++          <div className="ev-capture">
++            {e.screenshotFile && (
++              <a href={fileUrl(mission.id, e.screenshotFile)} target="_blank" rel="noreferrer" className="ev-shot">
++                <img src={fileUrl(mission.id, e.screenshotFile)} alt={`Screenshot of the captured page ${e.pageTitle ?? e.sourceUrl ?? ""}`} loading="lazy" />
++              </a>
++            )}
++            {e.textFile && (
++              <a className="btn btn-secondary btn-sm" href={fileUrl(mission.id, e.textFile)} target="_blank" rel="noreferrer">
++                <FileText size={14} aria-hidden />
++                <span>Open captured page text</span>
++              </a>
++            )}
++          </div>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/web/src/components/JudgeView.tsx b/web/src/components/JudgeView.tsx
+new file mode 100644
+index 0000000..48ea77f
+--- /dev/null
++++ b/web/src/components/JudgeView.tsx
+@@ -0,0 +1,81 @@
++import { useEffect } from "react";
++import { ArrowLeft, ExternalLink, FlaskConical, Loader2, Lock } from "lucide-react";
++import type { Mission } from "../lib/api";
++import { fileUrl } from "../lib/api";
++import { isDisplayed } from "../lib/dashboard";
++import { MISSION_LABEL, MISSION_TONE } from "../lib/format";
++import { ResearchDashboard } from "./Dashboard";
++import { Badge, Button, Logo } from "./ui";
++
++/**
++ * Presentation view of one finished mission. It only reads the stored record: no mission controls,
++ * no approvals, no address bar. Exit (or Escape) returns to the normal workspace.
++ */
++export function JudgeView({ mission, missionId, onExit }: { mission?: Mission; missionId: string; onExit(): void }) {
++  useEffect(() => {
++    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onExit();
++    window.addEventListener("keydown", onKey);
++    return () => window.removeEventListener("keydown", onKey);
++  }, [onExit]);
++
++  return (
++    <div className="judge" data-testid="judge-view">
++      <header className="judge-head">
++        <div className="judge-brand">
++          <Logo size={22} />
++          <span className="judge-name">OmniPilot</span>
++          <Badge tone="accent" icon={Lock}>
++            Judge mode · read-only
++          </Badge>
++        </div>
++        <Button size="sm" icon={ArrowLeft} onClick={onExit} title="Back to the full workspace (Esc)">
++          Exit judge mode
++        </Button>
++      </header>
++      {mission?.dataSource === "fixture" && (
++        <div className="fixture-strip" role="note">
++          <FlaskConical size={14} aria-hidden />
++          <strong>Offline demo mode</strong>
++          <span>Fixture data from fictional vendor sites running on this machine. Nothing was fetched from the internet. This is not live research.</span>
++        </div>
++      )}
++      <main className="judge-body">
++        {!mission || mission.id !== missionId ? (
++          <div className="loading-state">
++            <Loader2 className="spin" size={20} aria-hidden /> Loading mission…
++          </div>
++        ) : !isDisplayed(mission.status) || !mission.analysis ? (
++          <div className="judge-empty card">
++            <Badge tone={MISSION_TONE[mission.status]}>{MISSION_LABEL[mission.status]}</Badge>
++            <p>Judge mode shows completed missions only. This mission has no completed analysis to present.</p>
++            <Button size="sm" icon={ArrowLeft} onClick={onExit}>
++              Back to the workspace
++            </Button>
++          </div>
++        ) : (
++          <>
++            <div className="judge-title">
++              <Badge tone={MISSION_TONE[mission.status]}>{MISSION_LABEL[mission.status]}</Badge>
++              <h1>{mission.plan?.productName ? `${mission.plan.productName}: competitor research` : "Competitor research"}</h1>
++              <span className="mono judge-id">{mission.id}</span>
++            </div>
++            <ResearchDashboard mission={mission} />
++            {mission.artifacts.length > 0 && (
++              <section className="card judge-files" aria-label="Deliverables">
++                <h3>Deliverables</h3>
++                <div className="judge-file-list">
++                  {mission.artifacts.map((f) => (
++                    <a key={f.id} className="btn btn-secondary btn-sm" href={fileUrl(mission.id, f.filename)} target="_blank" rel="noreferrer">
++                      <ExternalLink size={14} aria-hidden />
++                      <span>{f.filename}</span>
++                    </a>
++                  ))}
++                </div>
++              </section>
++            )}
++          </>
++        )}
++      </main>
++    </div>
++  );
++}
+diff --git a/web/src/components/Results.tsx b/web/src/components/Results.tsx
+index ba5be45..cdf75b1 100644
+--- a/web/src/components/Results.tsx
++++ b/web/src/components/Results.tsx
+@@ -3,6 +3,8 @@ import { AlertTriangle, CheckCircle2, Download, ExternalLink, FileSearch, ImageI
+ import type { Analysis, Mission, Observation } from "../lib/api";
+ import { fileUrl } from "../lib/api";
+ import { bytes, clock, host } from "../lib/format";
++import { isDisplayed } from "../lib/dashboard";
++import { ResearchDashboard } from "./Dashboard";
+ import { Badge, Empty, SectionTitle, Stat } from "./ui";
+ 
+ function VerBadge({ v }: { v: string }) {
+@@ -36,8 +38,9 @@ export function ResultsView({ mission }: { mission: Mission }) {
+ 
+   return (
+     <div className="results">
+-      <section className="card hero-card">
+-        <div className="eyebrow">Executive summary</div>
++      {a && isDisplayed(mission.status) && <ResearchDashboard mission={mission} />}
++      <section className={`card ${a && isDisplayed(mission.status) ? "" : "hero-card"}`}>
++        <div className="eyebrow">{a && isDisplayed(mission.status) ? "Run details" : "Executive summary"}</div>
+         <p className="summary-text">{mission.finalSummary ?? "Mission still in progress. Figures below update as steps complete."}</p>
+         {s && (
+           <div className="stat-grid">
+diff --git a/web/src/lib/dashboard.ts b/web/src/lib/dashboard.ts
+new file mode 100644
+index 0000000..ef41e7c
+--- /dev/null
++++ b/web/src/lib/dashboard.ts
+@@ -0,0 +1,288 @@
++// Judge-facing view model of a finished mission. Everything here is derived from the mission record:
++// no finding, price or citation exists unless an observation with a source URL and a verbatim excerpt backs it.
++import type { Analysis, CompetitorProfile, Mission, Observation, SourceCapture } from "./api";
++
++export interface Evidence {
++  obsId: string;
++  targetName: string;
++  field: string;
++  value: string;
++  kind: Observation["kind"];
++  check: Observation["check"];
++  checkNote?: string;
++  method: string;
++  sourceUrl?: string;
++  pageTitle?: string;
++  capturedAt?: string;
++  excerpt?: string;
++  /** Mission-relative files of the capture the observation came from. */
++  screenshotFile?: string;
++  textFile?: string;
++  /** Observation ids an inference rests on. */
++  basis: string[];
++}
++
++export interface Finding {
++  targetName: string;
++  text: string;
++  evidence: Evidence;
++}
++
++export type PricingState = "prices" | "not_found" | "inaccessible";
++
++export interface PricingCell {
++  state: PricingState;
++  prices: Evidence[];
++  /** A "Free plan" style line seen on the page. Not the same as a $0 price, and never derived from one. */
++  freeOption?: Evidence;
++  /** Displayed prices whose amount is zero, shown as the page shows them. */
++  zeroPrices: Evidence[];
++}
++
++export interface CompetitorCard {
++  targetId: string;
++  name: string;
++  status: CompetitorProfile["status"];
++  primaryUrl: string;
++  pagesCaptured: number;
++  pagesAttempted: number;
++  headline?: Evidence;
++  description?: Evidence;
++  features: Evidence[];
++  pricing: PricingCell;
++  audiences: Evidence[];
++  screenshotFile?: string;
++  failures: { url: string; error: string }[];
++}
++
++export interface FeatureRow {
++  label: string;
++  /** Keyed by targetId: the observation that states it, or null when it was not seen on that competitor's captured pages. */
++  cells: Record<string, Evidence | null>;
++}
++
++export interface VerificationFacts {
++  pagesCaptured: number;
++  pagesAttempted: number;
++  artifactsVerified: number;
++  artifactsTotal: number;
++  checksPassed: number;
++  checksFailed: number;
++  checksWarned: number;
++  observationsGrounded: number;
++  observationsTotal: number;
++  observationsUngrounded: number;
++  inferences: number;
++  needsReview: number;
++}
++
++export interface Dashboard {
++  objective: string;
++  analysisBy: Analysis["generatedBy"];
++  dataSource: "live" | "fixture";
++  capturedAt?: string;
++  findings: Finding[];
++  limitations: string[];
++  conclusion: { text: string; by: "rules" | "claude" };
++  cards: CompetitorCard[];
++  features: FeatureRow[];
++  verification: VerificationFacts;
++}
++
++export const INTEGRITY_DISCLAIMER =
++  "Artifact checks confirm that the files are intact and well formed and that quoted excerpts match the stored page captures. They do not establish that vendor claims are true, complete or still current.";
++
++const MAX_FEATURE_ROWS = 10;
++
++export function isDisplayed(status: Mission["status"]): boolean {
++  return status === "completed" || status === "completed_with_warnings";
++}
++
++export function evidenceIndex(m: Mission): Map<string, Evidence> {
++  const sources = new Map<string, SourceCapture>(m.sources.map((s) => [s.id, s]));
++  return new Map(
++    m.observations.map((o) => {
++      const src = o.sourceId ? sources.get(o.sourceId) : undefined;
++      const e: Evidence = {
++        obsId: o.id,
++        targetName: o.targetName,
++        field: o.field,
++        value: o.value,
++        kind: o.kind,
++        check: o.check,
++        checkNote: o.checkNote,
++        method: o.method,
++        sourceUrl: o.sourceUrl,
++        pageTitle: o.pageTitle,
++        capturedAt: o.capturedAt,
++        excerpt: o.excerpt,
++        screenshotFile: src?.screenshotFile,
++        textFile: src?.textFile,
++        basis: o.basis ?? [],
++      };
++      return [o.id, e];
++    }),
++  );
++}
++
++/** A quoted fact: an observation with a source and an excerpt that re-matching did not reject. */
++export function isCitable(e: Evidence | undefined): e is Evidence {
++  return Boolean(e && e.kind === "observation" && e.sourceUrl && e.excerpt && e.check !== "ungrounded");
++}
++
++/** Numeric amount of a displayed price such as "$0", "€0.00/mo" or "0 USD"; undefined when none is readable. */
++export function priceAmount(value: string): number | undefined {
++  const m = value.replace(/,/g, "").match(/\d+(?:\.\d+)?/);
++  return m ? Number(m[0]) : undefined;
++}
++
++const clip = (s: string, n = 140) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
++const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
++const names = (cards: CompetitorCard[]) => cards.map((c) => c.name).join(", ");
++
++export function buildDashboard(m: Mission): Dashboard | undefined {
++  const a = m.analysis as Analysis | undefined;
++  if (!a) return undefined;
++  const ev = evidenceIndex(m);
++  const get = (id?: string) => (id ? ev.get(id) : undefined);
++
++  const cards: CompetitorCard[] = a.profiles.map((p) => {
++    const sources = m.sources.filter((s) => s.targetId === p.targetId);
++    const prices = p.prices.map((c) => get(c.obsId)).filter(isCitable);
++    const freeOption = get(p.freeTier?.obsId);
++    const state: PricingState = p.status === "inaccessible" ? "inaccessible" : prices.length ? "prices" : "not_found";
++    return {
++      targetId: p.targetId,
++      name: p.name,
++      status: p.status,
++      primaryUrl: p.primaryUrl,
++      pagesCaptured: p.sourcesCaptured,
++      pagesAttempted: p.sourcesAttempted,
++      headline: isCitable(get(p.headline?.obsId)) ? get(p.headline?.obsId) : undefined,
++      description: isCitable(get(p.description?.obsId)) ? get(p.description?.obsId) : undefined,
++      features: p.claims.map((c) => get(c.obsId)).filter(isCitable),
++      pricing: { state, prices, freeOption: isCitable(freeOption) ? freeOption : undefined, zeroPrices: prices.filter((x) => priceAmount(x.value) === 0) },
++      audiences: p.audiences.map((c) => get(c.obsId)).filter((x): x is Evidence => Boolean(x)),
++      screenshotFile: sources.find((s) => s.ok && s.screenshotFile)?.screenshotFile,
++      failures: sources.filter((s) => !s.ok).map((s) => ({ url: s.requestedUrl, error: s.error ?? "Not captured" })),
++    };
++  });
++
++  return {
++    objective: m.plan?.objective ?? m.prompt,
++    analysisBy: a.generatedBy,
++    dataSource: m.dataSource ?? "live",
++    capturedAt: m.sources.filter((s) => s.ok).map((s) => s.capturedAt).sort()[0],
++    findings: pickFindings(cards),
++    limitations: limitations(m, cards),
++    conclusion: conclusion(m, a, cards),
++    cards,
++    features: featureRows(cards),
++    verification: verificationFacts(m),
++  };
++}
++
++/**
++ * Up to three quoted facts, one per competitor while competitors remain: displayed pricing first,
++ * then a free option, then the vendor's own description. Nothing is ranked by guesswork about importance.
++ */
++export function pickFindings(cards: CompetitorCard[], max = 3): Finding[] {
++  const candidates: (Finding & { rank: number; order: number })[] = [];
++  cards.forEach((c, order) => {
++    const p = c.pricing;
++    if (p.prices.length) {
++      const shown = p.prices.slice(0, 3).map((x) => x.value).join(", ");
++      candidates.push({ rank: 0, order, targetName: c.name, evidence: p.prices[0], text: `${c.name} displays ${plural(p.prices.length, "price")} on its captured pages: ${shown}${p.prices.length > 3 ? ", …" : ""}.` });
++    }
++    if (p.freeOption) candidates.push({ rank: 1, order, targetName: c.name, evidence: p.freeOption, text: `${c.name} shows a free option on its captured pages.` });
++    const self = c.description ?? c.headline;
++    if (self) candidates.push({ rank: 2, order, targetName: c.name, evidence: self, text: `${c.name} describes itself as “${clip(self.value)}”` });
++  });
++  candidates.sort((x, y) => x.rank - y.rank || x.order - y.order);
++  const out: Finding[] = [];
++  const used = new Set<string>();
++  for (const pass of [true, false]) {
++    for (const c of candidates) {
++      if (out.length >= max) break;
++      if (out.some((f) => f.evidence.obsId === c.evidence.obsId)) continue;
++      if (pass && used.has(c.targetName)) continue;
++      used.add(c.targetName);
++      out.push({ targetName: c.targetName, text: c.text, evidence: c.evidence });
++    }
++  }
++  return out;
++}
++
++export function limitations(m: Mission, cards: CompetitorCard[]): string[] {
++  const out: string[] = [];
++  const s = m.summary;
++  if ((m.dataSource ?? "live") === "fixture") out.push("Offline demo: fixture pages from fictional vendors served on this machine. This is not live research.");
++  const failed = m.sources.filter((x) => !x.ok && x.targetId !== "manual");
++  if (failed.length) {
++    const shown = failed.slice(0, 3).map((x) => `${x.targetName} (${x.error ?? "not captured"})`).join("; ");
++    out.push(`${plural(failed.length, "page")} could not be captured: ${shown}${failed.length > 3 ? "; …" : ""}.`);
++  }
++  const inaccessible = cards.filter((c) => c.pricing.state === "inaccessible");
++  if (inaccessible.length) out.push(`No page was captured for ${names(inaccessible)}, so nothing is known about ${inaccessible.length === 1 ? "it" : "them"} from this run.`);
++  const noPrice = cards.filter((c) => c.pricing.state === "not_found");
++  if (noPrice.length) out.push(`No price was displayed on the captured pages of ${names(noPrice)}. A missing price is unknown, not free and not $0.`);
++  const review = s?.claimsNeedingReview ?? m.observations.filter((o) => o.check === "needs_review").length;
++  if (review) out.push(`${plural(review, "inference")} (audience signals, positioning, market gaps) ${review === 1 ? "is a heuristic" : "are heuristics"} awaiting human review.`);
++  const ungrounded = s?.observationsUngrounded ?? m.observations.filter((o) => o.check === "ungrounded").length;
++  if (ungrounded) out.push(`${plural(ungrounded, "quoted value")} could not be re-matched against the stored captures and ${ungrounded === 1 ? "is" : "are"} excluded from the findings.`);
++  out.push("Vendor pages change. Findings describe the pages at capture time and repeat what vendors say about themselves.");
++  return out;
++}
++
++export function conclusion(m: Mission, a: Analysis, cards: CompetitorCard[]): Dashboard["conclusion"] {
++  // Claude-written text is shown only when Claude produced it in this run, and is labelled as such.
++  const claudeGap = a.generatedBy === "claude" ? a.gaps.find((g) => g.by === "claude") : undefined;
++  if (claudeGap) return { by: "claude", text: claudeGap.statement };
++  const captured = cards.filter((c) => c.status !== "inaccessible");
++  const priced = cards.filter((c) => c.pricing.state === "prices");
++  const noPrice = cards.filter((c) => c.pricing.state === "not_found");
++  const s = m.summary;
++  const parts = [`Compared ${plural(cards.length, "competitor")}; ${captured.length} had at least one captured page${s ? ` (${s.sourcesCaptured} of ${s.sourcesAttempted} pages overall)` : ""}.`];
++  if (priced.length) parts.push(`Displayed prices were found for ${names(priced)}.`);
++  if (noPrice.length) parts.push(`No price was found for ${names(noPrice)}.`);
++  parts.push("Comparisons rest on quoted vendor pages; audience and positioning statements are heuristic inferences.");
++  return { by: "rules", text: parts.join(" ") };
++}
++
++/** Vendor-stated features (page headings), one row each. A blank cell means "not seen", never "does not have". */
++export function featureRows(cards: CompetitorCard[]): FeatureRow[] {
++  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
++  const rows = new Map<string, FeatureRow>();
++  const longest = Math.max(0, ...cards.map((c) => c.features.length));
++  // Round robin across competitors so one vendor's headings cannot crowd out the others.
++  for (let i = 0; i < longest && rows.size < MAX_FEATURE_ROWS; i++) {
++    for (const c of cards) {
++      const f = c.features[i];
++      if (!f || rows.size >= MAX_FEATURE_ROWS) continue;
++      const key = norm(f.value);
++      const row = rows.get(key) ?? { label: f.value, cells: Object.fromEntries(cards.map((x) => [x.targetId, null])) };
++      row.cells[c.targetId] ??= f;
++      rows.set(key, row);
++    }
++  }
++  return [...rows.values()];
++}
++
++export function verificationFacts(m: Mission): VerificationFacts {
++  const s = m.summary;
++  const obs = m.observations;
++  return {
++    pagesCaptured: s?.sourcesCaptured ?? m.sources.filter((x) => x.ok).length,
++    pagesAttempted: s?.sourcesAttempted ?? m.sources.length,
++    artifactsVerified: m.artifacts.filter((x) => x.verification === "passed").length,
++    artifactsTotal: m.artifacts.length,
++    checksPassed: s?.checksPassed ?? m.checks.filter((c) => c.status === "passed").length,
++    checksFailed: s?.checksFailed ?? m.checks.filter((c) => c.status === "failed").length,
++    checksWarned: s?.checksWarned ?? m.checks.filter((c) => c.status === "warning").length,
++    observationsGrounded: s?.observationsGrounded ?? obs.filter((o) => o.check === "grounded").length,
++    observationsTotal: s?.observationsTotal ?? obs.length,
++    observationsUngrounded: s?.observationsUngrounded ?? obs.filter((o) => o.check === "ungrounded").length,
++    inferences: s?.inferences ?? obs.filter((o) => o.kind === "inference").length,
++    needsReview: s?.claimsNeedingReview ?? obs.filter((o) => o.check === "needs_review").length,
++  };
++}
+diff --git a/web/src/styles/app.css b/web/src/styles/app.css
+index 9a89d9f..e685268 100644
+--- a/web/src/styles/app.css
++++ b/web/src/styles/app.css
+@@ -421,3 +421,97 @@ input, textarea { font: inherit; color: var(--text-1); }
+ .act-msg { flex-basis: 100%; color: var(--text-2); word-break: break-word; }
+ .act.level-error .act-msg { color: #ffb4b9; }
+ .act-recovery { flex-basis: 100%; color: var(--info); font-size: 11px; }
++
++/* ---------- Research dashboard ---------- */
++.dashboard { display: flex; flex-direction: column; gap: var(--sp-4); }
++.dash-summary-top { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
++.dash-tags { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
++.dash-meta { font-size: var(--fs-xs); color: var(--text-4); }
++.dash-label { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
++.dash-objective { margin: var(--sp-3) 0 var(--sp-4); }
++.dash-objective p { margin: 0; font-size: var(--fs-lg); line-height: 1.55; color: var(--text-1); max-width: 920px; }
++.dash-note { margin: -4px 0 var(--sp-3); font-size: var(--fs-sm); color: var(--text-3); max-width: 900px; }
++.findings { margin: 0 0 var(--sp-4); padding: 0; list-style: none; counter-reset: finding; display: grid; gap: 8px; }
++.findings li { counter-increment: finding; position: relative; padding: 12px 14px 12px 46px; border-radius: var(--r-md); background: var(--bg-1); border: 1px solid var(--line-1); }
++.findings li::before { content: counter(finding); position: absolute; left: 14px; top: 12px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: #c9c8ff; font-size: var(--fs-xs); font-weight: 700; }
++.finding-text { color: var(--text-1); font-size: var(--fs-md); overflow-wrap: anywhere; }
++.finding-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; font-size: var(--fs-xs); }
++.dash-cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-4); }
++.limitations { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
++.limitations li { display: flex; gap: 8px; align-items: flex-start; font-size: var(--fs-sm); color: var(--text-2); }
++.limitations svg { flex: none; margin-top: 3px; color: var(--warning); }
++.conclusion { padding: 12px 14px; border-radius: var(--r-md); border: 1px solid var(--line-2); background: var(--bg-3); }
++.conclusion.by-claude { border-color: var(--accent-line); }
++.conclusion p { margin: 0; color: var(--text-1); font-size: var(--fs-md); }
++.ev-btn { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border-radius: 4px; border: 1px solid var(--accent-line); background: var(--accent-soft); color: #c9c8ff; font-size: var(--fs-xs); font-weight: 600; cursor: pointer; vertical-align: 1px; }
++.ev-btn:hover { background: rgba(124, 122, 255, 0.25); }
++.link-btn { background: none; border: 0; padding: 0; color: var(--accent-strong); cursor: pointer; text-align: left; font-size: var(--fs-sm); }
++.link-btn:hover { text-decoration: underline; }
++
++.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
++.comp-card { display: flex; flex-direction: column; border-radius: var(--r-md); border: 1px solid var(--line-1); background: var(--bg-1); overflow: hidden; }
++.comp-card.status-inaccessible { border-color: rgba(242, 98, 107, 0.25); }
++.comp-shot { height: 120px; flex: none; overflow: hidden; background: var(--bg-3); display: flex; align-items: center; justify-content: center; color: var(--text-4); border-bottom: 1px solid var(--line-1); }
++.comp-shot img { display: block; width: 100%; height: 120px; object-fit: cover; object-position: top; }
++.comp-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
++.comp-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
++.comp-head h4 { margin: 0; font-size: var(--fs-lg); }
++.comp-url { font-size: var(--fs-xs); overflow-wrap: anywhere; }
++.comp-pages { font-size: var(--fs-xs); color: var(--text-4); }
++.comp-desc { margin: 6px 0 2px; font-size: var(--fs-sm); color: var(--text-2); overflow-wrap: anywhere; }
++.comp-card .unknown { margin: 6px 0 2px; font-size: var(--fs-sm); }
++.comp-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 6px 0 0; font-size: var(--fs-sm); }
++.comp-facts dt { color: var(--text-4); }
++.comp-facts dd { margin: 0; color: var(--text-2); }
++
++.matrix th[scope="row"] { font-size: var(--fs-sm); text-transform: none; letter-spacing: 0; background: transparent; position: static; white-space: normal; max-width: 320px; }
++.matrix-cell { text-align: center; }
++.matrix-hit { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(63, 207, 142, 0.3); background: var(--success-soft); color: var(--success); font-size: var(--fs-xs); font-weight: 600; cursor: pointer; }
++.matrix-hit:hover { border-color: var(--success); }
++.matrix-miss { color: var(--text-4); display: inline-flex; }
++.pricing th[scope="row"] { text-transform: none; letter-spacing: 0; font-size: var(--fs-sm); background: transparent; position: static; }
++.price-btn { border: 0; cursor: pointer; }
++.price-btn:hover { outline: 1px solid var(--success); }
++.free-line { font-size: var(--fs-sm); color: var(--text-2); }
++.integrity { margin-top: var(--sp-4); }
++.integrity strong { color: var(--text-2); }
++.review-items { margin-top: var(--sp-3); font-size: var(--fs-sm); }
++.review-items summary { cursor: pointer; color: var(--text-2); }
++.review-items ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
++.review-items li { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; color: var(--text-2); }
++
++.ev-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(5, 6, 9, 0.7); display: grid; place-items: center; padding: var(--sp-4); }
++.ev-dialog { width: min(760px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: var(--r-lg); box-shadow: var(--shadow-pop); padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-3); }
++.ev-head { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: flex-start; }
++.ev-head h3 { font-size: var(--fs-xl); margin-top: 4px; overflow-wrap: anywhere; }
++.ev-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
++.ev-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: var(--fs-sm); }
++.ev-facts dt { color: var(--text-4); }
++.ev-facts dd { margin: 0; color: var(--text-2); overflow-wrap: anywhere; }
++.ev-quote { margin: 0; padding: 10px 12px; border-left: 3px solid var(--accent-line); background: var(--bg-1); border-radius: 0 var(--r-md) var(--r-md) 0; color: var(--text-1); font-size: var(--fs-sm); overflow-wrap: anywhere; }
++.ev-basis { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
++.ev-capture { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
++.ev-shot { display: block; width: 100%; max-height: 360px; overflow: hidden; border-radius: var(--r-md); border: 1px solid var(--line-2); }
++.ev-shot img { width: 100%; display: block; }
++.callout.warn-inline { background: var(--danger-soft); border-color: rgba(242, 98, 107, 0.3); color: #f8c9cc; }
++.callout.warn-inline svg { color: var(--danger); }
++
++/* ---------- Judge mode ---------- */
++.judge { min-height: 100vh; background: var(--bg-0); }
++.judge-head { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); padding: 10px var(--sp-6); background: rgba(13, 14, 18, 0.92); border-bottom: 1px solid var(--line-1); backdrop-filter: blur(6px); }
++.judge-brand { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
++.judge-name { font-weight: 650; }
++.judge-body { max-width: 1240px; margin: 0 auto; padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); }
++.judge-title { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
++.judge-title h1 { font-size: var(--fs-2xl); }
++.judge-id { font-size: var(--fs-xs); color: var(--text-4); }
++.judge-empty { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
++.judge-files h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-3); }
++.judge-file-list { display: flex; gap: 8px; flex-wrap: wrap; }
++
++@media (max-width: 900px) { .dash-cols { grid-template-columns: 1fr; } }
++@media (max-width: 760px) {
++  .judge-head, .judge-body { padding-left: var(--sp-4); padding-right: var(--sp-4); }
++  .findings li { padding-left: 42px; }
++  .comp-grid { grid-template-columns: 1fr; }
++}

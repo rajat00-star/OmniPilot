@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 // Load .env if present. Node 22 ships a native loader, so no dotenv dependency.
+// It never overrides a variable already set in the shell, so a key exported there wins over .env.
+const keyFromShell = Boolean(process.env.ANTHROPIC_API_KEY?.trim());
 const envFile = path.resolve(process.cwd(), ".env");
 if (fs.existsSync(envFile) && typeof process.loadEnvFile === "function") {
   process.loadEnvFile(envFile);
@@ -25,6 +27,11 @@ export const config = {
   get apiKey(): string | undefined {
     const k = process.env.ANTHROPIC_API_KEY?.trim();
     return k ? k : undefined;
+  },
+  /** Where the key came from, for the startup log. */
+  get apiKeySource(): "the shell environment" | ".env" | undefined {
+    if (!this.apiKey) return undefined;
+    return keyFromShell ? "the shell environment" : ".env";
   },
   browserExecutable: process.env.OMNIPILOT_CHROMIUM_PATH || undefined,
 };

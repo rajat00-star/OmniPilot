@@ -2,11 +2,11 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import { z } from "zod";
 import { claudeAnalysis, deterministicAnalysis, inferenceObservations, buildProfiles, type Analysis } from "../core/analysis.js";
-import { renderCompetitorCsv, renderEvidenceJson, renderLandingPage, renderReport } from "../core/artifacts.js";
+import { DATA_SOURCE_LABEL, dataSourceOf, renderCompetitorCsv, renderEvidenceJson, renderLandingPage, renderReport } from "../core/artifacts.js";
 import { computeSummary, runVerification } from "../core/verifier.js";
 import { newId, nowIso } from "../core/store.js";
 import type { ArtifactRecord } from "../core/types.js";
-import { LlmError } from "../llm/claude.js";
+import { describeUsage, LlmError } from "../llm/claude.js";
 import { ToolError, type Tool, type ToolContext } from "./registry.js";
 
 const SAFE_FILENAME = z.string().regex(/^[a-z0-9][a-z0-9._-]{0,80}\.(csv|md|html|json)$/i);
@@ -57,7 +57,12 @@ export const analysisCompare: Tool<Record<string, never>> = {
     if (ctx.mode === "claude") {
       ctx.log("info", "Requesting evidence-grounded synthesis from Claude", {}, "analysis.compare");
       try {
-        result = await claudeAnalysis(m, profiles, productName, pitch, ctx.signal);
+        // Claude gets most of the step budget; the rest is kept so the rule-based fallback below still
+        // finishes inside it. A slow answer would otherwise fail this critical step, and the mission with it.
+        result = await claudeAnalysis(m, profiles, productName, pitch, ctx.signal, {
+          deadlineMs: Math.round(ctx.budgetMs * 0.85),
+          onUsage: (u) => ctx.log("info", describeUsage("synthesis", u), { ...u }, "analysis.compare"),
+        });
         // Claude does not produce pricing or audience values; keep rule-derived gaps as a floor if Claude found none.
         if (!result.gaps.length) result.gaps = deterministicAnalysis(m, productName, pitch).gaps;
         ctx.log("success", `Claude synthesis accepted (${result.rejectedModelClaims} uncited claims discarded)`, {}, "analysis.compare");
@@ -103,7 +108,7 @@ export const artifactWrite: Tool<z.infer<typeof writeInput>> = {
     let rec: ArtifactRecord;
     switch (input.kind) {
       case "competitor_csv":
-        rec = writeArtifact(ctx, input.filename, "csv", "Competitor analysis", renderCompetitorCsv(getAnalysis(ctx)));
+        rec = writeArtifact(ctx, input.filename, "csv", "Competitor analysis", renderCompetitorCsv(getAnalysis(ctx), dataSourceOf(m)));
         break;
       case "research_report":
         rec = writeArtifact(ctx, input.filename, "markdown", "Research report", renderReport(m, getAnalysis(ctx)));
@@ -204,6 +209,8 @@ export const reportFinalize: Tool<Record<string, never>> = {
       "",
       `Generated ${s.generatedAt}. All figures are computed from execution records, not from model output.`,
       "",
+      `**Data source: ${DATA_SOURCE_LABEL[dataSourceOf(m)]}.**`,
+      "",
       "## Summary",
       "",
       `- ${s.sourcesCaptured} of ${s.sourcesAttempted} sources captured (${s.sourcesFailed} failed).`,
@@ -238,7 +245,7 @@ export const reportFinalize: Tool<Record<string, never>> = {
       mm.summary = s;
       mm.finalSummary = [
         `Captured ${s.sourcesCaptured}/${s.sourcesAttempted} sources across ${s.targetsWithAnyCapture}/${s.targetsTotal} competitors.`,
-        `Found ${s.descriptionsFound} descriptions and displayed prices for ${s.pricesFound} competitors (${s.pricesUnavailable} unavailable).`,
+        `Found ${s.descriptionsFound} ${s.descriptionsFound === 1 ? "description" : "descriptions"} and displayed prices for ${s.pricesFound} ${s.pricesFound === 1 ? "competitor" : "competitors"} (${s.pricesUnavailable} unavailable).`,
         `${s.observationsGrounded}/${s.observationsTotal} observations re-grounded; ${s.claimsNeedingReview} inferences need review.`,
         `${s.checksPassed} checks passed, ${s.checksFailed} failed.`,
       ].join(" ");

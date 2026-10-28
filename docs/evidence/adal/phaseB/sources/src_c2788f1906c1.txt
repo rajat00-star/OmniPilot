@@ -1,0 +1,34 @@
+URL: https://gemini.google.com/app
+REQUESTED_URL: https://gemini.google.com/
+CAPTURED_AT: 2026-10-25T04:40:45.557Z
+HTTP_STATUS: 200
+TITLE: Google Gemini
+META_DESCRIPTION: Meet Gemini, Google’s AI assistant. Get help with writing, planning, brainstorming, and more. Experience the power of generative AI.
+OG_TITLE: ‎Google Gemini
+OG_DESCRIPTION: Meet Gemini, Google’s AI assistant. Get help with writing, planning, brainstorming, and more. Experience the power of generative AI.
+CANONICAL: https://gemini.google.com
+H1: Hi, I'm Gemini. Where should we start?
+---- VISIBLE TEXT ----
+Gemini
+New chat
+Images
+Sign in to save activity
+Sign in
+Hi, I'm Gemini. Where should we start?
+
+
+
+
+Flash-Lite
+
+Google Terms
+Opens in a new window
+ and the Google Privacy Policy
+Opens in a new window
+ apply. Gemini is AI and can make mistakes.
+
+About Gemini
+Get Gemini App
+Subscriptions
+For Business
+Sign in

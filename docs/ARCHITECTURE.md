@@ -12,7 +12,22 @@ OmniPilot is a single Node.js process (Express API + Playwright) and a React sin
                                    MissionStore            └─ report.finalize
                          data/missions/<id>/mission.json
                          data/missions/<id>/files/{sources,screens,*.csv,*.md,*.html,*.json}
+
+ After completion (optional, paid, user-confirmed):
+ Results ─POST /vision/pricing─▶ vision.readPricing ─screenshot (image)─▶ Claude ─plans─▶ grounding vs stored text ─▶ inferences
+ Judge Mode (#/judge/<id>) ◀── read-only view model (web/src/lib/dashboard.ts) built from the same mission record
 ```
+
+## Data flow
+
+1. **Understand.** `POST /api/missions` → planner. Targets come from your URLs and names, the seed list, or Claude; `validatePlan` checks the result. Status `awaiting_approval`.
+2. **Plan approval.** You edit targets and approve (`/approve`). No web page is opened before this.
+3. **Execute.** `research.collect` per target. For each URL it validates the URL, opens it in Chromium, validates every redirect hop, stores the visible text with a SHA-256 hash, extracts observations and takes a screenshot.
+4. **Analyse.** `analysis.compare` builds profiles and gaps: rule-based, or Claude with citations checked against observation ids.
+5. **Deliver.** `artifact.write` renders CSV, Markdown, HTML and JSON from the records only.
+6. **Verify.** `verifier.check` re-reads every file and capture, re-grounds excerpts and renders the HTML offline. `report.finalize` writes the verification report and the computed summary.
+7. **Present.** The workspace streams it all live over SSE. Judge Mode turns the finished record into a summary in which every finding links to its evidence.
+8. **Multimodal companion (optional).** Claude reads the captured pricing screenshots. Plan and price pairs are kept only when both strings occur in the stored text of that page, and are stored as inferences that need review.
 
 ## Components
 
@@ -28,6 +43,8 @@ OmniPilot is a single Node.js process (Express API + Playwright) and a React sin
 | Verifier | `server/core/verifier.ts` | Independent of whoever wrote the files: existence, read-back hash, parser, required columns/sections, empty or malformed records, zero-price placeholders, citation resolution, offline render, and excerpt re-grounding against stored captures. |
 | Event stream | `server/app.ts` (`/api/missions/:id/events`) | Server-Sent Events carrying full mission snapshots (throttled to ~8/s), replayed on connect so reloading the UI loses nothing. |
 | Persistence | `server/core/store.ts` | Atomic JSON writes per mission. Missions interrupted by a restart are marked failed with an explanation. |
+| Screenshot reader | `server/core/vision.ts`, `POST /api/missions/:id/vision/pricing` | Multimodal companion. Sends up to 6 captured pricing screenshots to Claude as images (structured output, untrusted-content policy). It keeps a plan and price pairing only if both are in the page's stored text capture, whose hash is checked first, and records token usage and cost. Paid, so it needs `confirmPaidCall: true` and runs once per mission. |
+| Judge Mode | `web/src/lib/dashboard.ts`, `web/src/components/Dashboard.tsx`, `JudgeView.tsx` | Pure view model of the mission record: findings only from quoted, re-grounded observations; pricing states (displayed, not found, inaccessible); a vendor-stated feature matrix; verification facts with an integrity disclaimer. Read-only route `#/judge/<id>`. |
 
 ## Data model
 

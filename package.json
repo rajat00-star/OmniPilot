@@ -8,6 +8,8 @@
     "dev:web": "vite",
     "build": "vite build",
     "start": "NODE_ENV=production tsx server/index.ts",
+    "demo:offline": "tsx scripts/demo-offline.ts",
+    "claude:check": "tsx scripts/claude-check.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "mission": "tsx scripts/run-mission.ts",

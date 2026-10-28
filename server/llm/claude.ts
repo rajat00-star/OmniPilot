@@ -52,12 +52,36 @@ export function toStructuredSchema(schema: z.ZodType): Record<string, unknown> {
   return walk(raw) as Record<string, unknown>;
 }
 
-export interface StructuredCall<T extends z.ZodType> {
+/** Token usage of one Claude response, as billed. Never contains credentials. */
+export interface LlmUsage {
+  model: string;
+  inputTokens: number;
+  /** Includes thinking tokens. */
+  outputTokens: number;
+  thinkingTokens?: number;
+  stopReason: string | null;
+  ms: number;
+}
+
+export interface ClaudeCallOptions {
+  /** Hard limit for the whole call, SDK retries included. When it passes the call fails with code "timeout". */
+  deadlineMs?: number;
+  onUsage?: (usage: LlmUsage) => void;
+}
+
+export interface StructuredCall<T extends z.ZodType> extends ClaudeCallOptions {
   schema: T;
   system: string;
-  user: string;
+  /** Text, or content blocks when the request carries an image. */
+  user: string | Anthropic.ContentBlockParam[];
   maxTokens?: number;
   signal?: AbortSignal;
+}
+
+export function describeUsage(purpose: string, u: LlmUsage): string {
+  const n = (v: number) => v.toLocaleString("en-US");
+  const thinking = u.thinkingTokens === undefined ? "" : ` (${n(u.thinkingTokens)} thinking)`;
+  return `Claude ${purpose} call: ${n(u.inputTokens)} input + ${n(u.outputTokens)} output tokens${thinking}, ${(u.ms / 1000).toFixed(1)} s, ${u.model}`;
 }
 
 /**
@@ -66,9 +90,12 @@ export interface StructuredCall<T extends z.ZodType> {
  */
 export async function structured<T extends z.ZodType>(call: StructuredCall<T>): Promise<z.infer<T>> {
   const c = getClient();
+  const deadline = call.deadlineMs ? AbortSignal.timeout(call.deadlineMs) : undefined;
+  const signal = deadline && call.signal ? AbortSignal.any([call.signal, deadline]) : (deadline ?? call.signal);
+  const started = Date.now();
   let response: Anthropic.Message;
   try {
-    response = await c.messages.create(
+    const request = c.messages.create(
       {
         model: config.model,
         max_tokens: call.maxTokens ?? 16_000,
@@ -79,11 +106,27 @@ export async function structured<T extends z.ZodType>(call: StructuredCall<T>): 
         system: call.system,
         messages: [{ role: "user", content: call.user }],
       } as Anthropic.MessageCreateParamsNonStreaming,
-      { signal: call.signal },
+      // A single attempt may use the whole deadline; retries only happen while time is left.
+      { signal, ...(call.deadlineMs ? { timeout: call.deadlineMs } : {}) },
     );
+    // The SDK notices an abort only between attempts (a retry-after wait can last up to a minute),
+    // so stop waiting the moment the signal fires. The abandoned request's late failure is ignored.
+    request.catch(() => {});
+    response = await (signal ? Promise.race([request, rejectOnAbort(signal)]) : request);
   } catch (e) {
+    if (deadline?.aborted && !call.signal?.aborted) {
+      throw new LlmError(`Claude did not answer within ${Math.round(call.deadlineMs! / 1000)} s`, "timeout");
+    }
     throw mapError(e);
   }
+  call.onUsage?.({
+    model: response.model ?? config.model,
+    inputTokens: response.usage.input_tokens,
+    outputTokens: response.usage.output_tokens,
+    thinkingTokens: response.usage.output_tokens_details?.thinking_tokens,
+    stopReason: response.stop_reason,
+    ms: Date.now() - started,
+  });
   if (response.stop_reason === "refusal") throw new LlmError("The model declined this request", "refusal");
   if (response.stop_reason === "max_tokens") throw new LlmError("Model output was truncated", "malformed");
   const text = response.content
@@ -101,6 +144,14 @@ export async function structured<T extends z.ZodType>(call: StructuredCall<T>): 
     throw new LlmError(`Model output failed schema validation: ${parsed.error.issues.slice(0, 3).map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}`, "malformed");
   }
   return parsed.data;
+}
+
+function rejectOnAbort(signal: AbortSignal): Promise<never> {
+  return new Promise((_, reject) => {
+    const fail = () => reject(new Anthropic.APIUserAbortError());
+    if (signal.aborted) fail();
+    else signal.addEventListener("abort", fail, { once: true });
+  });
 }
 
 function mapError(e: unknown): LlmError {

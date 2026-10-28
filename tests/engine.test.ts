@@ -136,6 +136,33 @@ describe("mission engine with a real browser", () => {
     expect(done.status).toBe("completed");
   });
 
+  it("does not count paused time against a step's time budget (long takeover)", async () => {
+    // Short budget so the regression is fast: a 4.5 s pause must not fail a step with a 3 s budget.
+    const short = new MissionEngine(store, createRegistry(), browser, () => "deterministic", { stepTimeoutMs: 3000, maxParallel: 2, urlPolicy: policy });
+    const created = await short.create({ prompt: PROMPT });
+    const m = short.updateTargets(created.id, [{ id: "acme", name: "Acme AI", urls: [`${fx.base}/acme`, `${fx.base}/beta`], origin: "user", enabled: true }]);
+    short.approve(m.id);
+    short.pause(m.id, "Manual takeover requested");
+    await new Promise((r) => setTimeout(r, 4500));
+    expect(store.get(m.id)!.steps.find((s) => s.id === "collect-acme")!.status).not.toBe("failed");
+    short.resume(m.id);
+    const done = await until(m.id, (x) => isTerminal(x.status));
+    const collect = done.steps.find((s) => s.id === "collect-acme")!;
+    expect(collect.status).toBe("succeeded");
+    expect(done.status).toBe("completed");
+  });
+
+  it("still enforces the step time budget while the agent is driving", async () => {
+    const short = new MissionEngine(store, createRegistry(), browser, () => "deterministic", { stepTimeoutMs: 2000, maxParallel: 2, urlPolicy: policy });
+    const created = await short.create({ prompt: PROMPT });
+    const m = short.updateTargets(created.id, [{ id: "slow", name: "Slow Co", urls: [`${fx.base}/slow`], origin: "user", enabled: true }]);
+    short.approve(m.id);
+    const done = await until(m.id, (x) => isTerminal(x.status), 30_000);
+    const collect = done.steps.find((s) => s.id === "collect-slow")!;
+    expect(collect.status).toBe("failed");
+    expect(collect.error?.code).toBe("timeout");
+  });
+
   it("requires explicit approval for consequential tools and honours denial", async () => {
     const m = await planWith([{ id: "acme", name: "Acme AI", urls: [`${fx.base}/acme`] }]);
     // Inject a consequential step into the plan the way a model might propose it.

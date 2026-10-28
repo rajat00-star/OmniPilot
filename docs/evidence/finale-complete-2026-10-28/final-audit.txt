@@ -1,0 +1,10 @@
+HEAD: 8fceb93 | remotes: [] | stash: []
+docs/evidence/adal: all 67 file hashes identical before/after
+adal git status: [?? docs/evidence/adal/phaseB/ ] (same as status-before: 1 line)
+adal git diff --stat: []
+8787: PID 9841
+$ grep -rn "sk-ant-api" --include='*.ts' --include='*.md' --include='*.json' . | grep -v node_modules | grep -v fake
+(pipeline exit 1)
+hits incl. fakes (path:line only):
+tests/claudeMode.test.ts:17
+tests/vision.test.ts:18

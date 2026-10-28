@@ -1,0 +1,65 @@
+## vendor curls
+42002/ -> 301 http://127.0.0.1:42002/platform
+42004/pricing -> 403
+42003/pricing currency matches: 0
+42005/ injection present: 1
+banner 42001/: 1
+banner 42001/pricing: 1
+banner 42002/platform: 1
+banner 42002/pricing: 1
+banner 42003/: 1
+banner 42003/pricing: 1
+banner 42004/: 1
+banner 42004/pricing: 1
+banner 42005/: 1
+banner 42005/pricing: 1
+## CSV
+rows 5 columns ['competitor', 'status', 'primary_url', 'page_title', 'captured_at', 'official_description', 'description_source_url', 'headline', 'displayed_prices', 'pricing_status', 'free_option_displayed', 'target_audience_inferred', 'positioning_inferred', 'differentiators', 'evidence_ids', 'notes', 'data_source']
+all data_source ok: True
+Lumina Assist | Found | '$0 per month; $18/month; $30 per user / month'
+Orbit Copilot | Found | '€22/mo'
+Quillstone AI | Not found | ''
+Atlas Agents | Not found | ''
+Nimbus Chat | Found | '$12/month; $49/month'
+## evidence.json
+dataSource: OFFLINE DEMO FIXTURE (fictional vendors, not live research)
+redirectChain present: True
+redirectChain: ['http://127.0.0.1:42002/']
+403 item: {"id": "src_0194d8dd0c48", "target": "Orbit Copilot", "requestedUrl": "http://127.0.0.1:42002/pricing", "finalUrl": "http://127.0.0.1:42002/pricing", "redirectChain": [], "title": "Orbit Copilot pricing", "capturedAt": "2026-10-28T04:13:45.116Z", "ok": true, "error": null, "captureFile": "sources/src_0194d8dd0c48.txt", "captureSha256": "a227f28d1c6f6c443cd96df9e5ef9fb3898e3a34cf4036ae251df890235e3
+403 item: {"id": "src_243559f8507c", "target": "Atlas Agents", "requestedUrl": "http://127.0.0.1:42004/pricing", "finalUrl": null, "redirectChain": [], "title": null, "capturedAt": "2026-10-28T04:13:50.303Z", "ok": false, "error": "Page returned HTTP 403", "captureFile": null, "captureSha256": null, "screenshot": null}
+## injection absent
+competitor-analysis.csv: 0
+evidence.json: 0
+landing-page-concept.html: 0
+research-report.md: 0
+verification-report.md: 0
+## data source line
+research-report.md: 1
+verification-report.md: 1
+## status column
+Lumina Assist | status: captured | notes: 
+Orbit Copilot | status: captured | notes: 
+Quillstone AI | status: captured | notes: 
+Atlas Agents | status: partial | notes: 1/2 pages captured.
+Nimbus Chat | status: captured | notes: 
+## artifact sha256 (mission.json artifacts[] vs recomputed)
+competitor-analysis.csv True 9f39bda5a582812c
+research-report.md True 29e271834b8777c7
+landing-page-concept.html True 866d029a8937da53
+evidence.json True 293e565d9591ea89
+verification-report.md True d78fbdd0f6afd20a
+artifacts matching: 5/5
+## source textSha256
+src_8941e1f7029c sources/src_8941e1f7029c.txt True
+src_886504bbaa17 no textFile ( Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked) )
+src_a65b7a1c83a3 sources/src_a65b7a1c83a3.txt True
+src_0f165597f537 sources/src_0f165597f537.txt True
+src_b20499a35ebb sources/src_b20499a35ebb.txt True
+src_0194d8dd0c48 sources/src_0194d8dd0c48.txt True
+src_1dd70cf69f3d sources/src_1dd70cf69f3d.txt True
+src_42a7ee3171b1 sources/src_42a7ee3171b1.txt True
+src_8afca2bb2b14 sources/src_8afca2bb2b14.txt True
+src_243559f8507c no textFile ( Page returned HTTP 403 )
+src_8d6adbd4354c sources/src_8d6adbd4354c.txt True
+src_dff2e8836a1a sources/src_dff2e8836a1a.txt True
+source texts matching: 10/10 (of 12 sources)

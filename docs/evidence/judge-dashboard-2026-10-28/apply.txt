@@ -1,0 +1,12 @@
+error: patch failed: web/src/styles/app.css:421
+error: web/src/styles/app.css: patch does not apply
+reverse-check exit=141
+check exit=0
+apply exit=0
+ M web/src/components/Results.tsx
+?? tests/dashboard.test.ts
+?? web/src/components/Dashboard.tsx
+?? web/src/components/JudgeView.tsx
+?? web/src/lib/dashboard.ts
+ 32 files changed, 488 insertions(+), 61 deletions(-)
+diff-check exit=0

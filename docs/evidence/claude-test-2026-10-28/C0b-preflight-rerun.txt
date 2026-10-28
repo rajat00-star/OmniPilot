@@ -1,0 +1,16 @@
+## C0 re-run 2026-10-28T10:52:05Z
+this shell: no
+fresh login shell (zsh -ilc): no
+.env exists: yes
+.env has ANTHROPIC_API_KEY: yes
+.env key category: other
+.env sets other ANTHROPIC_* vars: no
+login-shell key category: none
+login shell vs .env: n/a (not both set)
+.env ignored: yes
+git ls-files .env: []  git log --all -- .env: []
+leak paths:
+  tests/claudeMode.test.ts
+real-looking hits (working tree, excl .env since ignored): 0
+real-looking hits (history): 0
+8787: nothing listening

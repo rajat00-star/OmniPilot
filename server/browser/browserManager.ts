@@ -146,6 +146,8 @@ export class BrowserManager {
   private launching?: Promise<Browser>;
   private contexts = new Map<string, BrowserContext>();
   private livePages = new Map<string, Set<Page>>();
+  /** Pages opened by the agent itself. Only these get the redirect-hop guard, so only these may load anything. */
+  private agentPages = new WeakSet<Page>();
   private sem: Semaphore;
 
   constructor(
@@ -166,7 +168,7 @@ export class BrowserManager {
         .launch({
           headless: !this.opts.headed,
           executablePath: config.browserExecutable,
-          proxy: this.policy.allowLoopback ? undefined : proxyFromEnv(),
+          proxy: this.policy.allowLoopback || this.policy.allowOnlyOrigins ? undefined : proxyFromEnv(),
         })
         .then((b) => {
           this.browser = b;
@@ -195,17 +197,28 @@ export class BrowserManager {
     });
     // Block subresources that target non-http(s) schemes or local/private literal hosts.
     await ctx.route("**/*", async (route) => {
-      const url = route.request().url();
-      if (url.startsWith("data:") || url.startsWith("blob:")) return route.continue();
+      const request = route.request();
+      const url = request.url();
       try {
+        // A window opened by a visited page has no redirect-hop guard, so a public URL could
+        // redirect it to a private address or this app's API. Such windows may not load anything.
+        if (!this.agentPages.has(request.frame().page())) return route.abort("blockedbyclient");
+        if (url.startsWith("data:") || url.startsWith("blob:")) return route.continue();
         checkUrlStructure(url, this.policy);
-        if (route.request().isNavigationRequest() && route.request().frame() === route.request().frame().page().mainFrame()) {
+        if (request.isNavigationRequest() && request.frame() === request.frame().page().mainFrame()) {
           await validateUrl(url, this.policy);
         }
         return route.continue();
       } catch {
         return route.abort("blockedbyclient");
       }
+    });
+    // Research reads only the pages it opens, so windows opened by a visited page are closed at once.
+    ctx.on("page", (p) => {
+      void p
+        .opener()
+        .then((opener) => (opener ? p.close() : undefined))
+        .catch(() => {});
     });
     this.contexts.set(key, ctx);
     return ctx;
@@ -267,6 +280,7 @@ export class BrowserManager {
     try {
       const ctx = await this.context(key);
       page = await ctx.newPage();
+      this.agentPages.add(page);
       pages.add(page);
       await this.guardRedirects(page);
       page.setDefaultTimeout(this.opts.navTimeoutMs);

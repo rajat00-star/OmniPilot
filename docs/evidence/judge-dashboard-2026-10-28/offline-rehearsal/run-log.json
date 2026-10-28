@@ -1,0 +1,99 @@
+{
+  "base": "http://127.0.0.1:8788",
+  "at": "2026-10-28T11:40:51.434Z",
+  "results": [
+    [
+      "health: dataSource / reasoning",
+      "fixture / deterministic"
+    ],
+    [
+      "plan targets",
+      "Lumina Assist, Orbit Copilot, Quillstone AI, Atlas Agents, Nimbus Chat"
+    ],
+    [
+      "steps after disabling Nimbus Chat",
+      11
+    ],
+    [
+      "edit round-trip (disable + re-enable target)",
+      "applied"
+    ],
+    [
+      "take over -> status",
+      "Paused"
+    ],
+    [
+      "manual browse to public web (must be blocked)",
+      "Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked) Check the "
+    ],
+    [
+      "resume",
+      "clicked"
+    ],
+    [
+      "final status",
+      "Completed with warnings"
+    ],
+    [
+      "mission id",
+      "msn_c94dc1f4c963"
+    ],
+    [
+      "artifacts downloaded, sha256 matches record",
+      "5/5"
+    ],
+    [
+      "sources captured",
+      "9/10 (+ manual pages: 2)"
+    ],
+    [
+      "competitors with any capture / prices found",
+      "5/5 / 3"
+    ],
+    [
+      "observations grounded",
+      "38/38"
+    ],
+    [
+      "checks passed / failed / warnings",
+      "38 / 0 / 0"
+    ],
+    [
+      "failed sources",
+      "Manual browse: Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked) | Atlas Agents: Page returned HTTP 403"
+    ],
+    [
+      "judge: mission controls shown",
+      0
+    ],
+    [
+      "judge: competitor cards",
+      5
+    ],
+    [
+      "judge: evidence dialog source",
+      "http://127.0.0.1:42001/pricing"
+    ],
+    [
+      "judge: still in judge mode after closing evidence",
+      true
+    ],
+    [
+      "judge: Escape returns to workspace",
+      true
+    ],
+    [
+      "stop mid-run -> status / artifacts",
+      "cancelled / 0"
+    ],
+    [
+      "stop: step states",
+      "cancelled"
+    ],
+    [
+      "browser console errors",
+      0
+    ]
+  ],
+  "consoleErrors": []
+}

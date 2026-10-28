@@ -84,7 +84,7 @@ export function PlanReview({ mission, busy, error, onSaveTargets, onApprove, onC
           <h2>{plan.objective}</h2>
           <div className="plan-meta">
             <Badge tone={plan.planner === "claude" ? "accent" : "neutral"}>{plan.planner === "claude" ? "Planned by Claude" : "Rule-based planner"}</Badge>
-            <Badge tone="info">Read-only public research</Badge>
+            {mission.dataSource === "fixture" ? <Badge tone="warning">Offline fixture · fictional vendors</Badge> : <Badge tone="info">Read-only public research</Badge>}
             <span>
               Product: <strong>{plan.productName}</strong>
             </span>

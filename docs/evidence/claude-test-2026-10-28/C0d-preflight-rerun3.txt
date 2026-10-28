@@ -1,0 +1,23 @@
+## C0 re-run 3 2026-10-28T11:03:17Z
+this shell: no
+fresh login shell: no
+.env exists: yes
+.env has key: yes
+key category: other
+key lines in .env: 1 | quotes: no | whitespace: no | non-ASCII: no
+other ANTHROPIC_* in .env: no
+ANTHROPIC_BASE_URL: set
+ANTHROPIC_AUTH_TOKEN: not set
+ANTHROPIC_CUSTOM_HEADERS: not set
+ANTHROPIC_LOG: not set
+HTTPS_PROXY: not set
+HTTP_PROXY: not set
+https_proxy: not set
+http_proxy: not set
+NO_PROXY: not set
+ANTHROPIC_MODEL: <unset> | NODE_ENV: <unset>
+.env ignored: yes
+tracked: [] history: []
+leak paths: tests/claudeMode.test.ts 
+real-looking hits working tree: 0 | history: 0
+8787: nothing listening

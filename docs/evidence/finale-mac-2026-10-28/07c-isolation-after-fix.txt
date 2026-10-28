@@ -1,0 +1,3 @@
+rebind Host: {"error":"This server only answers requests addressed to 127.0.0.1 or localhost","code":"forbidden_host"} 403
+cross-site POST: {"error":"Requests started by another website are not accepted","code":"forbidden_origin"} 403
+normal GET: 200

@@ -1,0 +1,14 @@
+# <prefix> = the Anthropic key prefix. Structural facts only; no key characters.
+lines in .env: 1
+ANTHROPIC_API_KEY lines: 1
+starts with <prefix>: yes
+contains <prefix>api somewhere: no
+contains "ANTHROPIC_API_KEY" inside value: no
+contains quote chars: no
+contains whitespace inside: no
+non-ASCII/control chars: no
+has CR (Windows line ending): no
+length bucket: 90-129
+value is empty after parse: no
+sub-type: another <prefix> type (neither api, oat nor admin)
+is a claude.ai session cookie (<prefix>sid…): no

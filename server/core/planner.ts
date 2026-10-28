@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { pickCatalogTargets } from "./catalog.js";
+import { pickCatalogTargets, type CatalogEntry } from "./catalog.js";
 import { newId } from "./store.js";
 import type { Plan, PlanStep, ReasoningMode, Target } from "./types.js";
 import { checkUrlStructure, type UrlPolicy } from "../security/urlSafety.js";
-import { structured, LlmError, UNTRUSTED_POLICY } from "../llm/claude.js";
+import { structured, LlmError, UNTRUSTED_POLICY, type ClaudeCallOptions } from "../llm/claude.js";
 import type { ToolRegistry } from "../tools/registry.js";
 
 export const MAX_TARGETS = 8;
@@ -212,28 +212,44 @@ export interface PlanInput {
   productPitch?: string;
 }
 
-export function deterministicPlan(input: PlanInput, registry: ToolRegistry, policy: UrlPolicy = {}): Plan {
+/** Offline demo fixture: a labelled catalog of fictional vendors served locally instead of the live seed list. */
+export interface FixtureCatalog {
+  catalog: CatalogEntry[];
+}
+
+export function deterministicPlan(input: PlanInput, registry: ToolRegistry, policy: UrlPolicy = {}, fixture?: FixtureCatalog): Plan {
   const notes: string[] = [];
   const count = parseTargetCount(input.prompt);
   const used = new Set<string>();
   let targets: Target[];
   const urls = extractUrls(input.prompt);
   if (urls.length) {
+    // One target per site. The port is part of the site, so two local services are two targets.
     const byHost = new Map<string, string[]>();
+    const dropped: string[] = [];
     for (const u of urls) {
       try {
-        const host = new URL(u).hostname.replace(/^www\./, "");
-        byHost.set(host, [...(byHost.get(host) ?? []), u].slice(0, MAX_URLS_PER_TARGET));
+        const host = new URL(u).host.replace(/^www\./, "");
+        const list = byHost.get(host) ?? [];
+        if (list.length >= MAX_URLS_PER_TARGET || (!byHost.has(host) && byHost.size >= MAX_TARGETS)) dropped.push(u);
+        else byHost.set(host, [...list, u]);
       } catch {
         notes.push(`Ignored unparseable URL ${u}`);
       }
     }
-    targets = [...byHost.entries()].slice(0, MAX_TARGETS).map(([host, us]) => ({ id: slug(host, used), name: host, urls: us, origin: "user" as const, enabled: true }));
-    notes.push(`Targets taken from ${urls.length} URL(s) in your instruction.`);
+    targets = [...byHost.entries()].map(([host, us]) => ({ id: slug(host, used), name: host, urls: us, origin: "user" as const, enabled: true }));
+    notes.push(`Targets taken from ${urls.length - dropped.length} URL(s) in your instruction.`);
+    if (dropped.length) {
+      notes.push(
+        `Not included (limit ${MAX_URLS_PER_TARGET} pages per site, ${MAX_TARGETS} sites): ${dropped.join(", ")}. Add them as a separate target if they matter.`,
+      );
+    }
   } else {
-    targets = pickCatalogTargets(input.prompt, count).map((e) => ({ id: slug(e.name, used), name: e.name, urls: e.urls, origin: "catalog" as const, enabled: true }));
+    targets = pickCatalogTargets(input.prompt, count, fixture?.catalog).map((e) => ({ id: slug(e.name, used), name: e.name, urls: e.urls, origin: "catalog" as const, enabled: true }));
     notes.push(
-      `Deterministic mode cannot discover competitors on its own, so ${targets.length} targets were proposed from OmniPilot's curated seed list. Review, edit or disable them before approving. All pages are fetched live.`,
+      fixture
+        ? `Offline demo mode: ${targets.length} fictional vendors were proposed from the demo fixture, which OmniPilot serves locally. Nothing is fetched from the internet and this is not live research.`
+        : `Deterministic mode cannot discover competitors on its own, so ${targets.length} targets were proposed from OmniPilot's curated seed list. Review, edit or disable them before approving. All pages are fetched live.`,
     );
   }
   const deliverables = parseDeliverables(input.prompt);
@@ -266,11 +282,12 @@ const ModelPlanSchema = z.object({
   notes: z.array(z.string()),
 });
 
-export async function claudePlan(input: PlanInput, registry: ToolRegistry, signal?: AbortSignal, policy: UrlPolicy = {}): Promise<Plan> {
+export async function claudePlan(input: PlanInput, registry: ToolRegistry, signal?: AbortSignal, policy: UrlPolicy = {}, llm: ClaudeCallOptions = {}): Promise<Plan> {
   const count = parseTargetCount(input.prompt);
   const out = await structured({
     schema: ModelPlanSchema,
     signal,
+    ...llm,
     system: [
       "You are the planning module of OmniPilot, a browser research agent. You produce a plan; you do not perform research and must not state facts about products beyond naming them.",
       `Choose exactly ${count} competing products relevant to the user's instruction (unless the user lists specific ones). For each, give 1-${MAX_URLS_PER_TARGET} official https URLs on the vendor's own domain: prefer the pricing page and the main product page. Never use third-party review sites.`,
@@ -312,10 +329,14 @@ export async function createPlan(
   mode: ReasoningMode,
   signal?: AbortSignal,
   policy: UrlPolicy = {},
+  fixture?: FixtureCatalog,
+  llm: ClaudeCallOptions = {},
 ): Promise<{ plan: Plan; warnings: string[] }> {
+  // The offline demo never asks a model for targets: the fixture vendors are the only reachable sites.
+  if (fixture) return { plan: deterministicPlan(input, registry, policy, fixture), warnings: [] };
   if (mode === "claude") {
     try {
-      return { plan: await claudePlan(input, registry, signal, policy), warnings: [] };
+      return { plan: await claudePlan(input, registry, signal, policy, llm), warnings: [] };
     } catch (e) {
       const reason = e instanceof LlmError || e instanceof PlanValidationError ? e.message : String(e);
       const plan = deterministicPlan(input, registry, policy);

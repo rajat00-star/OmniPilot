@@ -1,0 +1,815 @@
+PROBLEM STATEMENT SEARCH (read-only), 2026-10-28T11:53:59Z
+Searched: repo (incl. untracked + docs/evidence/adal), ~/Downloads, ~/Documents, ~/Desktop. find (names: adal, sylph, hackbriven, problem*statement, brief, track, hackathon) + Spotlight mdfind (contents: AdaL, Sylph, HackBriven, "problem statement") + grep of repo .md/.txt.
+
+RESULT: NO official organiser problem statement / track brief was found. No PDF/DOCX/MD named or titled as the AdaL / HackBriven brief exists in these locations.
+The closest sources are the TEAM'S OWN documents, which quote the track title and a requirements list:
+
+== Candidates relevant to OmniPilot / AdaL ==
+  947661 bytes  /Users/rajatsanger/Downloads/BEHEMOTH B2_OMNI PILOT.pdf
+  2634016 bytes  /Users/rajatsanger/Downloads/OmniPilot_Final_Submission.pptx
+  2154511 bytes  /Users/rajatsanger/Downloads/OmniPilot_Hackathon_Pitch.pptx
+  6268 bytes  /Users/rajatsanger/Downloads/VALIDATION.md
+  9415 bytes  docs/VALIDATION.md
+  16514 bytes  docs/ADAL.md
+
+== Unrelated hits (other projects / personal docs), paths only, contents NOT copied ==
+  ~/Downloads/SafeCircle-Guardian.pptx
+  ~/Downloads/SafeCircle-Guardian-Paper.docx
+  ~/Downloads/SafeCircle-Guardian-Idea.docx
+  ~/Downloads/SafeCircle-Guardian-PS02.pptx
+  ~/Downloads/SafeCircle-Guardian-PS02-2.pptx
+  ~/Downloads/SafeCircle_Guardian_Amazon_IITDelhi_Final.pptx
+  ~/Downloads/SafeCircle_Guardian_Colossus3.0_Final.pptx
+  ~/Downloads/REPORT.md
+  ~/Downloads/hack cosmic team essentials.pdf
+  ~/Downloads/practical file cover pages_AUG 2026.docx
+  ~/Downloads/RAJAT_SANGER_Resume.pdf
+  (The HackBriven matches are all SafeCircle Guardian: "HackBriven 2026 · IIT Delhi Problem Statement 02", a different project. ~/Downloads/REPORT.md is a SafeCircle presentation report.)
+
+== Track title (from the team's submission PDF, slide 1) ==
+  TRACK: Build an AI-Native Browser with an Autonomous Multimodal Companion Using AdaL
+  TEAM: BEHEMOTH B2 · ID BD5ED17ADAC2 · Vivekananda Institute of Professional Studies
+
+== Mandatory track requirements as the team recorded them (docs/VALIDATION.md, 'Mandatory track requirements') ==
+## Mandatory track requirements (status as of this file)
+Evidence type matters: *unit* = pure code tests; *mocked browser* = real Chromium, no outside host; *local E2E* = real Chromium against the loopback fixture; *live* = outside sites; *Claude* = real API.
+
+| # | Requirement | Status | Evidence | Remaining work and limits |
+|---|---|---|---|---|
+| 1 | AI-native desktop browser or browser-integrated workspace | **Partial** | Web UI driving real Chromium; `tests/engine.test.ts` (local E2E), `npm run build` | No Electron shell. Without a key there is no AI reasoning (deterministic mode). Whether to package it is an owner decision. |
+| 2 | Natural-language multi-step task execution | **Verified (deterministic, local)** / **Not verified (Claude)** | `tests/planner.test.ts`, `tests/engine.test.ts` | Claude planning path never run live (`tests/llm.test.ts` covers missing-key and schema handling only). |
+| 3 | Real browser / authorized application interaction | **Verified (local fixture)** / **Not verified on this machine (live sites)** | `tests/engine.test.ts`, `tests/visual.test.ts`; live captures only in Part B | Live public-site capture was not repeated here. |
+| 4 | Outcome verification | **Verified (unit + local E2E)** | `tests/verifier.test.ts` (11), `tests/engine.test.ts`, `tests/visual.test.ts` | Proves integrity and traceability, not that vendor claims are true. |
+| 5 | Transparent progress, actions, results, errors | **Verified (API/SSE tests; real UI on a fixture site via Browser Use)** | `tests/api.test.ts`, `docs/evidence/adal/ui/` | `npm run e2e:ui` (external sites) not run on this machine. |
+| 6a | User approval | **Verified (local E2E)** | `tests/engine.test.ts` approval/denial tests | The consequential-step gate is tested only with a test tool; no real plan produces one. |
+| 6b | Cancellation | **Verified (local E2E; real UI Stop button on a fixture site)** | `tests/engine.test.ts` "cancels a running mission", `docs/evidence/adal/ui/09-cancelled.jpg` | Live-controls script not run here. |
+| 6c | Manual takeover | **Partial** | Pause/resume in `tests/engine.test.ts`; Pause and Resume buttons in the real UI (`docs/evidence/adal/ui/08-paused-takeover.jpg`) | The "Take over" button was not clicked. In-page clicking needs headed mode (`OMNIPILOT_HEADED=1`); not tested anywhere. |
+| 7 | End-to-end multi-tool workflow | **Verified (local fixture)** | `tests/engine.test.ts` full-mission test | Five-competitor live mission not re-run here. |
+| 7b | URL/redirect safety (supporting security control) | **Verified (unit + mocked browser)** | `tests/urlSafety.test.ts`, `tests/redirectGuard.test.ts`, `tests/engine.test.ts` | Tested on macOS/Node 26 only; not tested behind a restricted proxy. |
+| 8 | Active use of AdaL by Sylph | **Partial** | `docs/ADAL.md`, `docs/evidence/adal/` | One session. Browser Use run on the fixture-backed UI only; no session export or recording. |
+| 9 | Genuine evidence of AdaL usage | **Partial** | `docs/evidence/adal/README.md` | Real logs, patch and diagnostics exist and are committed (`f763ccd` and follow-up); no screen recording. |
+| – | Five competitors fully researched (signature mission) | **Not verified here / Blocked** | Part B only | Needs unrestricted network and approval to browse; Part B reached 2 of 5. |
+| – | Live Claude mode | **Blocked** | None | Needs an API key you approve for paid use. A key variable exists in the shell but was not read or used. |
+| – | Image understanding of screenshots (multimodal) | **Not met** | – | Only pixel-statistics and layout checks exist (`tests/visual.test.ts`, local). No model interprets images. |
+
+---
+
+== Full text: ~/Downloads/BEHEMOTH B2_OMNI PILOT.pdf (team submission deck, 7 pages, pdftotext -layout) ==
+HAC KATH ON SU BMISS ION
+
+
+
+
+OmniPilot
+From Intent to Verified Execution
+An AI-native browser workspace with an
+autonomous, user-controlled companion.
+
+   TRA CK         Build an AI-Native Browser with an Autonomous
+                  Multimodal Companion Using AdaL
+
+   TEAM           [BEHEMOTH B2] · ID [BD5ED17ADAC2]
+   COLLEGE        [VIVEKANANDA INSTITUTE OF PROFESSIONAL
+                  STUDIES]
+Illustration composed from real OmniPilot UI screenshots (UI run, 26 Oct 2026)
+02     ·   PRO BLEM + EXISTING GAP
+
+
+AI gives answers. You still do the work
+
+     T ODAY: A FR AGMENT ED MANUAL W ORKF LOW                         OMNI PIL OT: O NE E XECU TION W ORKF LOW
+
+
+                                                                             Real execution
+            Websites                                   AI chat
+                                                                             It opens the pages and writes the files itself.
+
+                                                                             Built-in verification
+                                           You                               It checks the result instead of asserting success.
+
+                                                                             Transparent progress
+            Docs                                       Spreadsheets          Every step, action, result and error is visible.
+
+                                                                             Human control
+     1 Switching between tabs, AI assistants, docs and sheets
+                                                                             Approve first; pause, take over or cancel any time.
+     2 Copying information by hand, repeating multi-step work
+
+     3 A generated answer does not prove an action succeeded          The missing layer is not another answer
+     4 Execution, verification and control live in separate places
+                                                                      generator. It is reliable, inspectable execution.
+
+
+OmniPilot · From intent to verified execution                                                                                      2
+03     ·    P RO PO S ED S OLU TIO N
+
+
+Understand → Plan → Execute → Verify → Deliver
+
+                                                          approval point
+
+
+
+
+  1        UNDERSTAND                     2     PLAN                            3    EXECUTE               4    VERIFY                    5    DELIVER
+
+Reads the goal: targets,                Builds an inspectable step             Runs allowlisted browser   Re-reads every file: hashes,   Hands over verified files,
+deliverables, product name              graph you can edit, then               and file tools in real     parsers, citations, quotes,    with unknowns and failures
+and URLs.                               approve.                               Chromium.                  visuals.                       listed.
+
+
+
+
+W HY I T' S DI FF E REN T
+
+
+                                                Inspectable plans                   Evidence-backed            Missing data stays             Approve, cancel,
+        Real task execution
+                                                and progress                        verification               Unknown                        take over
+
+Real OmniPilot screenshots, UI run 26 Oct 2026, deterministic planning mode.
+
+
+OmniPilot · From intent to verified execution                                                                                                                     3
+04     ·      A RC HI TE C TU RE + T E CH S T AC K
+
+
+Security-aware browser orchestration
+
+           F R ON T EN D                          B A C K EN D                          B A C K EN D                                                     B A C K EN D
+           React UI                               Express API                           Mission engine                                                   Tool registry: 10 tools
+  Mission composer, plan                     REST control routes                                                                                   browser.open/extract/screenshot
+  preview, live browser,                     plus SSE live progress                  Planner       Approval      Executor         Verifier         research.collect analysis.compare
+                                                                                                                                                   artifact.write/read/delete*
+  takeover, evidence
+                                                                                   Approve · pause · take over · cancel                            verifier.check report.finalize
+
+
+
+
+                                                                                                                                                   S EC URI T Y BO U NDA RY
+           DATA                                   R EA S ON I N G · A C T I VE                      R EA S ON I N G · O PT I ON A L
+                                                                                                                                                   •   URL validation before every open
+           Mission store                          Deterministic mode                                Claude model integration
+                                                                                                                                                   •   Route filter on every request
+  Local JSON per mission:                    Rule-based planning and                           Structured output, page text wrapped                •   Redirect hops checked before connecting
+  artifacts, hashed page text,               analysis. Used for every run                      as untrusted. Unit-tested; not yet run              •   Playwright Chromium → public web
+  screenshots.                               shown; no API cost.                               live.
+
+
+
+
+S TA CK               TypeScript            Node 22              React 19 + Vite         Express 5              Playwright 1.63              Zod                  Vitest           Anthropic SDK*
+
+* Optional model integration. artifact.delete* always waits for user approval. Redirect hops are blocked before connecting (f763ccd), with a post-load chain check as a second layer.
+
+   DE VE L OPM ENT TI ME AdaL by Sylph for codebase audit, debugging, coding and Browser Use testing. Not a runtime dependency.
+
+
+OmniPilot · From intent to verified execution                                                                                                                                                       4
+05     ·    K EY FE ATU RE S + LIV E E VI DE N CE
+
+
+Verified execution, backed by recorded runs
+
+
+
+
+Inspectable plan                                     Multi-step execution                                 Grounded evidence                                Read-back + visual checks
+Edit targets, see dependencies,                      Real pages in Chromium, live tool log.               URL, time, verbatim excerpt; Unknown,            Hashes, parsers, quotes; blank, fold,
+approve.                                                                                                  never zero.                                      WCAG contrast.
+
+
+   LI VE P UBLIC-WEB RUNS · 2 6 Oc t 2 02 6 · co mmi t 8 fce b9 3                                                                LOCAL + FI XTURE-BACKED VALIDAT ION
+
+   Named competitors                   6/6                  55/55               36/36               24                           106/106 automated tests in 11 files, including 15 redirect-guard
+                                       pages                quotes grounded     checks              flagged for review           regression tests. Re-run here on 8fceb93.
+   completed
+   Claude, Microsoft Copilot, GitHub Copilot                                                                                     Phase A fixture mission (AdaL Browser Use): 9/9 steps, 3/3
+                                                                                                                                 competitors, 12/12 observations grounded, 26/26 checks;
+                                                                                                                                 downloads byte-identical to disk.
+   Signature mission                   4/10                 39/39               36/36               3                            Redirect-hop probe: a redirect to a private IP was requested
+   completed with warnings             pages                quotes grounded     checks              reported Unknown
+                                                                                                                                 before the fix and blocked after it.
+   2 of 5 assistants captured; 3 unreachable from the test network, marked Unknown
+
+
+
+Live public-web runs and local fixture-backed validation are reported separately. Visual checks measure rendered pixels, fold and contrast.
+OmniPilot · From intent to verified execution                                                                                                                                                       5
+06     ·    I MP AC T + FEA SI BI LITY
+
+
+From a goal to a verified deliverable
+
+           Goal                                 Approved plan                   Browsing                         Evidence ledger                     Verified outputs
+           natural language                     inspectable steps               in real Chromium                 URL, time, excerpt                  CSV, report, HTML
+
+
+
+   W HO BEN EF I TS                                RE AL - W ORL D IM P ACT                S CAL AB IL I TY                           C O S T + D E P L O Y ME N T
+
+                                                   • Less repetitive browsing and          MOD ULA R TOD AY                           Runs today: one Node process
+      Researchers and analysts                       manual copying                        • Tool registry with typed                 plus Chromium, on a laptop
+                                                   • Research becomes                        schemas                                  Deterministic mode: no paid
+                                                     structured, reviewable                • Separate planner, executor               API calls
+                                                     outputs                                 and verifier
+      Students and developers                                                                                                         Model mode: optional Claude
+                                                   • Progress and verification are         • Pluggable reasoning:                     API, pay per use
+                                                     visible                                 deterministic or model
+                                                                                                                                      Tested for: local single-user
+                                                   • Missing information is                                                           use; 106 tests, live and fixture
+      Founders and GTM teams                         surfaced, never invented                                                         runs. Hosting for many users
+                                                                                           N EXT EXTENSI ONS ( pla nned)
+                                                                                                                                      needs auth (next step)
+                                                                                           More tools and integrations, new
+                                                                                           task types, more model
+   Intended user groups for the                                                            providers.
+   prototype.
+
+
+
+
+OmniPilot · From intent to verified execution                                                                                                                            6
+07        ·    D EM O + C ON CLU SI ON
+
+
+Built and tested with AdaL. Shown live.
+     ADAL BY SY LPH · AdaL-POWERED DEVEL OPMENT AND TE STING                                                                                         Committed evidence: docs/evidence/adal
+
+
+      1       Audit                    2    Diagnose                    3    Implement                   4   Test                        5    Browser-Verify               6   Document
+     Read-only audit of code,        Offline probe: redirect hop      CDP guard blocks unsafe         15 regression tests; suite       Browser Use on the real            ADAL.md, evidence index,
+     docs and tests                  to a private IP skipped          redirect hops before            90/91 → 106/106                  UI: 9/9 steps, 26/26 checks        validation and security
+                                     route checks                     connecting                                                                                          docs
+     ADAL.md session log             diag_redirect_hop_probe          f763ccd                         f763ccd · 7887bde logs           decef72 · 438587f                  cf7c4ec · 8fceb93
+
+     One AdaL session, 24–25 Oct 2026, on a local fixture site with no API key. Every step is a commit, a log or a screenshot; tests re-run independently: 106/106.
+
+
+LI VE DE MO · ABOUT 2 MINUT ES
+
+
+
+
+ 1     Enter a mission                     2    Inspect + approve plan              3   Watch execution                     4    Review evidence + files              5    Verify + take control
+
+
+                      OmniPilot doesn't just understand the task. It works toward a verifiable result.
+                           Why select it: a working execution loop, independently checked outputs, and user control built into the workflow.
+
+
+OmniPilot · From intent to verified execution                                                                                                                                                        7
+
+== Slide text: /Users/rajatsanger/Downloads/OmniPilot_Final_Submission.pptx ==
+--- ppt/slides/slide1.xml
+HACKATHON SUBMISSION
+OmniPilot
+From Intent to Verified Execution
+An AI-native browser workspace with an autonomous, user-controlled companion.
+    TRACK
+Build an AI-Native Browser with an Autonomous Multimodal Companion Using AdaL
+TEAM
+[Team name]  ·  ID [Team ID]
+COLLEGE
+[College name]
+Illustration composed from real OmniPilot UI screenshots (UI run, 26 Oct 2026)
+--- ppt/slides/slide2.xml
+02  ·  PROBLEM + EXISTING GAP
+AI gives answers. You still do the work
+    TODAY: A FRAGMENTED MANUAL WORKFLOW
+                         Websites
+                         AI chat
+                         Spreadsheets
+                         Docs
+You
+1  Switching between tabs, AI assistants, docs and sheets
+2  Copying information by hand, repeating multi-step work
+3  A generated answer does not prove an action succeeded
+4  Execution, verification and control live in separate places
+    OMNIPILOT: ONE EXECUTION WORKFLOW
+                         Real execution
+It opens the pages and writes the files itself.
+                         Built-in verification
+It checks the result instead of asserting success.
+                         Transparent progress
+Every step, action, result and error is visible.
+                         Human control
+Approve first; pause, take over or cancel any time.
+The missing layer is not another answer generator. It is reliable, inspectable execution.
+           2
+--- ppt/slides/slide3.xml
+03  ·  PROPOSED SOLUTION
+Understand → Plan → Execute → Verify → Deliver
+                             1
+UNDERSTAND
+Reads the goal: targets, deliverables, product name and URLs.
+                             2
+PLAN
+Builds an inspectable step graph you can edit, then approve.
+                             3
+EXECUTE
+Runs allowlisted browser and file tools in real Chromium.
+                             4
+VERIFY
+Re-reads every file: hashes, parsers, citations, quotes, visuals.
+                             5
+DELIVER
+Hands over verified files, with unknowns and failures listed.
+approval point
+WHY IT&apos;S DIFFERENT
+                         Real task execution
+                         Inspectable plans and progress
+                         Evidence-backed verification
+                         Missing data stays Unknown
+                         Approve, cancel, take over
+Real OmniPilot screenshots, UI run 26 Oct 2026, deterministic planning mode.
+           3
+--- ppt/slides/slide4.xml
+04  ·  ARCHITECTURE + TECH STACK
+Security-aware browser orchestration
+                             FRONTEND
+React UI
+Mission composer, plan preview, live browser, takeover, evidence
+                             BACKEND
+Express API
+REST control routes plus SSE live progress
+                             BACKEND
+Mission engine
+Planner
+Approval
+Executor
+Verifier
+Approve · pause · take over · cancel
+                             BACKEND
+Tool registry: 10 tools
+browser.open/extract/screenshot
+research.collect  analysis.compare
+artifact.write/read/delete*
+verifier.check  report.finalize
+                             DATA
+Mission store
+Local JSON per mission: artifacts, hashed page text, screenshots.
+                             REASONING · ACTIVE
+Deterministic mode
+Rule-based planning and analysis. Used for every run shown; no API cost.
+                             REASONING · OPTIONAL
+Claude model integration
+Structured output, page text wrapped as untrusted. Unit-tested; not yet run live.
+SECURITY BOUNDARY
+URL validation before every open
+Route filter on every request
+Redirect hops checked before connecting
+Playwright Chromium → public web
+STACK
+TypeScript
+Node 22
+React 19 + Vite
+Express 5
+Playwright 1.63
+Zod
+Vitest
+Anthropic SDK*
+* Optional model integration.   artifact.delete* always waits for user approval.   Redirect hops are blocked before connecting (f763ccd), with a post-load chain check as a second layer.
+DEVELOPMENT TIME  AdaL by Sylph for codebase audit, debugging, coding and Browser Use testing. Not a runtime dependency.
+           4
+--- ppt/slides/slide5.xml
+05  ·  KEY FEATURES + LIVE EVIDENCE
+Verified execution, backed by recorded runs
+                           Inspectable plan
+Edit targets, see dependencies, approve.
+                           Multi-step execution
+Real pages in Chromium, live tool log.
+                           Grounded evidence
+URL, time, verbatim excerpt; Unknown, never zero.
+                           Read-back + visual checks
+Hashes, parsers, quotes; blank, fold, WCAG contrast.
+    LIVE PUBLIC-WEB RUNS  ·  26 Oct 2026  ·  commit 8fceb93
+Named competitors
+completed
+Claude, Microsoft Copilot, GitHub Copilot
+6/6
+pages
+55/55
+quotes grounded
+36/36
+checks
+24
+flagged for review
+Signature mission
+completed with warnings
+2 of 5 assistants captured; 3 unreachable from the test network, marked Unknown
+4/10
+pages
+39/39
+quotes grounded
+36/36
+checks
+3
+reported Unknown
+    LOCAL + FIXTURE-BACKED VALIDATION
+106/106 automated tests in 11 files, including 15 redirect-guard regression tests. Re-run here on 8fceb93.
+Phase A fixture mission (AdaL Browser Use): 9/9 steps, 3/3 competitors, 12/12 observations grounded, 26/26 checks; downloads byte-identical to disk.
+Redirect-hop probe: a redirect to a private IP was requested before the fix and blocked after it.
+Live public-web runs and local fixture-backed validation are reported separately. Visual checks measure rendered pixels, fold and contrast.
+           5
+--- ppt/slides/slide6.xml
+06  ·  IMPACT + FEASIBILITY
+From a goal to a verified deliverable
+                         Goal
+natural language
+                         Approved plan
+inspectable steps
+                         Browsing
+in real Chromium
+                         Evidence ledger
+URL, time, excerpt
+                         Verified outputs
+CSV, report, HTML
+    WHO BENEFITS
+Researchers and analysts
+Students and developers
+Founders and GTM teams
+Intended user groups for the prototype.
+    REAL-WORLD IMPACT
+Less repetitive browsing and manual copying
+Research becomes structured, reviewable outputs
+Progress and verification are visible
+Missing information is surfaced, never invented
+    SCALABILITY
+MODULAR TODAY
+Tool registry with typed schemas
+Separate planner, executor and verifier
+Pluggable reasoning: deterministic or model
+NEXT EXTENSIONS (planned)
+More tools and integrations, new task types, more model providers.
+    COST + DEPLOYMENT
+Runs today: one Node process plus Chromium, on a laptop
+Deterministic mode: no paid API calls
+Model mode: optional Claude API, pay per use
+Tested for: local single-user use; 106 tests, live and fixture runs. Hosting for many users needs auth (next step)
+           6
+--- ppt/slides/slide7.xml
+07  ·  DEMO + CONCLUSION
+Built and tested with AdaL. Shown live.
+    ADAL BY SYLPH  ·  AdaL-POWERED DEVELOPMENT AND TESTING
+Committed evidence: docs/evidence/adal
+1
+Audit
+Read-only audit of code, docs and tests
+ADAL.md session log
+2
+Diagnose
+Offline probe: redirect hop to a private IP skipped route checks
+diag_redirect_hop_probe
+3
+Implement
+CDP guard blocks unsafe redirect hops before connecting
+f763ccd
+4
+Test
+15 regression tests; suite 90/91 → 106/106
+f763ccd · 7887bde logs
+5
+Browser-Verify
+Browser Use on the real UI: 9/9 steps, 26/26 checks
+decef72 · 438587f
+6
+Document
+ADAL.md, evidence index, validation and security docs
+cf7c4ec · 8fceb93
+One AdaL session, 24–25 Oct 2026, on a local fixture site with no API key. Every step is a commit, a log or a screenshot; tests re-run independently: 106/106.
+LIVE DEMO  ·  ABOUT 2 MINUTES
+                       1
+Enter a mission
+                       2
+Inspect + approve plan
+                       3
+Watch execution
+                       4
+Review evidence + files
+                       5
+Verify + take control
+OmniPilot doesn&apos;t just understand the task. It works toward a verifiable result.
+Why select it:  a working execution loop, independently checked outputs, and user control built into the workflow.
+           7
+
+== Slide text: /Users/rajatsanger/Downloads/OmniPilot_Hackathon_Pitch.pptx ==
+--- ppt/slides/slide1.xml
+HACKATHON 2026  ·  AI BROWSER WORKSPACE
+OmniPilot
+From intent to verified execution.
+Illustration composed from real OmniPilot UI screenshots (24 Oct 2026 run)
+--- ppt/slides/slide2.xml
+02  ·  THE PROBLEM
+Web research is still a manual relay race
+                             Search
+                             Open many tabs
+                             Copy and paste
+                             Fill a sheet
+                             Write the report
+                             Re-check facts
+                         You
+You are the integration layer between every tool.
+                         Context lives in your head
+Every switch between tabs, sheets and docs is a hand-off you carry yourself.
+                         Copying drops the source
+Once a figure is pasted, where it came from and when is usually lost.
+                         Final files go unchecked
+Reports ship without each claim being matched back to the page it came from.
+           2
+--- ppt/slides/slide3.xml
+03  ·  THE SHIFT
+From AI that answers to AI that executes and verifies
+    Answer-only assistant
+The AI replies. You do the work.
+1
+Ask a question
+AI
+2
+Read an answer in text
+AI
+3
+Open sites and search
+You
+4
+Copy facts into files
+You
+5
+Build the deliverable
+You
+6
+Check every claim
+You
+    OmniPilot
+The AI executes. You stay in control.
+1
+State the outcome
+You
+2
+Review and approve the plan
+You
+3
+Drive a real browser
+OmniPilot
+4
+Extract facts with sources
+OmniPilot
+5
+Write the deliverables
+OmniPilot
+6
+Verify every file and quote
+OmniPilot
+                                        3
+--- ppt/slides/slide4.xml
+04  ·  INTRODUCING OMNIPILOT
+One workspace where the agent works in plain sight
+                                 1
+    2
+    3
+    4
+Real screenshot  ·  OmniPilot UI end-to-end run  ·  24 Oct 2026
+Describe the outcome, approve the plan, watch real pages load, and receive files that were checked before you saw them.
+1
+Missions and artifacts
+Every mission and each file it wrote, with its verified status.
+2
+Live browser
+Real Chromium driven by Playwright. Each source opens as a tab.
+3
+Pause, Take over, Stop
+Hold the agent between actions, drive it yourself, or cancel.
+4
+Agent panel
+Objective, current step, step list and live tool activity.
+           4
+--- ppt/slides/slide5.xml
+05  ·  ONE MISSION, MULTIPLE ACTIONS
+One instruction, ten steps, five checked files
+MISSION
+“Research Claude, Microsoft Copilot and GitHub Copilot … create a competitor-analysis CSV, write an evidence-backed report and generate a landing-page concept. Verify every artifact.”
+                             1
+Plan
+planner
+10 steps, 3 targets. Nothing runs before approval.
+                             2
+Browse
+research.collect
+6 official pages opened in Chromium; redirects recorded.
+                             3
+Extract
+browser.extract
+55 observations, each with URL, time and verbatim excerpt.
+    analysis.compare
+3/3 compared
+3 gaps (rules)
+deterministic
+4
+Synthesize
+analysis.compare
+3 profiles, 3 market gaps; 24 inferences flagged for review.
+                             5
+Generate
+artifact.write
+CSV, report, landing page and evidence ledger written.
+                             6
+Verify
+verifier.check
+Read back, parsed, cited and re-grounded: 32/32.
+                             7
+Deliver
+report.finalize
+Verification report with a summary computed from records.
+RESULT
+completed
+mission status
+6/6
+pages captured
+79
+evidence records
+32/32
+checks passed
+5
+files delivered
+Frames are real screenshots (UI end-to-end run); figures are from the live re-run msn_c2429d37ad6b on 24 Oct 2026. Deterministic mode: analysis is rule-based, not AI.
+           5
+--- ppt/slides/slide6.xml
+06  ·  SYSTEM ARCHITECTURE
+One process, one allowlist, every action recorded
+                             React UI
+web/src
+Composer, plan review, live browser, agent panel, evidence and verification views
+                             Express API
+server/app.ts
+REST endpoints and SSE mission snapshots, replayed on reconnect
+                             Mission engine
+server/core
+Planner and validatePlan
+State machine
+Executor: deps, timeouts, retry
+Independent verifier
+                             Tool registry: 10 tools
+server/tools
+browser.open/extract/screenshot
+research.collect
+analysis.compare
+artifact.write/read/delete (asks)
+verifier.check · report.finalize
+                             Mission store
+data/missions/&lt;id&gt;/
+mission.json (atomic writes) plus files/: artifacts, sources/ text with SHA-256, screens/
+                             Claude client
+server/llm/claude.ts
+Optional. Implemented and unit-tested; not yet run live
+                             Browser manager
+server/browser
+Playwright Chromium, headless or headed, then the public web
+URL guard, every hop
+path confinement
+PLANNED
+Electron desktop shell
+Screenshot understanding
+Logged-in sites and forms
+Multi-user access
+Built and tested
+Built, not run live
+Planned
+           6
+--- ppt/slides/slide7.xml
+07  ·  THE AUTONOMOUS EXECUTION ENGINE
+A state machine, not a loop that hopes
+draft
+planning
+awaiting_approval
+you approve
+paused
+pause / resume
+running
+verifying
+completed
+completed_with_warnings
+failed
+cancelled
+Cancel is allowed from any active state. Terminal states are final, and an illegal transition throws an error.
+server/core/stateMachine.ts  ·  covered by stateMachine.test.ts and engine.test.ts
+                         Plan
+Every plan passes validatePlan: known tools, Zod inputs, no cycles, safe URLs.
+                         Route
+Steps can only name registered tools. There is no shell or eval tool.
+                         Execute
+Ready steps run in dependency order, at most 2 pages at once, with timeouts.
+                         Observe
+Every tool result is logged and streamed to the UI as it happens.
+                         Recover
+Read-only tools retry once. A lost source degrades the run; a critical failure fails it.
+           7
+--- ppt/slides/slide8.xml
+08  ·  VERIFICATION
+Proof, not promises
+                             Capture
+Page text stored on disk with a SHA-256 hash
+                             Observe
+Field, value, verbatim excerpt, URL and time
+                             Write
+Files rendered only from mission records
+                             Read back
+Bytes re-hashed and parsed from disk
+                             Re-ground
+Each excerpt re-found in its stored capture
+                             Report
+Summary computed; unknowns stated
+    What this run&apos;s 32 checks prove
+21
+Integrity
+Files exist, bytes match, parse, required fields, no zero-price placeholders
+8
+Coverage
+Every target, source and citation is accounted for
+2
+Grounding
+55 of 55 quoted excerpts re-found in captures
+1
+Render
+Landing page renders offline with scripts off
+                             What they do not prove
+That vendor claims are true or current
+That inferences are right: 24 are flagged for human review
+Anything about pages that failed to load: those are reported as Unknown
+“File checks prove integrity, not truth.” The product UI says this too.
+           8
+--- ppt/slides/slide9.xml
+09  ·  MULTIMODAL WORKSPACE
+Screenshots are evidence now; perception is next
+                             Captured by OmniPilot: claude.com/pricing, 24 Oct 2026
+                             microsoft.com capture
+                             Offline render of generated page
+Chromium screenshots every source page at capture time and stores it beside the page text and its hash. The generated landing page is rendered with JavaScript off and the network blocked to prove it displays.
+IMPLEMENTED
+                         Page screenshot for every captured source
+                         Live browser view with manual take-over
+                         Offline render check of generated HTML
+PLANNED, NOT BUILT
+                         Understanding what screenshots show
+                         Voice instructions and spoken summaries
+                         Video recording of missions
+           9
+--- ppt/slides/slide10.xml
+10  ·  SECURITY AND HUMAN CONTROL
+Humans approve, guards enforce, limits are stated
+                             You
+State the outcome
+                             Plan approval
+Nothing runs until you approve
+                             Engine
+Runs the approved steps
+                             Tool allowlist
+Registered tools only; Zod-checked input
+                             URL guard
+Private, metadata and rebinding targets blocked on every hop
+                             Public web
+Read-only research
+                             Pause, take over
+The agent holds before its next browser action while you drive.
+                             Stop
+Cancels the run, aborts navigation in flight and closes pages.
+                             Ask before acting
+artifact.delete always waits for approval and cannot run ad hoc.
+                             Contain outputs
+Files stay in the mission folder. Page text is data, never commands.
+LIMITS TODAY
+Local single-user app bound to 127.0.0.1 with no authentication. Public pages only: no logins, forms or CAPTCHAs. Research missions are read-only.
+Tested: 25 URL-safety cases (schemes, private IPs, metadata hosts, DNS rebinding, redirects) and 11 path-confinement cases, all passing.
+           10
+--- ppt/slides/slide11.xml
+11  ·  DEMONSTRATION AND RESULTS
+Demonstrated live, re-verified from the records
+    6/6
+official pages captured live
+claude.com, microsoft.com, github.com
+    55/55
+observations re-grounded
+every quote re-found in its capture
+    32/32
+artifact checks passed
+0 failed, 0 warnings
+    84/84
+automated tests pass
+9 test files; typecheck clean
+    Also on record: the five-product seed mission failed inside the build container because its network policy blocked 10 of 10 pages. OmniPilot reported the mission as failed instead of inventing results.
+                             Real screenshot from the UI run (msn_fca06d5ca472). The CLI re-run msn_c2429d37ad6b reproduced the same figures.
+Verified
+Live browser mission in deterministic mode
+Re-run 24 Oct 2026 12:45 UTC
+Pending
+Claude reasoning mode
+Implemented and unit-tested; no live API call yet
+Pending
+AdaL by Sylph evidence
+No AdaL sessions recorded yet; template in docs/ADAL.md
+Sources: evidence/mission_msn_c2429d37ad6b/verification-report.md and evidence/npm-test-2026-10-24.txt
+           11
+--- ppt/slides/slide12.xml
+OmniPilot
+Don’t just ask AI. Put it to work.
+Illustration from a real OmniPilot screenshot

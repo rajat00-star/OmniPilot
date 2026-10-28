@@ -1,6 +1,6 @@
 # Tests
 
-> Latest: see [VALIDATION.md](VALIDATION.md) (2026-10-24 15:xx UTC): 91 tests passed, live missions and control-path checks re-run. The record below is the original build run.
+> Current results: [EVIDENCE_INDEX.md](EVIDENCE_INDEX.md) (2026-10-28). Earlier: [VALIDATION.md](VALIDATION.md) (2026-10-24 15:xx UTC): 91 tests passed, live missions and control-path checks re-run. The record below is the original build run.
 
 ## How to run
 

@@ -1,0 +1,53 @@
+ M .gitignore
+ M README.md
+ M docs/CAPABILITIES.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/config.ts
+ M server/core/analysis.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/index.ts
+ M server/llm/claude.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M server/tools/registry.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Results.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/FINALE.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/claude-test-2026-10-28/
+?? docs/evidence/finale-audit-2026-10-28/
+?? docs/evidence/finale-complete-2026-10-28/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/evidence/judge-dashboard-2026-10-28/
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/claude-check.ts
+?? scripts/demo-offline.ts
+?? server/demo/
+?? tests/claudeMode.test.ts
+?? tests/dashboard.test.ts
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/isolation.test.ts
+?? tests/offlineDemo.test.ts
+?? tests/popupGuard.test.ts
+?? web/src/components/Dashboard.tsx
+?? web/src/components/JudgeView.tsx
+?? web/src/lib/dashboard.ts

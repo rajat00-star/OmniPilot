@@ -1,0 +1,107 @@
+$ git status --short
+ M .gitignore
+ M README.md
+ M docs/ARCHITECTURE.md
+ M docs/CAPABILITIES.md
+ M docs/DEMO_SCRIPT.md
+ M docs/SECURITY.md
+ M docs/TEST_RESULTS.md
+ M docs/VALIDATION.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/config.ts
+ M server/core/analysis.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/index.ts
+ M server/llm/claude.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M server/tools/registry.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Results.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/EVIDENCE_INDEX.md
+?? docs/FINALE.md
+?? docs/REQUIREMENTS.md
+?? docs/SUBMISSION.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/claude-test-2026-10-28/
+?? docs/evidence/finale-audit-2026-10-28/
+?? docs/evidence/finale-complete-2026-10-28/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/evidence/judge-dashboard-2026-10-28/
+?? docs/evidence/live-mission-2026-10-28/
+?? docs/screenshots/judge-mode-offline-demo.png
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/claude-check.ts
+?? scripts/demo-offline.ts
+?? server/core/vision.ts
+?? server/demo/
+?? tests/claudeMode.test.ts
+?? tests/dashboard.test.ts
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/isolation.test.ts
+?? tests/offlineDemo.test.ts
+?? tests/popupGuard.test.ts
+?? tests/vision.test.ts
+?? web/src/components/Dashboard.tsx
+?? web/src/components/JudgeView.tsx
+?? web/src/components/VisionPanel.tsx
+?? web/src/lib/dashboard.ts
+
+$ git diff --stat
+ .gitignore                            |   1 +
+ README.md                             |  65 +++++++++++++++++++--
+ docs/ARCHITECTURE.md                  |  17 ++++++
+ docs/CAPABILITIES.md                  |  12 ++--
+ docs/DEMO_SCRIPT.md                   | 104 ++++++++++++++++++++++------------
+ docs/SECURITY.md                      |  11 ++++
+ docs/TEST_RESULTS.md                  |   2 +-
+ docs/VALIDATION.md                    |   2 +
+ package.json                          |   2 +
+ server/app.ts                         |  56 +++++++++++++++++-
+ server/browser/browserManager.ts      |  22 +++++--
+ server/config.ts                      |   7 +++
+ server/core/analysis.ts               |   4 +-
+ server/core/artifacts.ts              |  26 +++++++--
+ server/core/catalog.ts                |   6 +-
+ server/core/engine.ts                 |  74 ++++++++++++++++++++----
+ server/core/planner.ts                |  43 ++++++++++----
+ server/core/store.ts                  |   1 +
+ server/core/types.ts                  |  30 ++++++++++
+ server/core/verifier.ts               |   8 ++-
+ server/index.ts                       |   2 +-
+ server/llm/claude.ts                  |  59 +++++++++++++++++--
+ server/security/urlSafety.ts          |   9 +++
+ server/tools/missionTools.ts          |  17 ++++--
+ server/tools/registry.ts              |   2 +
+ tests/engine.test.ts                  |  27 +++++++++
+ tests/planner.test.ts                 |  12 ++++
+ tests/urlSafety.test.ts               |  15 +++++
+ web/src/App.tsx                       |  50 +++++++++++++---
+ web/src/components/AgentPanel.tsx     |   7 ++-
+ web/src/components/BrowserSurface.tsx |   2 +-
+ web/src/components/Composer.tsx       |   4 +-
+ web/src/components/PlanReview.tsx     |   2 +-
+ web/src/components/Results.tsx        |  13 +++--
+ web/src/components/Sidebar.tsx        |   2 +-
+ web/src/lib/api.ts                    |   6 ++
+ web/src/styles/app.css                | 102 +++++++++++++++++++++++++++++++++
+ 37 files changed, 713 insertions(+), 111 deletions(-)

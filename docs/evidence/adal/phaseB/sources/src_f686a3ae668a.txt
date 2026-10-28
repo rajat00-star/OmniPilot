@@ -1,0 +1,124 @@
+URL: https://chatgpt.com/overview/
+REQUESTED_URL: https://openai.com/chatgpt/overview/
+CAPTURED_AT: 2026-10-25T04:40:44.626Z
+HTTP_STATUS: 200
+TITLE: Overview | ChatGPT
+META_DESCRIPTION: ChatGPT helps you learn, create, and get things done. Ask questions, explore ideas, write content, analyze information, and more with AI.
+OG_TITLE: Overview | ChatGPT
+OG_DESCRIPTION: ChatGPT helps you learn, create, and get things done. Ask questions, explore ideas, write content, analyze information, and more with AI.
+CANONICAL: https://chatgpt.com/overview/
+H1: Now you can chat , work & code all in one place.
+H2: Chat
+H2: Work
+H2: Codex
+H2: Use ChatGPT for work, life, and everything in between.
+H2: Plans and pricing
+H2: Designed to keep you safe
+H2: Get inspired
+H2: Try ChatGPT today
+H3: User privacy
+H3: Teen safety
+---- VISIBLE TEXT ----
+About
+Features
+Learn
+Codex
+Business
+Pricing
+Download
+Log in
+Sign up for free
+Now you can chat
+, work
+ & code
+ all in one place.
+Try it now*
+Download the app
+Chat
+
+For questions, learning, and everyday help.
+
+Get help with everyday questions and ideas, explaining concepts, drafting messaging, searching the web, generating an image, comparing options, or thinking through a decision.
+
+Work
+Codex
+
+Use ChatGPT for work, life, and everything in between.
+
+Writing
+
+Turn rough notes and thoughts into clear, polished writing. Draft messages, notes, plans, stories, posts, and other writing, and edit as your thinking develops.
+
+Images
+
+Create images from a prompt, explore visual directions, or generate graphic designs for flyers, branding, and more.
+
+Work
+
+Connect to your internal work files and apps like Gmail and Slack to create polished, finished deliverables and automate tasks.
+
+Coding
+
+Write, debug, and improve code. Build something new, fix what’s broken, or learn how a software project works.
+
+Voice
+
+Talk with ChatGPT in real time when speaking is easier than typing. Use voice to brainstorm, practice, learn, or keep moving while you’re away from your keyboard.
+
+Health
+
+Explore fitness, wellness, and health-related questions with clear explanations and practical guidance.
+
+Finance
+
+Ask about budgeting, planning, financial concepts, and market context. Securely link your financial accounts for personalized insights.
+
+Plans and pricing
+
+ChatGPT is available in various plans for personal use and for business and enterprise.
+
+Learn more
+
+Designed to keep you safe
+
+We’re committed to protecting our customer and user data; ChatGPT is built with your security and privacy in mind.
+
+User privacy
+
+You choose how your data is used, and we make it easy to control your privacy choices.
+
+Learn more
+Teen safety
+
+Tools like Parental Controls in ChatGPT ensure parents can set safeguards for teen users.
+
+Learn more
+
+Get inspired
+
+See what people are using ChatGPT to achieve.
+
+Small businesses are getting more done with ChatGPT
+
+Training to cycle across Antarctica
+
+Creating new simulations of black holes
+
+*Available to all plans on macOS and Windows desktop, and to Plus, Pro, Business, Enterprise, and Edu on web and mobile.
+
+Try ChatGPT today
+Download app
+OpenAI
+Research
+Safety
+API
+News
+Terms & Policies
+Terms of Use
+Privacy Policy
+Usage Policy
+Other policies
+OpenAI © 2015–2026
+Manage cookies
+English
+United States

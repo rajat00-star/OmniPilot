@@ -1,0 +1,20 @@
+Provenance: transcribed verbatim from the terminal output of the read-only safety watcher (AdaL session
+b4f50c11-9603-4ce6-8283-7a3024ce6a8d, 2026-10-25) that polled the local app during mission msn_08ec6071164c.
+It was not redirected to a file at the time. Rules it enforced (cancel via the app's own /cancel endpoint):
+host outside the approved set in any hop or final URL; login/challenge-looking URL, title or body text;
+HTTP 401/403/407/429; any error containing "blocked". No rule fired.
+
+[+0.0s] watching msn_08ec6071164c
+[+14.9s] CAPTURED Claude | req=https://claude.com/pricing | final=https://claude.com/pricing | http=200 | hops=0 | title="Plans & pricing | Claude by Anthropic"
+[+16.7s] CAPTURED ChatGPT | req=https://chatgpt.com/pricing | final=https://chatgpt.com/pricing/ | http=200 | hops=1 | title="Plans and Pricing | ChatGPT"
+[+17.6s] CAPTURED Claude | req=https://www.anthropic.com/claude | final=https://claude.com/product/overview | http=200 | hops=1 | title="The AI for problem solvers | Claude by Anthropic"
+[+19.4s] CAPTURED Google Gemini | req=https://gemini.google/subscriptions/ | final=https://gemini.google/subscriptions/ | http=200 | hops=0 | title="Google AI Pro और Ultra — ..."
+[+21.6s] CAPTURED ChatGPT | req=https://openai.com/chatgpt/overview/ | final=https://chatgpt.com/overview/ | http=200 | hops=2 | title="Overview | ChatGPT"
+[+22.5s] CAPTURED Google Gemini | req=https://gemini.google.com/ | final=https://gemini.google.com/app | http=200 | hops=0 | title="Google Gemini"
+[+25.8s] CAPTURED Mistral Le Chat | req=https://mistral.ai/pricing | final=https://mistral.ai/pricing/ | http=200 | hops=1 | title="Pricing | Mistral"
+[+28.8s] CAPTURED Mistral Le Chat | req=https://mistral.ai/products/le-chat | final=https://mistral.ai/products/vibe/ | http=200 | hops=1 | title="Mistral Vibe (formerly Le Chat) - AI chat and coding agent"
+[+30.6s] CAPTURED Microsoft Copilot | req=https://www.microsoft.com/en-us/microsoft-copilot/for-individuals | final=https://www.microsoft.com/en-us/copilot/solutions/individuals | http=200 | hops=1 | title="Microsoft Copilot Plans for Individuals | Microsoft 365"
+[+36.7s] CAPTURED Microsoft Copilot | req=https://www.microsoft.com/en-us/microsoft-365/copilot | final=https://www.microsoft.com/en-us/copilot | http=200 | hops=2 | title="Microsoft Copilot: AI built for work"
+[+37.3s] terminal status: completed
+
+(The per-line "err=" and "text=" fields of the original output are omitted here for brevity; all errors were empty.)

@@ -11,8 +11,19 @@
 | Runaway execution | Per-step timeout, per-navigation timeout, max 2 concurrent pages, max 8 targets and 3 URLs per target, max 40 steps, 64 KB JSON body limit. | `config.ts`, `planner.ts`, `app.ts` | — |
 | Secret exposure | API key read server-side only; health endpoint reports presence, not value; key is never logged; `.env` is git-ignored. The Claude client uses only the explicitly configured key, not ambient credentials. | `config.ts`, `llm/claude.ts` | `llm.test.ts`, `api.test.ts` |
 | Generated HTML executing | The landing page contains no scripts (checked by the verifier), is rendered offline with JavaScript disabled and network blocked, and artifact responses carry a sandboxing Content-Security-Policy. | `verifier.ts`, `browserManager.ts`, `app.ts` | `verifier.test.ts` |
+| A web page driving this app (DNS rebinding, cross-site requests) | The server answers only requests whose Host is a loopback name, and refuses state-changing requests whose Origin is another site. | `app.ts` | `isolation.test.ts` |
+| Pop-up windows opened by visited pages | Pages that the agent did not open may load nothing, and are closed as soon as they appear. A pop-up has no redirect-hop guard, so this stops it reaching a private address or this app. | `browserManager.ts` | `popupGuard.test.ts` |
+| Offline demo reaching the internet | Fixture mode allows only the exact origins of the five local fixture sites. The public web, other loopback ports and this app's API are refused, including through redirects. | `urlSafety.ts` (`allowOnlyOrigins`) | `offlineDemo.test.ts`, `isolation.test.ts` |
+| Hung or slow model calls | Each Claude call has a hard deadline (retries included). Planning and synthesis fall back to rule-based output, and the fallback is logged. | `llm/claude.ts`, `engine.ts` | `claudeMode.test.ts` |
+| Unapproved spending | Screenshot reading is a paid call. The API requires `confirmPaidCall: true`, the UI asks for confirmation with a cost estimate, it runs once per mission, and only when a key is configured. Token usage and cost are logged; the key never is. | `app.ts`, `vision.ts`, `VisionPanel.tsx` | `vision.test.ts` |
+| Instructions or invented data inside screenshots | Screenshots are sent with an untrusted-content policy, and the reply must match a strict schema. A plan or price is kept only if the same text is in the page's stored, hash-checked capture, so text that exists only in an image (or a model mistake) cannot enter the record. Kept pairings are labelled as inferences that need review. | `vision.ts` | `vision.test.ts` ("cannot be steered by text in the image…") |
+| Judge Mode exposing controls | The Judge view renders the stored record only: no mission controls, no address bar, no approvals. External links use `rel="noreferrer noopener"`. | `JudgeView.tsx`, `Dashboard.tsx` | `dashboard.test.ts` |
 | Fabricated success | Steps succeed only when tools return real results; the mission status is computed from step outcomes and check results; summaries are computed from records. | `engine.ts`, `verifier.ts` | `engine.test.ts`, `verifier.test.ts` |
 
 Out of scope by design: OmniPilot does not log in to sites, bypass CAPTCHAs, paywalls or access controls, or submit forms. It uses public pages only.
 
 The server binds to `127.0.0.1` and has no authentication: it is a single-user local workstation app and must not be exposed to a network as-is.
+
+Known residual risks:
+- In live mode the DNS check runs for top-level navigations. Page subresources aimed at DNS-rebinding names rely on Chromium's Local Network Access protection, which may not apply behind a proxy. This app's own API stays protected by the Host guard.
+- Live mode has no domain allowlist. The plan you approve is what limits which sites are opened.

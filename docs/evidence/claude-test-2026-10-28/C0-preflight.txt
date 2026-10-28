@@ -1,0 +1,32 @@
+## key presence
+this shell: no
+fresh login shell (zsh -ilc): no
+.env exists: no
+.env has ANTHROPIC_API_KEY: no
+this shell vs login shell: n/a (not both set)
+## key category (key OmniPilot would use = shell value, else .env)
+category: none
+## overrides (set or not)
+ANTHROPIC_BASE_URL: set
+ANTHROPIC_AUTH_TOKEN: not set
+ANTHROPIC_CUSTOM_HEADERS: not set
+ANTHROPIC_LOG: not set
+HTTPS_PROXY: not set
+HTTP_PROXY: not set
+https_proxy: not set
+http_proxy: not set
+NO_PROXY: not set
+ANTHROPIC_MODEL value: <unset>
+NODE_ENV value: <unset>
+## .env git status
+.env ignored: yes
+git ls-files .env: []
+git log --all -- .env: []
+## leak scan
+paths (working tree incl. untracked):
+  tests/claudeMode.test.ts
+real-looking hits (working tree): 0
+real-looking hits (git log --all -p): 0
+## port 8787
+nothing listening on 127.0.0.1:8787
+ANTHROPIC_BASE_URL in fresh login shell: set

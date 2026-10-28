@@ -1,0 +1,13 @@
+
+> omnipilot@0.1.0 claude:check
+> tsx scripts/claude-check.ts
+
+Claude configuration (values of secrets are never shown)
+  ANTHROPIC_API_KEY set:        no
+  model:                        claude-opus-5-5 (default)
+  ANTHROPIC_BASE_URL override:  yes (api.anthropic.com)
+  ANTHROPIC_AUTH_TOKEN set:     no (ignored: OmniPilot passes the API key explicitly)
+  ANTHROPIC_CUSTOM_HEADERS set: no
+  ANTHROPIC_LOG set:            no
+  proxy variables set:          no
+claude:check exit=1

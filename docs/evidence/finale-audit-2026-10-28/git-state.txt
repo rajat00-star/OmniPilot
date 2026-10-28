@@ -1,0 +1,355 @@
+$ git log --oneline -12
+8fceb93 docs: record Phase A evidence commit
+438587f Add Phase A final-demo validation evidence and docs
+cf7c4ec Record decef72 in ADAL.md UI-session evidence log
+decef72 Add fixture-backed UI test launcher and Browser Use evidence
+7887bde Add AdaL evidence logs and record fix commit hash
+f763ccd Fix redirect-hop SSRF gap: validate redirects via CDP before connecting
+4955585 Validation pass: fix seed-list target selection, add visual verification, live control tests
+9c6a150 Add documentation, UI e2e screenshots and test results
+fad40d0 OmniPilot MVP: verified browser research engine, UI and tests
+[exit 0]
+
+$ git status -sb
+## main
+ M .gitignore
+ M README.md
+ M docs/CAPABILITIES.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/config.ts
+ M server/core/analysis.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/index.ts
+ M server/llm/claude.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M server/tools/registry.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Results.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/FINALE.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/claude-test-2026-10-28/
+?? docs/evidence/finale-audit-2026-10-28/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/evidence/judge-dashboard-2026-10-28/
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/claude-check.ts
+?? scripts/demo-offline.ts
+?? server/demo/
+?? tests/claudeMode.test.ts
+?? tests/dashboard.test.ts
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/isolation.test.ts
+?? tests/offlineDemo.test.ts
+?? tests/popupGuard.test.ts
+?? web/src/components/Dashboard.tsx
+?? web/src/components/JudgeView.tsx
+?? web/src/lib/dashboard.ts
+[exit 0]
+
+$ git status --short
+ M .gitignore
+ M README.md
+ M docs/CAPABILITIES.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/config.ts
+ M server/core/analysis.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/index.ts
+ M server/llm/claude.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M server/tools/registry.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Results.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/FINALE.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/claude-test-2026-10-28/
+?? docs/evidence/finale-audit-2026-10-28/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/evidence/judge-dashboard-2026-10-28/
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/claude-check.ts
+?? scripts/demo-offline.ts
+?? server/demo/
+?? tests/claudeMode.test.ts
+?? tests/dashboard.test.ts
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/isolation.test.ts
+?? tests/offlineDemo.test.ts
+?? tests/popupGuard.test.ts
+?? web/src/components/Dashboard.tsx
+?? web/src/components/JudgeView.tsx
+?? web/src/lib/dashboard.ts
+[exit 0]
+
+$ git diff --stat
+ .gitignore                            |  1 +
+ README.md                             |  3 ++
+ docs/CAPABILITIES.md                  |  3 +-
+ package.json                          |  2 +
+ server/app.ts                         | 31 ++++++++++-
+ server/browser/browserManager.ts      | 22 ++++++--
+ server/config.ts                      |  7 +++
+ server/core/analysis.ts               |  4 +-
+ server/core/artifacts.ts              | 26 ++++++++--
+ server/core/catalog.ts                |  6 +--
+ server/core/engine.ts                 | 74 ++++++++++++++++++++++----
+ server/core/planner.ts                | 43 ++++++++++++----
+ server/core/store.ts                  |  1 +
+ server/core/types.ts                  |  6 +++
+ server/core/verifier.ts               |  8 ++-
+ server/index.ts                       |  2 +-
+ server/llm/claude.ts                  | 56 ++++++++++++++++++--
+ server/security/urlSafety.ts          |  9 ++++
+ server/tools/missionTools.ts          | 17 ++++--
+ server/tools/registry.ts              |  2 +
+ tests/engine.test.ts                  | 27 ++++++++++
+ tests/planner.test.ts                 | 12 +++++
+ tests/urlSafety.test.ts               | 15 ++++++
+ web/src/App.tsx                       | 48 ++++++++++++++---
+ web/src/components/AgentPanel.tsx     |  7 +--
+ web/src/components/BrowserSurface.tsx |  2 +-
+ web/src/components/Composer.tsx       |  4 +-
+ web/src/components/PlanReview.tsx     |  2 +-
+ web/src/components/Results.tsx        |  7 ++-
+ web/src/components/Sidebar.tsx        |  2 +-
+ web/src/lib/api.ts                    |  3 ++
+ web/src/styles/app.css                | 97 +++++++++++++++++++++++++++++++++++
+ 32 files changed, 488 insertions(+), 61 deletions(-)
+[exit 0]
+
+$ git ls-files --others --exclude-standard
+docs/FINALE.md
+docs/evidence/adal/phaseB/README.md
+docs/evidence/adal/phaseB/competitor-analysis.csv
+docs/evidence/adal/phaseB/evidence.json
+docs/evidence/adal/phaseB/landing-page-concept.html
+docs/evidence/adal/phaseB/research-report.md
+docs/evidence/adal/phaseB/safety_watcher.log.txt
+docs/evidence/adal/phaseB/screens/landing-page-concept-render.png
+docs/evidence/adal/phaseB/screens/src_097972e14afc.jpg
+docs/evidence/adal/phaseB/screens/src_0c17b46be6ef.jpg
+docs/evidence/adal/phaseB/screens/src_2e379e43dca5.jpg
+docs/evidence/adal/phaseB/screens/src_c06336593f49.jpg
+docs/evidence/adal/phaseB/screens/src_c2788f1906c1.jpg
+docs/evidence/adal/phaseB/screens/src_c72172c05d88.jpg
+docs/evidence/adal/phaseB/screens/src_d27bcdd34a65.jpg
+docs/evidence/adal/phaseB/screens/src_da256f0ca8a6.jpg
+docs/evidence/adal/phaseB/screens/src_f3fcdec44d07.jpg
+docs/evidence/adal/phaseB/screens/src_f686a3ae668a.jpg
+docs/evidence/adal/phaseB/sources/src_097972e14afc.txt
+docs/evidence/adal/phaseB/sources/src_0c17b46be6ef.txt
+docs/evidence/adal/phaseB/sources/src_2e379e43dca5.txt
+docs/evidence/adal/phaseB/sources/src_c06336593f49.txt
+docs/evidence/adal/phaseB/sources/src_c2788f1906c1.txt
+docs/evidence/adal/phaseB/sources/src_c72172c05d88.txt
+docs/evidence/adal/phaseB/sources/src_d27bcdd34a65.txt
+docs/evidence/adal/phaseB/sources/src_da256f0ca8a6.txt
+docs/evidence/adal/phaseB/sources/src_f3fcdec44d07.txt
+docs/evidence/adal/phaseB/sources/src_f686a3ae668a.txt
+docs/evidence/adal/phaseB/validation_readback.txt
+docs/evidence/adal/phaseB/verification-report.md
+docs/evidence/claude-test-2026-10-28/A1-head.txt
+docs/evidence/claude-test-2026-10-28/A1-status-before.txt
+docs/evidence/claude-test-2026-10-28/A2-patch-check.txt
+docs/evidence/claude-test-2026-10-28/A3-apply.txt
+docs/evidence/claude-test-2026-10-28/B2-e2e-exit.txt
+docs/evidence/claude-test-2026-10-28/B2-health.json
+docs/evidence/claude-test-2026-10-28/B2-isolation-recheck.txt
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui.txt
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/01-composer-offline.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/02-plan-review.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/03-running-then-taken-over.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/04-takeover-public-web-blocked.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/05-takeover-manual-fixture-page.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/06-results.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/07-evidence.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/08-verification.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/09-stopped.png
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/competitor-analysis.csv
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/evidence.json
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/landing-page-concept.html
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/research-report.md
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/run-log.json
+docs/evidence/claude-test-2026-10-28/B2-offline-demo-ui/verification-report.md
+docs/evidence/claude-test-2026-10-28/B2-server-pid.txt
+docs/evidence/claude-test-2026-10-28/C0-claude-check.txt
+docs/evidence/claude-test-2026-10-28/C0-preflight.txt
+docs/evidence/claude-test-2026-10-28/C0b-claude-check.txt
+docs/evidence/claude-test-2026-10-28/C0b-preflight-rerun.txt
+docs/evidence/claude-test-2026-10-28/C0c-key-shape.txt
+docs/evidence/claude-test-2026-10-28/C0d-preflight-rerun3.txt
+docs/evidence/claude-test-2026-10-28/REPORT.md
+docs/evidence/finale-audit-2026-10-28/git-state.txt
+docs/evidence/finale-mac-2026-10-28/01-state.txt
+docs/evidence/finale-mac-2026-10-28/01b-patch-check.txt
+docs/evidence/finale-mac-2026-10-28/04-health.json
+docs/evidence/finale-mac-2026-10-28/04-preexisting-port-holder.txt
+docs/evidence/finale-mac-2026-10-28/04-server-pid.txt
+docs/evidence/finale-mac-2026-10-28/05-e2e-exit.txt
+docs/evidence/finale-mac-2026-10-28/06-vendor-and-artifacts.txt
+docs/evidence/finale-mac-2026-10-28/07a-exact-origin.txt
+docs/evidence/finale-mac-2026-10-28/07c-e2e-after-fix-exit.txt
+docs/evidence/finale-mac-2026-10-28/07c-health-after-fix.json
+docs/evidence/finale-mac-2026-10-28/07c-isolation-after-fix.txt
+docs/evidence/finale-mac-2026-10-28/07c-isolation-before-fix.txt
+docs/evidence/finale-mac-2026-10-28/07c-server-pid-after-fix.txt
+docs/evidence/finale-mac-2026-10-28/08-final-state.txt
+docs/evidence/finale-mac-2026-10-28/REPORT.md
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix.txt
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/01-composer-offline.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/02-plan-review.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/03-running-then-taken-over.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/04-takeover-public-web-blocked.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/05-takeover-manual-fixture-page.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/06-results.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/07-evidence.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/08-verification.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/09-stopped.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/competitor-analysis.csv
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/evidence.json
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/landing-page-concept.html
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/research-report.md
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/run-log.json
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui-after-fix/verification-report.md
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui.txt
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/01-composer-offline.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/02-plan-review.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/03-running-then-taken-over.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/04-takeover-public-web-blocked.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/05-takeover-manual-fixture-page.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/06-results.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/07-evidence.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/08-verification.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/09-stopped.png
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/competitor-analysis.csv
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/evidence.json
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/landing-page-concept.html
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/research-report.md
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/run-log.json
+docs/evidence/finale-mac-2026-10-28/offline-demo-ui/verification-report.md
+docs/evidence/judge-dashboard-2026-10-28/REPORT.md
+docs/evidence/judge-dashboard-2026-10-28/apply.txt
+docs/evidence/judge-dashboard-2026-10-28/demo-server-pid.txt
+docs/evidence/judge-dashboard-2026-10-28/judge-live-check.mjs
+docs/evidence/judge-dashboard-2026-10-28/judge-live-check.txt
+docs/evidence/judge-dashboard-2026-10-28/judge-live/judge-desktop-1440x900.png
+docs/evidence/judge-dashboard-2026-10-28/judge-live/judge-live-result.json
+docs/evidence/judge-dashboard-2026-10-28/judge-live/judge-mobile-390x844.png
+docs/evidence/judge-dashboard-2026-10-28/missions-list.txt
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal-exit.txt
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal.txt
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/01-composer-offline.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/02-plan-review.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/03-running-then-taken-over.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/04-takeover-public-web-blocked.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/05-takeover-manual-fixture-page.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/06-results.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/07-evidence.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/08-verification.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/09-stopped.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/10-judge.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/11-judge-evidence.png
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/competitor-analysis.csv
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/evidence.json
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/landing-page-concept.html
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/research-report.md
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/run-log.json
+docs/evidence/judge-dashboard-2026-10-28/offline-rehearsal/verification-report.md
+docs/evidence/judge-dashboard-2026-10-28/omnipilot-judge-dashboard.patch
+docs/evidence/judge-dashboard-2026-10-28/status-before.txt
+docs/screenshots/offline-demo/01-composer-offline.png
+docs/screenshots/offline-demo/02-plan-review.png
+docs/screenshots/offline-demo/03-running-then-taken-over.png
+docs/screenshots/offline-demo/04-takeover-public-web-blocked.png
+docs/screenshots/offline-demo/05-takeover-manual-fixture-page.png
+docs/screenshots/offline-demo/06-results.png
+docs/screenshots/offline-demo/07-evidence.png
+docs/screenshots/offline-demo/08-verification.png
+docs/screenshots/offline-demo/09-stopped.png
+docs/screenshots/offline-demo/run-log.json
+omnipilot-finale-changes.patch
+scripts/claude-check.ts
+scripts/demo-offline.ts
+server/demo/fixtureVendors.ts
+tests/claudeMode.test.ts
+tests/dashboard.test.ts
+tests/e2e/offline-demo-ui.mjs
+tests/isolation.test.ts
+tests/offlineDemo.test.ts
+tests/popupGuard.test.ts
+web/src/components/Dashboard.tsx
+web/src/components/JudgeView.tsx
+web/src/lib/dashboard.ts
+[exit 0]
+
+$ git stash list
+[exit 0]
+
+$ git remote -v
+[exit 0]
+
+$ git rev-parse HEAD
+8fceb93c7020943aea8994b58f023117a18e9766
+[exit 0]
+
+$ git rev-parse origin/HEAD
+fatal: ambiguous argument 'origin/HEAD': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+origin/HEAD
+[exit 128]
+
+$ git rev-parse origin/main
+fatal: ambiguous argument 'origin/main': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+origin/main
+[exit 128]
+
+$ git log --oneline origin/main..HEAD
+fatal: ambiguous argument 'origin/main..HEAD': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+[exit 128]
+
+NOTE: no git remote configured (git remote -v empty), so origin/HEAD does not exist; nothing can have been pushed. HEAD = 8fceb93, stash empty, no commits since 8fceb93.

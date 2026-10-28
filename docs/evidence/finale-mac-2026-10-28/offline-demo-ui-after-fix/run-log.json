@@ -1,0 +1,79 @@
+{
+  "base": "http://127.0.0.1:8788",
+  "at": "2026-10-28T04:18:00.441Z",
+  "results": [
+    [
+      "health: dataSource / reasoning",
+      "fixture / deterministic"
+    ],
+    [
+      "plan targets",
+      "Lumina Assist, Orbit Copilot, Quillstone AI, Atlas Agents, Nimbus Chat"
+    ],
+    [
+      "steps after disabling Nimbus Chat",
+      11
+    ],
+    [
+      "edit round-trip (disable + re-enable target)",
+      "applied"
+    ],
+    [
+      "take over -> status",
+      "Paused"
+    ],
+    [
+      "manual browse to public web (must be blocked)",
+      "Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked) Check the "
+    ],
+    [
+      "resume",
+      "clicked"
+    ],
+    [
+      "final status",
+      "Completed with warnings"
+    ],
+    [
+      "mission id",
+      "msn_dce454023f6a"
+    ],
+    [
+      "artifacts downloaded, sha256 matches record",
+      "5/5"
+    ],
+    [
+      "sources captured",
+      "9/10 (+ manual pages: 2)"
+    ],
+    [
+      "competitors with any capture / prices found",
+      "5/5 / 3"
+    ],
+    [
+      "observations grounded",
+      "38/38"
+    ],
+    [
+      "checks passed / failed / warnings",
+      "38 / 0 / 0"
+    ],
+    [
+      "failed sources",
+      "Manual browse: Offline demo mode: only the local demo fixture sites can be opened (https://example.com is blocked) | Atlas Agents: Page returned HTTP 403"
+    ],
+    [
+      "stop mid-run -> status / artifacts",
+      "cancelled / 0"
+    ],
+    [
+      "stop: step states",
+      "cancelled"
+    ],
+    [
+      "browser console errors",
+      0
+    ]
+  ],
+  "consoleErrors": []
+}

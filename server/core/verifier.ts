@@ -2,7 +2,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import { parse as parseCsv } from "csv-parse/sync";
 import { parse as parseHtml } from "node-html-parser";
-import { CSV_COLUMNS, PRICING_STATUSES, REPORT_SECTIONS } from "./artifacts.js";
+import { CSV_COLUMNS, DATA_SOURCE_LABEL, PRICING_STATUSES, REPORT_SECTIONS, dataSourceOf } from "./artifacts.js";
 import { normalizeWs } from "./extraction.js";
 import { newId, nowIso } from "./store.js";
 import type { ImageStats, RenderResult } from "../browser/browserManager.js";
@@ -75,6 +75,9 @@ export function verifyCsv(a: ArtifactRecord, text: string, m: Mission, add: Add)
     status: rows.length === expected ? "passed" : "failed",
     detail: `${rows.length} rows for ${expected} enabled targets`,
   });
+  const label = DATA_SOURCE_LABEL[dataSourceOf(m)];
+  const mislabelled = rows.filter((r) => r.data_source !== label).map((r) => r.competitor || "?");
+  add({ artifactId: a.id, scope: "integrity", name: "Data source labelled on every row", status: mislabelled.length ? "failed" : "passed", detail: mislabelled.length ? `Rows not labelled "${label}": ${mislabelled.join(", ")}` : `Every row says "${label}"` });
   const empties: string[] = [];
   const badStatus: string[] = [];
   const fakeZero: string[] = [];
@@ -107,6 +110,9 @@ export function verifyReport(a: ArtifactRecord, text: string, m: Mission, add: A
   const targets = (m.plan?.targets ?? []).filter((t) => t.enabled);
   const absent = targets.filter((t) => !text.includes(`### ${t.name}`));
   add({ artifactId: a.id, scope: "coverage", name: "Every competitor has a profile", status: absent.length ? "failed" : "passed", detail: absent.length ? `Missing: ${absent.map((t) => t.name).join(", ")}` : `${targets.length} profiles` });
+  const label = DATA_SOURCE_LABEL[dataSourceOf(m)];
+  const sourceStated = text.includes(`**Data source: ${label}.**`);
+  add({ artifactId: a.id, scope: "integrity", name: "Data source stated", status: sourceStated ? "passed" : "failed", detail: sourceStated ? `Report states "${label}"` : `Report does not state "${label}"` });
   const labelled = /\*\*Observed\*\*/.test(text) && /\*\*Inferred\*\*/.test(text) && /\*\*Unknown\*\*/.test(text);
   add({ artifactId: a.id, scope: "integrity", name: "Observed / inferred / unknown labelling", status: labelled ? "passed" : "failed", detail: labelled ? "Label legend present" : "Legend missing" });
   const refs = [...text.matchAll(/\[S(\d+)\]/g)].map((x) => Number(x[1]));

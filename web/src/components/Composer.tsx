@@ -78,7 +78,9 @@ export function Composer({ health, busy, error, onSubmit }: Props) {
             {health?.reasoning.mode === "claude" ? <Sparkles size={14} aria-hidden /> : <Cpu size={14} aria-hidden />}
             {health?.reasoning.mode === "claude"
               ? `Claude plans and synthesizes (${health.reasoning.model}). Every claim must cite captured evidence.`
-              : "Deterministic mode: real browsing and verification; planning and analysis are rule-based, not AI."}
+              : health?.dataSource === "fixture"
+                ? "Offline demo: real browser and verification against fictional fixture sites; planning and analysis are rule-based, not AI."
+                : "Deterministic mode: real browsing and verification; planning and analysis are rule-based, not AI."}
           </div>
           <span className="kbd-hint">Ctrl ↵</span>
           <Button variant="primary" icon={ArrowUp} onClick={submit} disabled={!canSubmit} loading={busy}>

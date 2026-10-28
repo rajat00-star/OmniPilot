@@ -1,0 +1,2 @@
+  PID  PPID ELAPSED COMMAND
+ 5728  5727   20:33 /opt/homebrew/Cellar/node/26.11.1/bin/node --require /Users/rajatsanger/Developer/OmniPilot/node_modules/tsx/dist/preflight.cjs --import file:///Users/rajatsanger/Developer/OmniPilot/node_modules/tsx/dist/loader.mjs scripts/demo-offline.ts

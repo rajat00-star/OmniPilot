@@ -8,7 +8,7 @@ const { app, store, browser } = createApp({ staticDir: path.resolve("dist/web") 
 const server = app.listen(config.port, "127.0.0.1", () => {
   const llm = llmStatus();
   console.log(`[omnipilot] API listening on http://127.0.0.1:${config.port}`);
-  console.log(`[omnipilot] reasoning mode: ${llm.mode}${llm.configured ? ` (${llm.model})` : " (ANTHROPIC_API_KEY not set)"}`);
+  console.log(`[omnipilot] reasoning mode: ${llm.mode}${llm.configured ? ` (${llm.model}, key from ${config.apiKeySource})` : " (ANTHROPIC_API_KEY not set)"}`);
   console.log(`[omnipilot] data dir: ${config.dataDir}`);
 });
 

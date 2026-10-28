@@ -1,0 +1,3305 @@
+{
+  "id": "msn_e8b87606bacb",
+  "prompt": "Compare three AI meeting assistants using only their public pages:\n\nhttps://otter.ai/\nhttps://otter.ai/pricing\nhttps://fireflies.ai/\nhttps://fireflies.ai/pricing\nhttps://fathom.video/\nhttps://fathom.video/pricing\n\nReport their main features, publicly listed pricing, and plan limits. Include source URLs for every factual finding. Generate a CSV and a report. Mark inaccessible pages and missing information clearly; do not invent prices or features.",
+  "createdAt": "2026-10-28T11:12:06.271Z",
+  "updatedAt": "2026-10-28T11:12:44.006Z",
+  "status": "completed",
+  "mode": "deterministic",
+  "dataSource": "live",
+  "steps": [
+    {
+      "id": "collect-otter-ai",
+      "title": "Research otter.ai",
+      "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+      "tool": "research.collect",
+      "input": {
+        "targetId": "otter-ai"
+      },
+      "dependsOn": [],
+      "critical": false,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [
+        "src_cc44d404be33",
+        "obs_0ec0dfe675ed",
+        "obs_2f06cb3de1a7",
+        "obs_46e904d95913",
+        "obs_1d8d1de10dff",
+        "obs_4bf275f2b4af",
+        "obs_11072360637c",
+        "obs_86ba630f3d97",
+        "obs_f7f9e42f32d7",
+        "obs_77fa3fe9d086",
+        "obs_ca4cdc19c1dd",
+        "obs_e8afc0f86a5c",
+        "src_08db2c448674",
+        "obs_df66b9461528",
+        "obs_790268b84f0e",
+        "obs_673ad3d7fd33",
+        "obs_aace4948d851",
+        "obs_b8ba401a179a",
+        "obs_a64fee86abb6",
+        "obs_92293fd23f5b",
+        "obs_d240c6e4740d",
+        "obs_568cafc347ac",
+        "obs_009434cf29de",
+        "obs_48101882fcfb",
+        "obs_cb7898f1ec2c"
+      ],
+      "artifactIds": [],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:30.135Z",
+      "finishedAt": "2026-10-28T11:12:43.176Z",
+      "resultSummary": "2/2 pages captured for otter.ai"
+    },
+    {
+      "id": "collect-fireflies-ai",
+      "title": "Research fireflies.ai",
+      "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+      "tool": "research.collect",
+      "input": {
+        "targetId": "fireflies-ai"
+      },
+      "dependsOn": [],
+      "critical": false,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [
+        "src_c9ba4a8a2a87",
+        "obs_231baabea704",
+        "obs_d253eb71ef14",
+        "obs_034ec4765c6c",
+        "obs_4eb770af9ed2",
+        "obs_0e06ae5af306",
+        "obs_9638504f41cd",
+        "obs_ee2660301330",
+        "obs_2196668fd069",
+        "obs_31d89959799c",
+        "obs_01cefe0a6ac5",
+        "src_9052aef1b2bc",
+        "obs_c20cdd5d6b7d",
+        "obs_005b9abee117",
+        "obs_d0b28c3e725c",
+        "obs_cc2249f819d1",
+        "obs_8a4ac65d3473",
+        "obs_d91777c6151b",
+        "obs_497237ca528d",
+        "obs_0fcdca60a3e6",
+        "obs_ee402b431310",
+        "obs_611b33ba17c5",
+        "obs_a4759ca41d56",
+        "obs_1a2016ac6d0f",
+        "obs_b99fc7909c9d",
+        "obs_8e7b119b765d",
+        "obs_1c5afc186f94",
+        "obs_f06126249d98"
+      ],
+      "artifactIds": [],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:30.136Z",
+      "finishedAt": "2026-10-28T11:12:34.609Z",
+      "resultSummary": "2/2 pages captured for fireflies.ai"
+    },
+    {
+      "id": "collect-fathom-video",
+      "title": "Research fathom.video",
+      "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+      "tool": "research.collect",
+      "input": {
+        "targetId": "fathom-video"
+      },
+      "dependsOn": [],
+      "critical": false,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [
+        "src_68a626cb12ea",
+        "obs_575559ce524e",
+        "obs_b0d0b65d1cdf",
+        "obs_1f8a9ff5b572",
+        "obs_cc52aed19e90",
+        "obs_2e222f327497",
+        "obs_81fb262141f5",
+        "obs_287a3014c1d9",
+        "obs_cb4f31569188",
+        "obs_c4b2aecc14b3",
+        "obs_94d060f3dd18",
+        "src_d1e12338dee5",
+        "obs_a05c0e735b52",
+        "obs_70ba6719562f",
+        "obs_24cd05026364",
+        "obs_e2f1b9ab5bae",
+        "obs_fe009579e8dd",
+        "obs_922c1e01b717",
+        "obs_053d547cbe6e",
+        "obs_daeb32eed9aa",
+        "obs_53898eaa71c0",
+        "obs_78b91b6e515f",
+        "obs_402c280b03d9",
+        "obs_08ab50a0bbfd",
+        "obs_db1d2f9deb79"
+      ],
+      "artifactIds": [],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:34.609Z",
+      "finishedAt": "2026-10-28T11:12:43.708Z",
+      "resultSummary": "2/2 pages captured for fathom.video"
+    },
+    {
+      "id": "analyze",
+      "title": "Compare positioning and find market gaps",
+      "description": "Compare captured evidence across competitors. Inferences are labelled and cite the observations they rest on.",
+      "tool": "analysis.compare",
+      "input": {},
+      "dependsOn": [
+        "collect-otter-ai",
+        "collect-fireflies-ai",
+        "collect-fathom-video"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [
+        "inf_e0f90659398e",
+        "inf_61906bf54d12",
+        "inf_a09d2a606140",
+        "gap_f68e211f4e9d",
+        "gap_062b1ba572a5",
+        "gap_95157008fe3f"
+      ],
+      "artifactIds": [],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:43.708Z",
+      "finishedAt": "2026-10-28T11:12:43.709Z",
+      "resultSummary": "3/3 competitors compared; 3 gaps inferred (rules)"
+    },
+    {
+      "id": "write-competitor-csv",
+      "title": "Write competitor-analysis CSV",
+      "description": "Write competitor-analysis.csv to the mission artifact directory from observed tool outputs.",
+      "tool": "artifact.write",
+      "input": {
+        "kind": "competitor_csv",
+        "filename": "competitor-analysis.csv"
+      },
+      "dependsOn": [
+        "analyze"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [],
+      "artifactIds": [
+        "art_310928a2ec50"
+      ],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:43.709Z",
+      "finishedAt": "2026-10-28T11:12:43.710Z",
+      "resultSummary": "competitor-analysis.csv written (3,679 bytes)"
+    },
+    {
+      "id": "write-research-report",
+      "title": "Write evidence-backed research report",
+      "description": "Write research-report.md to the mission artifact directory from observed tool outputs.",
+      "tool": "artifact.write",
+      "input": {
+        "kind": "research_report",
+        "filename": "research-report.md"
+      },
+      "dependsOn": [
+        "analyze"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [],
+      "artifactIds": [
+        "art_68cd4e025ca6"
+      ],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:43.710Z",
+      "finishedAt": "2026-10-28T11:12:43.710Z",
+      "resultSummary": "research-report.md written (7,806 bytes)"
+    },
+    {
+      "id": "write-evidence-json",
+      "title": "Export evidence ledger",
+      "description": "Write evidence.json to the mission artifact directory from observed tool outputs.",
+      "tool": "artifact.write",
+      "input": {
+        "kind": "evidence_json",
+        "filename": "evidence.json"
+      },
+      "dependsOn": [
+        "analyze"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [],
+      "artifactIds": [
+        "art_16c44f668c8c"
+      ],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:43.710Z",
+      "finishedAt": "2026-10-28T11:12:43.710Z",
+      "resultSummary": "evidence.json written (44,610 bytes)"
+    },
+    {
+      "id": "verify",
+      "title": "Independently verify artifacts and evidence",
+      "description": "Read every artifact back from disk, parse it, check structure and citations, and re-check each quoted excerpt against the stored page capture.",
+      "tool": "verifier.check",
+      "input": {
+        "filenames": [
+          "competitor-analysis.csv",
+          "research-report.md",
+          "evidence.json"
+        ]
+      },
+      "dependsOn": [
+        "write-competitor-csv",
+        "write-research-report",
+        "write-evidence-json"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [],
+      "artifactIds": [],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:43.710Z",
+      "finishedAt": "2026-10-28T11:12:44.004Z",
+      "resultSummary": "28/28 checks passed"
+    },
+    {
+      "id": "finalize",
+      "title": "Compile verification report and mission summary",
+      "description": "Write verification-report.md with counts computed from execution results.",
+      "tool": "report.finalize",
+      "input": {},
+      "dependsOn": [
+        "verify"
+      ],
+      "critical": true,
+      "status": "succeeded",
+      "attempts": 1,
+      "evidenceIds": [],
+      "artifactIds": [
+        "art_9365f819277f"
+      ],
+      "verification": "passed",
+      "startedAt": "2026-10-28T11:12:44.004Z",
+      "finishedAt": "2026-10-28T11:12:44.005Z",
+      "resultSummary": "verification-report.md written; read-back matched"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src_c9ba4a8a2a87",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "requestedUrl": "https://fireflies.ai/",
+      "redirectChain": [
+        "https://fireflies.ai/"
+      ],
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "ok": true,
+      "stepId": "collect-fireflies-ai",
+      "finalUrl": "https://fireflies.ai/",
+      "httpStatus": 200,
+      "title": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "textFile": "sources/src_c9ba4a8a2a87.txt",
+      "textSha256": "58b8af539c946872e258ea26f477a96c44e133aa57bbce9aa858c7a989320215",
+      "textLength": 10478,
+      "screenshotFile": "screens/src_c9ba4a8a2a87.jpg"
+    },
+    {
+      "id": "src_9052aef1b2bc",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "requestedUrl": "https://fireflies.ai/pricing",
+      "redirectChain": [
+        "https://fireflies.ai/pricing"
+      ],
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "ok": true,
+      "stepId": "collect-fireflies-ai",
+      "finalUrl": "https://fireflies.ai/pricing",
+      "httpStatus": 200,
+      "title": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "textFile": "sources/src_9052aef1b2bc.txt",
+      "textSha256": "e8f42f6d5ed5036878d59e84221eb1be8016374204fe627fe4263282f9878f22",
+      "textLength": 11215,
+      "screenshotFile": "screens/src_9052aef1b2bc.jpg"
+    },
+    {
+      "id": "src_cc44d404be33",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "requestedUrl": "https://otter.ai/",
+      "redirectChain": [],
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "ok": true,
+      "stepId": "collect-otter-ai",
+      "finalUrl": "https://otter.ai/",
+      "httpStatus": 200,
+      "title": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "textFile": "sources/src_cc44d404be33.txt",
+      "textSha256": "d4f1e70dca98c278e8e2c1a1b536a9586bb54d62b64be23e6d8fa7062563b023",
+      "textLength": 11315,
+      "screenshotFile": "screens/src_cc44d404be33.jpg"
+    },
+    {
+      "id": "src_68a626cb12ea",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "requestedUrl": "https://fathom.video/",
+      "redirectChain": [
+        "https://fathom.video/",
+        "https://fathom.ai/"
+      ],
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "ok": true,
+      "stepId": "collect-fathom-video",
+      "finalUrl": "https://www.fathom.ai/",
+      "httpStatus": 200,
+      "title": "Fathom AI Notetaker - Never Take Notes Again",
+      "textFile": "sources/src_68a626cb12ea.txt",
+      "textSha256": "12bdef4fa619e3916948ea9a1843eb6d1eb9a68e6f6cc7e22823bc54fc0a4ace",
+      "textLength": 6400,
+      "screenshotFile": "screens/src_68a626cb12ea.jpg"
+    },
+    {
+      "id": "src_08db2c448674",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "requestedUrl": "https://otter.ai/pricing",
+      "redirectChain": [],
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "ok": true,
+      "stepId": "collect-otter-ai",
+      "finalUrl": "https://otter.ai/pricing",
+      "httpStatus": 200,
+      "title": "Pricing | Otter.ai",
+      "textFile": "sources/src_08db2c448674.txt",
+      "textSha256": "c76cd9746bedfcb3dbf18a55bfa683cefb19548359649c6d8bf95f593372c905",
+      "textLength": 8502,
+      "screenshotFile": "screens/src_08db2c448674.jpg"
+    },
+    {
+      "id": "src_d1e12338dee5",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "requestedUrl": "https://fathom.video/pricing",
+      "redirectChain": [
+        "https://fathom.video/pricing",
+        "https://fathom.ai/pricing"
+      ],
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "ok": true,
+      "stepId": "collect-fathom-video",
+      "finalUrl": "https://www.fathom.ai/pricing",
+      "httpStatus": 200,
+      "title": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "textFile": "sources/src_d1e12338dee5.txt",
+      "textSha256": "f0c2e985ebe15acb8a9e714c6b4e97586f5057160dd85956fff6d02c1de9c0f3",
+      "textLength": 5664,
+      "screenshotFile": "screens/src_d1e12338dee5.jpg"
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs_231baabea704",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_d253eb71ef14",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "headline",
+      "value": "The #1 AI Assistant For Your Meetings",
+      "kind": "observation",
+      "method": "dom:h1",
+      "excerpt": "The #1 AI Assistant For Your Meetings",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_034ec4765c6c",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "High Quality Meeting Transcription & Recording",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "High Quality Meeting Transcription & Recording",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_4eb770af9ed2",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Capture Meetings Anywhere & Anytime",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Capture Meetings Anywhere & Anytime",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_0e06ae5af306",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Remember Every Conversation With AI Powered Search",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Remember Every Conversation With AI Powered Search",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_9638504f41cd",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Get Real-Time Suggestions, Coaching, And Answers During Meetings.",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Get Real-Time Suggestions, Coaching, And Answers During Meetings.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_ee2660301330",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Drive Insights With Conversation Intelligence",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Drive Insights With Conversation Intelligence",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_2196668fd069",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (11 matching lines)",
+      "excerpt": "Transcribe, summarize, search, and analyze all your team conversations.",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_31d89959799c",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Enterprises",
+      "kind": "inference",
+      "method": "keyword-heuristic (8 matching lines)",
+      "excerpt": "GDPR, SOC2, More",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_01cefe0a6ac5",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_c9ba4a8a2a87",
+      "sourceUrl": "https://fireflies.ai/",
+      "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "capturedAt": "2026-10-28T11:12:32.645Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Research & analysis",
+      "kind": "inference",
+      "method": "keyword-heuristic (7 matching lines)",
+      "excerpt": "Drive Insights With Conversation Intelligence",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_c20cdd5d6b7d",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Fireflies.ai Pricing & Plans | Fireflies.ai offers flexible AI App plans for an efficient AI Assistant, helping you capture and organize meetings effortlessly and stay productive.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Fireflies.ai Pricing & Plans | Fireflies.ai offers flexible AI App plans for an efficient AI Assistant, helping you capture and organize meetings effortlessly and stay productive.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_005b9abee117",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Don't Take Our Word For It",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Don't Take Our Word For It",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_d0b28c3e725c",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Get More Out Of Your Meetings",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Get More Out Of Your Meetings",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_cc2249f819d1",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Unlock The Knowledge Buried Inside Your Conversations",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Unlock The Knowledge Buried Inside Your Conversations",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_8a4ac65d3473",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "AI & Meeting Notes",
+      "kind": "observation",
+      "method": "dom:h3",
+      "excerpt": "AI & Meeting Notes",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_d91777c6151b",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "What is counted as a seat?",
+      "kind": "observation",
+      "method": "dom:h3",
+      "excerpt": "What is counted as a seat?",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_497237ca528d",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$0",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$0",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_0fcdca60a3e6",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$18",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$18",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_ee402b431310",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$10",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$10",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_611b33ba17c5",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$29",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$29",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_a4759ca41d56",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$19",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$19",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_1a2016ac6d0f",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$39",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$39",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_b99fc7909c9d",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "grounded",
+      "field": "free_tier",
+      "value": "Free option displayed",
+      "kind": "observation",
+      "method": "regex:free-tier",
+      "excerpt": "Free",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_8e7b119b765d",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (17 matching lines)",
+      "excerpt": "Flexible plans for teams of all sizes. Upgrade to get unlimited transcripts, summaries, and video recordings.",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_1c5afc186f94",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Enterprises",
+      "kind": "inference",
+      "method": "keyword-heuristic (14 matching lines)",
+      "excerpt": "Enterprise",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_f06126249d98",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "sourceId": "src_9052aef1b2bc",
+      "sourceUrl": "https://fireflies.ai/pricing",
+      "pageTitle": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "capturedAt": "2026-10-28T11:12:34.578Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Developers & engineers",
+      "kind": "inference",
+      "method": "keyword-heuristic (5 matching lines)",
+      "excerpt": "API access",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_0ec0dfe675ed",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_2f06cb3de1a7",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "headline",
+      "value": "Meeting AI that turns talk into action",
+      "kind": "observation",
+      "method": "dom:h1",
+      "excerpt": "Meeting AI that turns talk into action",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_46e904d95913",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Before, during, and after every meeting.",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Before, during, and after every meeting.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_1d8d1de10dff",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Like having your own executive assistant",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Like having your own executive assistant",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_4bf275f2b4af",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Whatever you do, Otter works for you",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Whatever you do, Otter works for you",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_11072360637c",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Connect to your favorite apps",
+      "kind": "observation",
+      "method": "dom:h3",
+      "excerpt": "Connect to your favorite apps",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_86ba630f3d97",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$19.99/month",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "From $19.99/month per user",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_f7f9e42f32d7",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "grounded",
+      "field": "free_tier",
+      "value": "Free option displayed",
+      "kind": "observation",
+      "method": "regex:free-tier",
+      "excerpt": "Start for free",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_77fa3fe9d086",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (31 matching lines)",
+      "excerpt": "\"I am possibly Otter's most enthusiastic supporter. My team and I are using it everyday. And we’re using it for almost every meeting.”",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_ca4cdc19c1dd",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Sales & support",
+      "kind": "inference",
+      "method": "keyword-heuristic (9 matching lines)",
+      "excerpt": "— Laura Brown, Vice President of Sales at Aiden Technologies",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_e8afc0f86a5c",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_cc44d404be33",
+      "sourceUrl": "https://otter.ai/",
+      "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "capturedAt": "2026-10-28T11:12:37.923Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Research & analysis",
+      "kind": "inference",
+      "method": "keyword-heuristic (8 matching lines)",
+      "excerpt": "Push sales insights to your CRM",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_575559ce524e",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_b0d0b65d1cdf",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "headline",
+      "value": "AI notetaking that is out of this world",
+      "kind": "observation",
+      "method": "dom:h1",
+      "excerpt": "AI notetaking that is out of this world",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_1f8a9ff5b572",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Whether you’re a team of 1 or 1,000, Fathom’s got your back",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Whether you’re a team of 1 or 1,000, Fathom’s got your back",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_cc52aed19e90",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Shared visibility. Smarter execution.",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Shared visibility. Smarter execution.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_2e222f327497",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Fathom teams ‍work smarter",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Fathom teams ‍work smarter",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_81fb262141f5",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Make your team unstoppable",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Make your team unstoppable",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_287a3014c1d9",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Works where you meet",
+      "kind": "observation",
+      "method": "dom:h3",
+      "excerpt": "Works where you meet",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_cb4f31569188",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (17 matching lines)",
+      "excerpt": "Whether you’re a team of 1 or 1,000, Fathom’s got your back",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_c4b2aecc14b3",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Marketing & content",
+      "kind": "inference",
+      "method": "keyword-heuristic (3 matching lines)",
+      "excerpt": "Marketing",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_94d060f3dd18",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_68a626cb12ea",
+      "sourceUrl": "https://www.fathom.ai/",
+      "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+      "capturedAt": "2026-10-28T11:12:38.592Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Research & analysis",
+      "kind": "inference",
+      "method": "keyword-heuristic (3 matching lines)",
+      "excerpt": "Meeting notes, insights and action items sync automatically with your tools – Slack, Salesforce, HubSpot, Notion, Asana, and beyond – without you lifting a finger.",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_df66b9461528",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Otter has pricing plans for individuals, teams, organizations, and enterprises.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Otter has pricing plans for individuals, teams, organizations, and enterprises.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_790268b84f0e",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "headline",
+      "value": "Choose the plan that's right for you",
+      "kind": "observation",
+      "method": "dom:h1",
+      "excerpt": "Choose the plan that's right for you",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_673ad3d7fd33",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$8.33",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$8.33",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_aace4948d851",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$4.17",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$4.17*",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_b8ba401a179a",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$19.99",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$19.99",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_a64fee86abb6",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$6.67",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "Otter Pro Annual: $6.67 USD per month (billed $79.99 annually)",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_92293fd23f5b",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$79.99",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "Otter Pro Annual: $6.67 USD per month (billed $79.99 annually)",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_d240c6e4740d",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$13.59",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "Otter Pro Monthly: $13.59 USD per month",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_568cafc347ac",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "grounded",
+      "field": "free_tier",
+      "value": "Free option displayed",
+      "kind": "observation",
+      "method": "regex:free-tier",
+      "excerpt": "Start for free",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_009434cf29de",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (11 matching lines)",
+      "excerpt": "Zoom, MS Teams, and Google Meet",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_48101882fcfb",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Enterprises",
+      "kind": "inference",
+      "method": "keyword-heuristic (8 matching lines)",
+      "excerpt": "Enterprise",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_cb7898f1ec2c",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "sourceId": "src_08db2c448674",
+      "sourceUrl": "https://otter.ai/pricing",
+      "pageTitle": "Pricing | Otter.ai",
+      "capturedAt": "2026-10-28T11:12:43.138Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Students & education",
+      "kind": "inference",
+      "method": "keyword-heuristic (4 matching lines)",
+      "excerpt": "Do you offer student discounts?",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_a05c0e735b52",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "official_description",
+      "value": "Fathom's free plan includes unlimited recordings, transcripts, and AI summaries. Paid plans start at $15/user/mo, backed by a 90-day money-back guarantee.",
+      "kind": "observation",
+      "method": "dom:meta[name=description]",
+      "excerpt": "Fathom's free plan includes unlimited recordings, transcripts, and AI summaries. Paid plans start at $15/user/mo, backed by a 90-day money-back guarantee.",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_70ba6719562f",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "headline",
+      "value": "Pricing to supercharge every meeting",
+      "kind": "observation",
+      "method": "dom:h1",
+      "excerpt": "Pricing to supercharge every meeting",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_24cd05026364",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Meet your brilliant AI meeting partner",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Meet your brilliant AI meeting partner",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_e2f1b9ab5bae",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Ready to explore what’s out there?",
+      "kind": "observation",
+      "method": "dom:h2",
+      "excerpt": "Ready to explore what’s out there?",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_fe009579e8dd",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "vendor_claim",
+      "value": "Stop guessing Ask Fathom",
+      "kind": "observation",
+      "method": "dom:h3",
+      "excerpt": "Stop guessing Ask Fathom",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_922c1e01b717",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$15",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$15",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_053d547cbe6e",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$25",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$25",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_daeb32eed9aa",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$0",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$0",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_53898eaa71c0",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "displayed_price",
+      "value": "$16",
+      "kind": "observation",
+      "method": "regex:price",
+      "excerpt": "$16",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_78b91b6e515f",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "grounded",
+      "field": "free_tier",
+      "value": "Free option displayed",
+      "kind": "observation",
+      "method": "regex:free-tier",
+      "excerpt": "Free plan",
+      "checkNote": "Excerpt found verbatim in stored capture"
+    },
+    {
+      "id": "obs_402c280b03d9",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Teams & collaboration",
+      "kind": "inference",
+      "method": "keyword-heuristic (19 matching lines)",
+      "excerpt": "FOR TEAMS",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_08ab50a0bbfd",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Enterprises",
+      "kind": "inference",
+      "method": "keyword-heuristic (6 matching lines)",
+      "excerpt": "Enterprise",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "obs_db1d2f9deb79",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "sourceId": "src_d1e12338dee5",
+      "sourceUrl": "https://www.fathom.ai/pricing",
+      "pageTitle": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "capturedAt": "2026-10-28T11:12:43.653Z",
+      "check": "needs_review",
+      "field": "target_audience",
+      "value": "Sales & support",
+      "kind": "inference",
+      "method": "keyword-heuristic (6 matching lines)",
+      "excerpt": "Talk to sales",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "inf_e0f90659398e",
+      "targetId": "otter-ai",
+      "targetName": "otter.ai",
+      "field": "positioning",
+      "value": "Leads with \"Meeting AI that turns talk into action\"; describes itself as: Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.",
+      "kind": "inference",
+      "method": "rules:restate-headline",
+      "basis": [
+        "obs_2f06cb3de1a7",
+        "obs_0ec0dfe675ed"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "inf_61906bf54d12",
+      "targetId": "fireflies-ai",
+      "targetName": "fireflies.ai",
+      "field": "positioning",
+      "value": "Leads with \"The #1 AI Assistant For Your Meetings\"; describes itself as: Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.",
+      "kind": "inference",
+      "method": "rules:restate-headline",
+      "basis": [
+        "obs_d253eb71ef14",
+        "obs_231baabea704"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "inf_a09d2a606140",
+      "targetId": "fathom-video",
+      "targetName": "fathom.video",
+      "field": "positioning",
+      "value": "Leads with \"AI notetaking that is out of this world\"; describes itself as: Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.",
+      "kind": "inference",
+      "method": "rules:restate-headline",
+      "basis": [
+        "obs_b0d0b65d1cdf",
+        "obs_575559ce524e"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "gap_f68e211f4e9d",
+      "targetId": "market",
+      "targetName": "Market",
+      "field": "market_gap",
+      "value": "\"Developers & engineers\" appears under-addressed: only 0 of 3 captured competitor pages show it among their top audience signals.",
+      "kind": "inference",
+      "method": "rules:signal-count",
+      "basis": [
+        "obs_009434cf29de",
+        "obs_ca4cdc19c1dd",
+        "obs_e8afc0f86a5c",
+        "obs_8e7b119b765d",
+        "obs_1c5afc186f94",
+        "obs_01cefe0a6ac5",
+        "obs_402c280b03d9",
+        "obs_c4b2aecc14b3",
+        "obs_94d060f3dd18"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "gap_062b1ba572a5",
+      "targetId": "market",
+      "targetName": "Market",
+      "field": "market_gap",
+      "value": "\"Enterprises\" appears under-addressed: only 1 of 3 captured competitor pages show it among their top audience signals.",
+      "kind": "inference",
+      "method": "rules:signal-count",
+      "basis": [
+        "obs_009434cf29de",
+        "obs_ca4cdc19c1dd",
+        "obs_e8afc0f86a5c",
+        "obs_8e7b119b765d",
+        "obs_1c5afc186f94",
+        "obs_01cefe0a6ac5",
+        "obs_402c280b03d9",
+        "obs_c4b2aecc14b3",
+        "obs_94d060f3dd18"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    },
+    {
+      "id": "gap_95157008fe3f",
+      "targetId": "market",
+      "targetName": "Market",
+      "field": "market_gap",
+      "value": "\"Individuals & professionals\" appears under-addressed: only 0 of 3 captured competitor pages show it among their top audience signals.",
+      "kind": "inference",
+      "method": "rules:signal-count",
+      "basis": [
+        "obs_009434cf29de",
+        "obs_ca4cdc19c1dd",
+        "obs_e8afc0f86a5c",
+        "obs_8e7b119b765d",
+        "obs_1c5afc186f94",
+        "obs_01cefe0a6ac5",
+        "obs_402c280b03d9",
+        "obs_c4b2aecc14b3",
+        "obs_94d060f3dd18"
+      ],
+      "check": "needs_review",
+      "checkNote": "Inference with resolvable basis; requires human review"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "art_310928a2ec50",
+      "kind": "csv",
+      "role": "Competitor analysis",
+      "filename": "competitor-analysis.csv",
+      "bytes": 3679,
+      "sha256": "8ddcbe8a703df1e047b769ecbc2054c5d7476a9a933695bcf83368508b21e11c",
+      "createdAt": "2026-10-28T11:12:43.710Z",
+      "stepId": "write-competitor-csv",
+      "verification": "passed"
+    },
+    {
+      "id": "art_68cd4e025ca6",
+      "kind": "markdown",
+      "role": "Research report",
+      "filename": "research-report.md",
+      "bytes": 7806,
+      "sha256": "43aa90762594cfcbb1d1f6656c1fd026190c58b267a44672da063d230d4c143b",
+      "createdAt": "2026-10-28T11:12:43.710Z",
+      "stepId": "write-research-report",
+      "verification": "passed"
+    },
+    {
+      "id": "art_16c44f668c8c",
+      "kind": "json",
+      "role": "Evidence ledger",
+      "filename": "evidence.json",
+      "bytes": 44610,
+      "sha256": "21f912ccbd373183219f6cf8c0f53a9120a2278c788227df41e0060a8328dca7",
+      "createdAt": "2026-10-28T11:12:43.710Z",
+      "stepId": "write-evidence-json",
+      "verification": "passed"
+    },
+    {
+      "id": "art_9365f819277f",
+      "kind": "markdown",
+      "role": "Verification report",
+      "filename": "verification-report.md",
+      "bytes": 4597,
+      "sha256": "d118f6d87810a3a56fd3d6531e4af92ed0b9800162c77f9f065b94db9153474c",
+      "createdAt": "2026-10-28T11:12:44.005Z",
+      "stepId": "finalize",
+      "verification": "passed"
+    }
+  ],
+  "checks": [
+    {
+      "id": "chk_80028ea1a8fd",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "File exists",
+      "status": "passed",
+      "detail": "msn_e8b87606bacb/files/competitor-analysis.csv"
+    },
+    {
+      "id": "chk_a241d420cabc",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Read back matches written bytes",
+      "status": "passed",
+      "detail": "3,679 bytes, sha256 8ddcbe8a703d…"
+    },
+    {
+      "id": "chk_0c2847e6dd5a",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Parses as CSV",
+      "status": "passed",
+      "detail": "3 data rows"
+    },
+    {
+      "id": "chk_9e9bba575029",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Required columns present",
+      "status": "passed",
+      "detail": "17 required columns"
+    },
+    {
+      "id": "chk_44b1f3cfc2e9",
+      "artifactId": "art_310928a2ec50",
+      "scope": "coverage",
+      "name": "One row per competitor",
+      "status": "passed",
+      "detail": "3 rows for 3 enabled targets"
+    },
+    {
+      "id": "chk_04314556490f",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Data source labelled on every row",
+      "status": "passed",
+      "detail": "Every row says \"Live public web\""
+    },
+    {
+      "id": "chk_e2f4be3b769b",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "No empty required cells",
+      "status": "passed",
+      "detail": "All required cells populated (Unknown/Not found used explicitly)"
+    },
+    {
+      "id": "chk_7fb4381269fc",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Valid pricing status values",
+      "status": "passed",
+      "detail": "All in {Found, Not found, Source inaccessible}"
+    },
+    {
+      "id": "chk_6f94a6592149",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Missing prices not shown as zero",
+      "status": "passed",
+      "detail": "No zero placeholders for missing prices"
+    },
+    {
+      "id": "chk_7d7a5cab14a4",
+      "artifactId": "art_310928a2ec50",
+      "scope": "integrity",
+      "name": "Pricing status consistent with values",
+      "status": "passed",
+      "detail": "Found ⇔ prices listed"
+    },
+    {
+      "id": "chk_f92bf5dabb34",
+      "artifactId": "art_310928a2ec50",
+      "scope": "coverage",
+      "name": "Description sources are captured pages",
+      "status": "passed",
+      "detail": "Every description URL is in the capture log"
+    },
+    {
+      "id": "chk_4e3fe5f08e9a",
+      "artifactId": "art_310928a2ec50",
+      "scope": "coverage",
+      "name": "Evidence ids resolve",
+      "status": "passed",
+      "detail": "All evidence ids exist in the ledger"
+    },
+    {
+      "id": "chk_0c67be2b0d33",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "integrity",
+      "name": "File exists",
+      "status": "passed",
+      "detail": "msn_e8b87606bacb/files/research-report.md"
+    },
+    {
+      "id": "chk_8dd241471cc6",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "integrity",
+      "name": "Read back matches written bytes",
+      "status": "passed",
+      "detail": "7,806 bytes, sha256 43aa90762594…"
+    },
+    {
+      "id": "chk_d8801165000d",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "integrity",
+      "name": "Required sections present",
+      "status": "passed",
+      "detail": "7 sections found"
+    },
+    {
+      "id": "chk_318b6cbb8209",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "coverage",
+      "name": "Every captured source cited",
+      "status": "passed",
+      "detail": "6 sources cited in Evidence index"
+    },
+    {
+      "id": "chk_145dfc936045",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "coverage",
+      "name": "Every competitor has a profile",
+      "status": "passed",
+      "detail": "3 profiles"
+    },
+    {
+      "id": "chk_7dbf75fe1785",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "integrity",
+      "name": "Data source stated",
+      "status": "passed",
+      "detail": "Report states \"Live public web\""
+    },
+    {
+      "id": "chk_6cb855ba8b18",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "integrity",
+      "name": "Observed / inferred / unknown labelling",
+      "status": "passed",
+      "detail": "Label legend present"
+    },
+    {
+      "id": "chk_04887bc8568f",
+      "artifactId": "art_68cd4e025ca6",
+      "scope": "coverage",
+      "name": "Inline citations resolve",
+      "status": "passed",
+      "detail": "50 inline citations"
+    },
+    {
+      "id": "chk_e75d5d414fcd",
+      "artifactId": "art_16c44f668c8c",
+      "scope": "integrity",
+      "name": "File exists",
+      "status": "passed",
+      "detail": "msn_e8b87606bacb/files/evidence.json"
+    },
+    {
+      "id": "chk_a0d10cdfb405",
+      "artifactId": "art_16c44f668c8c",
+      "scope": "integrity",
+      "name": "Read back matches written bytes",
+      "status": "passed",
+      "detail": "44,610 bytes, sha256 21f912ccbd37…"
+    },
+    {
+      "id": "chk_dcaa3c1aa6d2",
+      "artifactId": "art_16c44f668c8c",
+      "scope": "integrity",
+      "name": "Parses as JSON",
+      "status": "passed",
+      "detail": "Valid JSON"
+    },
+    {
+      "id": "chk_64596feb7963",
+      "artifactId": "art_16c44f668c8c",
+      "scope": "integrity",
+      "name": "Ledger shape",
+      "status": "passed",
+      "detail": "6 sources, 78 observations"
+    },
+    {
+      "id": "chk_c9007ee5ec6a",
+      "artifactId": "art_16c44f668c8c",
+      "scope": "coverage",
+      "name": "Observations link to sources",
+      "status": "passed",
+      "detail": "Every observation links to a captured source"
+    },
+    {
+      "id": "chk_dfdd6a3f846d",
+      "scope": "grounding",
+      "name": "Stored captures intact",
+      "status": "passed",
+      "detail": "6 capture files hash-verified"
+    },
+    {
+      "id": "chk_3bc52517a3c3",
+      "scope": "grounding",
+      "name": "Observations grounded in captures",
+      "status": "passed",
+      "detail": "54 grounded, 0 ungrounded"
+    },
+    {
+      "id": "chk_8c411d4a79a0",
+      "scope": "render",
+      "name": "Screenshot evidence for every captured page",
+      "status": "passed",
+      "detail": "6 screenshots present, 6 pixel-checked non-blank, each linked to its capture step"
+    }
+  ],
+  "approvals": [],
+  "activity": [
+    {
+      "id": "act_631dba324c16",
+      "at": "2026-10-28T11:12:06.273Z",
+      "level": "info",
+      "message": "Planning in deterministic mode",
+      "tool": "planner"
+    },
+    {
+      "id": "act_67342f544762",
+      "at": "2026-10-28T11:12:06.279Z",
+      "level": "success",
+      "message": "Plan ready: 9 steps across 3 targets. Awaiting your approval.",
+      "tool": "planner"
+    },
+    {
+      "id": "act_e7e238910f43",
+      "at": "2026-10-28T11:12:30.133Z",
+      "level": "info",
+      "message": "Plan approved. Execution started."
+    },
+    {
+      "id": "act_0ad3ca5c1210",
+      "at": "2026-10-28T11:12:30.135Z",
+      "level": "info",
+      "stepId": "collect-otter-ai",
+      "message": "Started: Research otter.ai",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_c304414cd51f",
+      "at": "2026-10-28T11:12:30.136Z",
+      "level": "info",
+      "stepId": "collect-fireflies-ai",
+      "message": "Started: Research fireflies.ai",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_ec09c0997e39",
+      "at": "2026-10-28T11:12:30.137Z",
+      "level": "info",
+      "message": "Navigating to https://otter.ai/",
+      "data": {
+        "url": "https://otter.ai/"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_a13bebf2c33d",
+      "at": "2026-10-28T11:12:30.138Z",
+      "level": "info",
+      "message": "Navigating to https://fireflies.ai/",
+      "data": {
+        "url": "https://fireflies.ai/"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_527039f053fd",
+      "at": "2026-10-28T11:12:32.661Z",
+      "level": "success",
+      "message": "Loaded \"Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM\" (8,442 chars of visible text)",
+      "data": {
+        "url": "https://fireflies.ai/",
+        "status": 200,
+        "redirects": 1
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_8858ae618ec6",
+      "at": "2026-10-28T11:12:32.688Z",
+      "level": "info",
+      "message": "Captured screenshot of https://fireflies.ai/",
+      "data": {
+        "file": "screens/src_c9ba4a8a2a87.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_1e8662f7f5de",
+      "at": "2026-10-28T11:12:32.691Z",
+      "level": "success",
+      "message": "Extracted 10 observations from https://fireflies.ai/",
+      "data": {
+        "fields": [
+          "official_description",
+          "headline",
+          "vendor_claim",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_691a04fb9208",
+      "at": "2026-10-28T11:12:32.694Z",
+      "level": "info",
+      "message": "Navigating to https://fireflies.ai/pricing",
+      "data": {
+        "url": "https://fireflies.ai/pricing"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_88a5a73f94e7",
+      "at": "2026-10-28T11:12:34.579Z",
+      "level": "success",
+      "message": "Loaded \"Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes\" (9,301 chars of visible text)",
+      "data": {
+        "url": "https://fireflies.ai/pricing",
+        "status": 200,
+        "redirects": 1
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_f7c53aac158c",
+      "at": "2026-10-28T11:12:34.608Z",
+      "level": "info",
+      "message": "Captured screenshot of https://fireflies.ai/pricing",
+      "data": {
+        "file": "screens/src_9052aef1b2bc.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_8ad29633f7d7",
+      "at": "2026-10-28T11:12:34.608Z",
+      "level": "success",
+      "message": "Extracted 16 observations from https://fireflies.ai/pricing",
+      "data": {
+        "fields": [
+          "official_description",
+          "vendor_claim",
+          "displayed_price",
+          "free_tier",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "id": "act_c690206e7f5c",
+      "at": "2026-10-28T11:12:34.609Z",
+      "level": "success",
+      "stepId": "collect-fireflies-ai",
+      "message": "Finished: Research fireflies.ai — 2/2 pages captured for fireflies.ai",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_a612a954a50f",
+      "at": "2026-10-28T11:12:34.609Z",
+      "level": "info",
+      "stepId": "collect-fathom-video",
+      "message": "Started: Research fathom.video",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_da81564bc0b7",
+      "at": "2026-10-28T11:12:34.610Z",
+      "level": "info",
+      "message": "Navigating to https://fathom.video/",
+      "data": {
+        "url": "https://fathom.video/"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_9ffa95645d14",
+      "at": "2026-10-28T11:12:37.924Z",
+      "level": "success",
+      "message": "Loaded \"Otter Meeting Agent - AI Notetaker, Transcription, Insights\" (10,273 chars of visible text)",
+      "data": {
+        "url": "https://otter.ai/",
+        "status": 200,
+        "redirects": 0
+      },
+      "tool": "browser.open",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_e1002cbf6e8f",
+      "at": "2026-10-28T11:12:37.990Z",
+      "level": "info",
+      "message": "Captured screenshot of https://otter.ai/",
+      "data": {
+        "file": "screens/src_cc44d404be33.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_ae6f7c515ebd",
+      "at": "2026-10-28T11:12:37.990Z",
+      "level": "success",
+      "message": "Extracted 11 observations from https://otter.ai/",
+      "data": {
+        "fields": [
+          "official_description",
+          "headline",
+          "vendor_claim",
+          "displayed_price",
+          "free_tier",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_d58f132b9e9e",
+      "at": "2026-10-28T11:12:37.999Z",
+      "level": "info",
+      "message": "Navigating to https://otter.ai/pricing",
+      "data": {
+        "url": "https://otter.ai/pricing"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_741d5f6275eb",
+      "at": "2026-10-28T11:12:38.593Z",
+      "level": "success",
+      "message": "Loaded \"Fathom AI Notetaker - Never Take Notes Again\" (5,202 chars of visible text)",
+      "data": {
+        "url": "https://www.fathom.ai/",
+        "status": 200,
+        "redirects": 2
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_5e5732005e00",
+      "at": "2026-10-28T11:12:38.641Z",
+      "level": "info",
+      "message": "Captured screenshot of https://www.fathom.ai/",
+      "data": {
+        "file": "screens/src_68a626cb12ea.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_7bdde54a62b7",
+      "at": "2026-10-28T11:12:38.641Z",
+      "level": "success",
+      "message": "Extracted 10 observations from https://www.fathom.ai/",
+      "data": {
+        "fields": [
+          "official_description",
+          "headline",
+          "vendor_claim",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_ddcbd88907b7",
+      "at": "2026-10-28T11:12:38.646Z",
+      "level": "info",
+      "message": "Navigating to https://fathom.video/pricing",
+      "data": {
+        "url": "https://fathom.video/pricing"
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_3b76f5262eec",
+      "at": "2026-10-28T11:12:43.138Z",
+      "level": "success",
+      "message": "Loaded \"Pricing | Otter.ai\" (7,920 chars of visible text)",
+      "data": {
+        "url": "https://otter.ai/pricing",
+        "status": 200,
+        "redirects": 0
+      },
+      "tool": "browser.open",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_51bd92b23f37",
+      "at": "2026-10-28T11:12:43.168Z",
+      "level": "info",
+      "message": "Captured screenshot of https://otter.ai/pricing",
+      "data": {
+        "file": "screens/src_08db2c448674.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_9a904dcfbcdd",
+      "at": "2026-10-28T11:12:43.168Z",
+      "level": "success",
+      "message": "Extracted 12 observations from https://otter.ai/pricing",
+      "data": {
+        "fields": [
+          "official_description",
+          "headline",
+          "displayed_price",
+          "free_tier",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "id": "act_19fea3587455",
+      "at": "2026-10-28T11:12:43.176Z",
+      "level": "success",
+      "stepId": "collect-otter-ai",
+      "message": "Finished: Research otter.ai — 2/2 pages captured for otter.ai",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_a6ddce0d363e",
+      "at": "2026-10-28T11:12:43.654Z",
+      "level": "success",
+      "message": "Loaded \"Fathom Pricing 2026: Free Plan or Plans from $15/mo\" (5,054 chars of visible text)",
+      "data": {
+        "url": "https://www.fathom.ai/pricing",
+        "status": 200,
+        "redirects": 2
+      },
+      "tool": "browser.open",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_4d611104c00b",
+      "at": "2026-10-28T11:12:43.702Z",
+      "level": "info",
+      "message": "Captured screenshot of https://www.fathom.ai/pricing",
+      "data": {
+        "file": "screens/src_d1e12338dee5.jpg"
+      },
+      "tool": "browser.screenshot",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_8cb2813d377d",
+      "at": "2026-10-28T11:12:43.702Z",
+      "level": "success",
+      "message": "Extracted 13 observations from https://www.fathom.ai/pricing",
+      "data": {
+        "fields": [
+          "official_description",
+          "headline",
+          "vendor_claim",
+          "displayed_price",
+          "free_tier",
+          "target_audience"
+        ]
+      },
+      "tool": "browser.extract",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "id": "act_a7dee8240599",
+      "at": "2026-10-28T11:12:43.708Z",
+      "level": "success",
+      "stepId": "collect-fathom-video",
+      "message": "Finished: Research fathom.video — 2/2 pages captured for fathom.video",
+      "tool": "research.collect"
+    },
+    {
+      "id": "act_84b96cb5d693",
+      "at": "2026-10-28T11:12:43.708Z",
+      "level": "info",
+      "stepId": "analyze",
+      "message": "Started: Compare positioning and find market gaps",
+      "tool": "analysis.compare"
+    },
+    {
+      "id": "act_fd3ad99d475c",
+      "at": "2026-10-28T11:12:43.709Z",
+      "level": "success",
+      "stepId": "analyze",
+      "message": "Finished: Compare positioning and find market gaps — 3/3 competitors compared; 3 gaps inferred (rules)",
+      "tool": "analysis.compare"
+    },
+    {
+      "id": "act_e4bc8758d1d2",
+      "at": "2026-10-28T11:12:43.709Z",
+      "level": "info",
+      "stepId": "write-competitor-csv",
+      "message": "Started: Write competitor-analysis CSV",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_e98c065ea761",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "message": "Wrote competitor-analysis.csv (3,679 bytes)",
+      "data": {
+        "filename": "competitor-analysis.csv",
+        "sha256": "8ddcbe8a703d"
+      },
+      "tool": "artifact.write",
+      "stepId": "write-competitor-csv"
+    },
+    {
+      "id": "act_d4747260d5fb",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "info",
+      "stepId": "write-research-report",
+      "message": "Started: Write evidence-backed research report",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_6dbef0779a5b",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "message": "Wrote research-report.md (7,806 bytes)",
+      "data": {
+        "filename": "research-report.md",
+        "sha256": "43aa90762594"
+      },
+      "tool": "artifact.write",
+      "stepId": "write-research-report"
+    },
+    {
+      "id": "act_5a4afc1e1dc9",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "stepId": "write-competitor-csv",
+      "message": "Finished: Write competitor-analysis CSV — competitor-analysis.csv written (3,679 bytes)",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_fbb8848085d1",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "stepId": "write-research-report",
+      "message": "Finished: Write evidence-backed research report — research-report.md written (7,806 bytes)",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_42d53e6ec40f",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "info",
+      "stepId": "write-evidence-json",
+      "message": "Started: Export evidence ledger",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_f510f03d175c",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "message": "Wrote evidence.json (44,610 bytes)",
+      "data": {
+        "filename": "evidence.json",
+        "sha256": "21f912ccbd37"
+      },
+      "tool": "artifact.write",
+      "stepId": "write-evidence-json"
+    },
+    {
+      "id": "act_7ee181381446",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "success",
+      "stepId": "write-evidence-json",
+      "message": "Finished: Export evidence ledger — evidence.json written (44,610 bytes)",
+      "tool": "artifact.write"
+    },
+    {
+      "id": "act_57eddc1b36c5",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "info",
+      "stepId": "verify",
+      "message": "Started: Independently verify artifacts and evidence",
+      "tool": "verifier.check"
+    },
+    {
+      "id": "act_ed6a268356ee",
+      "at": "2026-10-28T11:12:43.710Z",
+      "level": "info",
+      "message": "Verifying 3 artifacts and 78 observations",
+      "data": {},
+      "tool": "verifier.check",
+      "stepId": "verify"
+    },
+    {
+      "id": "act_035403435ce4",
+      "at": "2026-10-28T11:12:44.004Z",
+      "level": "success",
+      "message": "Verification: 28 passed, 0 failed, 0 warnings",
+      "data": {},
+      "tool": "verifier.check",
+      "stepId": "verify"
+    },
+    {
+      "id": "act_f307040bd03e",
+      "at": "2026-10-28T11:12:44.004Z",
+      "level": "success",
+      "stepId": "verify",
+      "message": "Finished: Independently verify artifacts and evidence — 28/28 checks passed",
+      "tool": "verifier.check"
+    },
+    {
+      "id": "act_e8b96e8f01d7",
+      "at": "2026-10-28T11:12:44.004Z",
+      "level": "info",
+      "stepId": "finalize",
+      "message": "Started: Compile verification report and mission summary",
+      "tool": "report.finalize"
+    },
+    {
+      "id": "act_403f85e03995",
+      "at": "2026-10-28T11:12:44.005Z",
+      "level": "success",
+      "message": "Wrote verification-report.md (4,597 bytes)",
+      "data": {
+        "filename": "verification-report.md",
+        "sha256": "d118f6d87810"
+      },
+      "tool": "artifact.write",
+      "stepId": "finalize"
+    },
+    {
+      "id": "act_68aced679a53",
+      "at": "2026-10-28T11:12:44.005Z",
+      "level": "success",
+      "stepId": "finalize",
+      "message": "Finished: Compile verification report and mission summary — verification-report.md written; read-back matched",
+      "tool": "report.finalize"
+    },
+    {
+      "id": "act_683be5c97251",
+      "at": "2026-10-28T11:12:44.006Z",
+      "level": "success",
+      "message": "Mission completed."
+    }
+  ],
+  "frames": [
+    {
+      "at": "2026-10-28T11:12:30.137Z",
+      "url": "https://otter.ai/",
+      "state": "loading",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:30.138Z",
+      "url": "https://fireflies.ai/",
+      "state": "loading",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:32.688Z",
+      "url": "https://fireflies.ai/",
+      "requestedUrl": "https://fireflies.ai/",
+      "title": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+      "screenshotFile": "screens/src_c9ba4a8a2a87.jpg",
+      "state": "loaded",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:32.694Z",
+      "url": "https://fireflies.ai/pricing",
+      "state": "loading",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:34.608Z",
+      "url": "https://fireflies.ai/pricing",
+      "requestedUrl": "https://fireflies.ai/pricing",
+      "title": "Pricing & Plans | Fireflies.ai AI App for Smarter Meeting Notes",
+      "screenshotFile": "screens/src_9052aef1b2bc.jpg",
+      "state": "loaded",
+      "stepId": "collect-fireflies-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:34.610Z",
+      "url": "https://fathom.video/",
+      "state": "loading",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "at": "2026-10-28T11:12:37.990Z",
+      "url": "https://otter.ai/",
+      "requestedUrl": "https://otter.ai/",
+      "title": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+      "screenshotFile": "screens/src_cc44d404be33.jpg",
+      "state": "loaded",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:37.999Z",
+      "url": "https://otter.ai/pricing",
+      "state": "loading",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:38.641Z",
+      "url": "https://www.fathom.ai/",
+      "requestedUrl": "https://fathom.video/",
+      "title": "Fathom AI Notetaker - Never Take Notes Again",
+      "screenshotFile": "screens/src_68a626cb12ea.jpg",
+      "state": "loaded",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "at": "2026-10-28T11:12:38.646Z",
+      "url": "https://fathom.video/pricing",
+      "state": "loading",
+      "stepId": "collect-fathom-video"
+    },
+    {
+      "at": "2026-10-28T11:12:43.168Z",
+      "url": "https://otter.ai/pricing",
+      "requestedUrl": "https://otter.ai/pricing",
+      "title": "Pricing | Otter.ai",
+      "screenshotFile": "screens/src_08db2c448674.jpg",
+      "state": "loaded",
+      "stepId": "collect-otter-ai"
+    },
+    {
+      "at": "2026-10-28T11:12:43.702Z",
+      "url": "https://www.fathom.ai/pricing",
+      "requestedUrl": "https://fathom.video/pricing",
+      "title": "Fathom Pricing 2026: Free Plan or Plans from $15/mo",
+      "screenshotFile": "screens/src_d1e12338dee5.jpg",
+      "state": "loaded",
+      "stepId": "collect-fathom-video"
+    }
+  ],
+  "warnings": [],
+  "plan": {
+    "objective": "Compare three AI meeting assistants using only their public pages:\n\nhttps://otter.ai/\nhttps://otter.ai/pricing\nhttps://fireflies.ai/\nhttps://fireflies.ai/pricing\nhttps://fathom.video/\nhttps://fathom.video/pricing\n\nReport their main features, publicly listed pricing, and plan limits. Include source URLs for every factual finding. Generate a CSV and a report. Mark inaccessible pages and missing information clearly; do not invent prices or features.",
+    "productName": "Your Product",
+    "productPitch": "",
+    "deliverables": [
+      "competitor-analysis.csv",
+      "research-report.md",
+      "evidence.json"
+    ],
+    "targets": [
+      {
+        "id": "otter-ai",
+        "name": "otter.ai",
+        "urls": [
+          "https://otter.ai/",
+          "https://otter.ai/pricing"
+        ],
+        "origin": "user",
+        "enabled": true
+      },
+      {
+        "id": "fireflies-ai",
+        "name": "fireflies.ai",
+        "urls": [
+          "https://fireflies.ai/",
+          "https://fireflies.ai/pricing"
+        ],
+        "origin": "user",
+        "enabled": true
+      },
+      {
+        "id": "fathom-video",
+        "name": "fathom.video",
+        "urls": [
+          "https://fathom.video/",
+          "https://fathom.video/pricing"
+        ],
+        "origin": "user",
+        "enabled": true
+      }
+    ],
+    "steps": [
+      {
+        "id": "collect-otter-ai",
+        "title": "Research otter.ai",
+        "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+        "tool": "research.collect",
+        "input": {
+          "targetId": "otter-ai"
+        },
+        "dependsOn": [],
+        "critical": false
+      },
+      {
+        "id": "collect-fireflies-ai",
+        "title": "Research fireflies.ai",
+        "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+        "tool": "research.collect",
+        "input": {
+          "targetId": "fireflies-ai"
+        },
+        "dependsOn": [],
+        "critical": false
+      },
+      {
+        "id": "collect-fathom-video",
+        "title": "Research fathom.video",
+        "description": "Open 2 official pages, capture visible text, metadata and a screenshot, and extract description and displayed pricing.",
+        "tool": "research.collect",
+        "input": {
+          "targetId": "fathom-video"
+        },
+        "dependsOn": [],
+        "critical": false
+      },
+      {
+        "id": "analyze",
+        "title": "Compare positioning and find market gaps",
+        "description": "Compare captured evidence across competitors. Inferences are labelled and cite the observations they rest on.",
+        "tool": "analysis.compare",
+        "input": {},
+        "dependsOn": [
+          "collect-otter-ai",
+          "collect-fireflies-ai",
+          "collect-fathom-video"
+        ],
+        "critical": true
+      },
+      {
+        "id": "write-competitor-csv",
+        "title": "Write competitor-analysis CSV",
+        "description": "Write competitor-analysis.csv to the mission artifact directory from observed tool outputs.",
+        "tool": "artifact.write",
+        "input": {
+          "kind": "competitor_csv",
+          "filename": "competitor-analysis.csv"
+        },
+        "dependsOn": [
+          "analyze"
+        ],
+        "critical": true
+      },
+      {
+        "id": "write-research-report",
+        "title": "Write evidence-backed research report",
+        "description": "Write research-report.md to the mission artifact directory from observed tool outputs.",
+        "tool": "artifact.write",
+        "input": {
+          "kind": "research_report",
+          "filename": "research-report.md"
+        },
+        "dependsOn": [
+          "analyze"
+        ],
+        "critical": true
+      },
+      {
+        "id": "write-evidence-json",
+        "title": "Export evidence ledger",
+        "description": "Write evidence.json to the mission artifact directory from observed tool outputs.",
+        "tool": "artifact.write",
+        "input": {
+          "kind": "evidence_json",
+          "filename": "evidence.json"
+        },
+        "dependsOn": [
+          "analyze"
+        ],
+        "critical": true
+      },
+      {
+        "id": "verify",
+        "title": "Independently verify artifacts and evidence",
+        "description": "Read every artifact back from disk, parse it, check structure and citations, and re-check each quoted excerpt against the stored page capture.",
+        "tool": "verifier.check",
+        "input": {
+          "filenames": [
+            "competitor-analysis.csv",
+            "research-report.md",
+            "evidence.json"
+          ]
+        },
+        "dependsOn": [
+          "write-competitor-csv",
+          "write-research-report",
+          "write-evidence-json"
+        ],
+        "critical": true
+      },
+      {
+        "id": "finalize",
+        "title": "Compile verification report and mission summary",
+        "description": "Write verification-report.md with counts computed from execution results.",
+        "tool": "report.finalize",
+        "input": {},
+        "dependsOn": [
+          "verify"
+        ],
+        "critical": true
+      }
+    ],
+    "planner": "deterministic",
+    "plannerNotes": [
+      "Targets taken from 6 URL(s) in your instruction."
+    ]
+  },
+  "analysis": {
+    "generatedBy": "rules",
+    "productName": "Your Product",
+    "productPitch": "",
+    "profiles": [
+      {
+        "targetId": "otter-ai",
+        "name": "otter.ai",
+        "status": "captured",
+        "primaryUrl": "https://otter.ai/",
+        "pageTitle": "Otter Meeting Agent - AI Notetaker, Transcription, Insights",
+        "capturedAt": "2026-10-28T11:12:37.923Z",
+        "sourcesCaptured": 2,
+        "sourcesAttempted": 2,
+        "description": {
+          "value": "Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.",
+          "obsId": "obs_0ec0dfe675ed",
+          "sourceUrl": "https://otter.ai/",
+          "excerpt": "Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items."
+        },
+        "headline": {
+          "value": "Meeting AI that turns talk into action",
+          "obsId": "obs_2f06cb3de1a7",
+          "sourceUrl": "https://otter.ai/",
+          "excerpt": "Meeting AI that turns talk into action"
+        },
+        "prices": [
+          {
+            "value": "$19.99/month",
+            "obsId": "obs_86ba630f3d97",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "From $19.99/month per user"
+          },
+          {
+            "value": "$8.33",
+            "obsId": "obs_673ad3d7fd33",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "$8.33"
+          },
+          {
+            "value": "$4.17",
+            "obsId": "obs_aace4948d851",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "$4.17*"
+          },
+          {
+            "value": "$19.99",
+            "obsId": "obs_b8ba401a179a",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "$19.99"
+          },
+          {
+            "value": "$6.67",
+            "obsId": "obs_a64fee86abb6",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "Otter Pro Annual: $6.67 USD per month (billed $79.99 annually)"
+          },
+          {
+            "value": "$79.99",
+            "obsId": "obs_92293fd23f5b",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "Otter Pro Annual: $6.67 USD per month (billed $79.99 annually)"
+          },
+          {
+            "value": "$13.59",
+            "obsId": "obs_d240c6e4740d",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "Otter Pro Monthly: $13.59 USD per month"
+          }
+        ],
+        "pricingStatus": "Found",
+        "freeTier": {
+          "value": "Free option displayed",
+          "obsId": "obs_f7f9e42f32d7",
+          "sourceUrl": "https://otter.ai/",
+          "excerpt": "Start for free"
+        },
+        "audiences": [
+          {
+            "value": "Teams & collaboration",
+            "obsId": "obs_009434cf29de",
+            "sourceUrl": "https://otter.ai/pricing",
+            "excerpt": "Zoom, MS Teams, and Google Meet"
+          },
+          {
+            "value": "Sales & support",
+            "obsId": "obs_ca4cdc19c1dd",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "— Laura Brown, Vice President of Sales at Aiden Technologies"
+          },
+          {
+            "value": "Research & analysis",
+            "obsId": "obs_e8afc0f86a5c",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "Push sales insights to your CRM"
+          }
+        ],
+        "claims": [
+          {
+            "value": "Before, during, and after every meeting.",
+            "obsId": "obs_46e904d95913",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "Before, during, and after every meeting."
+          },
+          {
+            "value": "Like having your own executive assistant",
+            "obsId": "obs_1d8d1de10dff",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "Like having your own executive assistant"
+          },
+          {
+            "value": "Whatever you do, Otter works for you",
+            "obsId": "obs_4bf275f2b4af",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "Whatever you do, Otter works for you"
+          },
+          {
+            "value": "Connect to your favorite apps",
+            "obsId": "obs_11072360637c",
+            "sourceUrl": "https://otter.ai/",
+            "excerpt": "Connect to your favorite apps"
+          }
+        ],
+        "differentiators": [
+          {
+            "text": "Vendor-stated: Before, during, and after every meeting.",
+            "basis": [
+              "obs_46e904d95913"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Like having your own executive assistant",
+            "basis": [
+              "obs_1d8d1de10dff"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Whatever you do, Otter works for you",
+            "basis": [
+              "obs_4bf275f2b4af"
+            ],
+            "by": "rules"
+          }
+        ],
+        "positioning": {
+          "text": "Leads with \"Meeting AI that turns talk into action\"; describes itself as: Otter AI Meeting Agent supports real-time transcription, live chat, automated summaries, insights, and action items.",
+          "basis": [
+            "obs_2f06cb3de1a7",
+            "obs_0ec0dfe675ed"
+          ],
+          "by": "rules"
+        }
+      },
+      {
+        "targetId": "fireflies-ai",
+        "name": "fireflies.ai",
+        "status": "captured",
+        "primaryUrl": "https://fireflies.ai/",
+        "pageTitle": "Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM",
+        "capturedAt": "2026-10-28T11:12:32.645Z",
+        "sourcesCaptured": 2,
+        "sourcesAttempted": 2,
+        "description": {
+          "value": "Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.",
+          "obsId": "obs_231baabea704",
+          "sourceUrl": "https://fireflies.ai/",
+          "excerpt": "Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place."
+        },
+        "headline": {
+          "value": "The #1 AI Assistant For Your Meetings",
+          "obsId": "obs_d253eb71ef14",
+          "sourceUrl": "https://fireflies.ai/",
+          "excerpt": "The #1 AI Assistant For Your Meetings"
+        },
+        "prices": [
+          {
+            "value": "$0",
+            "obsId": "obs_497237ca528d",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$0"
+          },
+          {
+            "value": "$18",
+            "obsId": "obs_0fcdca60a3e6",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$18"
+          },
+          {
+            "value": "$10",
+            "obsId": "obs_ee402b431310",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$10"
+          },
+          {
+            "value": "$29",
+            "obsId": "obs_611b33ba17c5",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$29"
+          },
+          {
+            "value": "$19",
+            "obsId": "obs_a4759ca41d56",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$19"
+          },
+          {
+            "value": "$39",
+            "obsId": "obs_1a2016ac6d0f",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "$39"
+          }
+        ],
+        "pricingStatus": "Found",
+        "freeTier": {
+          "value": "Free option displayed",
+          "obsId": "obs_b99fc7909c9d",
+          "sourceUrl": "https://fireflies.ai/pricing",
+          "excerpt": "Free"
+        },
+        "audiences": [
+          {
+            "value": "Teams & collaboration",
+            "obsId": "obs_8e7b119b765d",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "Flexible plans for teams of all sizes. Upgrade to get unlimited transcripts, summaries, and video recordings."
+          },
+          {
+            "value": "Enterprises",
+            "obsId": "obs_1c5afc186f94",
+            "sourceUrl": "https://fireflies.ai/pricing",
+            "excerpt": "Enterprise"
+          },
+          {
+            "value": "Research & analysis",
+            "obsId": "obs_01cefe0a6ac5",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "Drive Insights With Conversation Intelligence"
+          }
+        ],
+        "claims": [
+          {
+            "value": "High Quality Meeting Transcription & Recording",
+            "obsId": "obs_034ec4765c6c",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "High Quality Meeting Transcription & Recording"
+          },
+          {
+            "value": "Capture Meetings Anywhere & Anytime",
+            "obsId": "obs_4eb770af9ed2",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "Capture Meetings Anywhere & Anytime"
+          },
+          {
+            "value": "Remember Every Conversation With AI Powered Search",
+            "obsId": "obs_0e06ae5af306",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "Remember Every Conversation With AI Powered Search"
+          },
+          {
+            "value": "Get Real-Time Suggestions, Coaching, And Answers During Meetings.",
+            "obsId": "obs_9638504f41cd",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "Get Real-Time Suggestions, Coaching, And Answers During Meetings."
+          },
+          {
+            "value": "Drive Insights With Conversation Intelligence",
+            "obsId": "obs_ee2660301330",
+            "sourceUrl": "https://fireflies.ai/",
+            "excerpt": "Drive Insights With Conversation Intelligence"
+          }
+        ],
+        "differentiators": [
+          {
+            "text": "Vendor-stated: High Quality Meeting Transcription & Recording",
+            "basis": [
+              "obs_034ec4765c6c"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Capture Meetings Anywhere & Anytime",
+            "basis": [
+              "obs_4eb770af9ed2"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Remember Every Conversation With AI Powered Search",
+            "basis": [
+              "obs_0e06ae5af306"
+            ],
+            "by": "rules"
+          }
+        ],
+        "positioning": {
+          "text": "Leads with \"The #1 AI Assistant For Your Meetings\"; describes itself as: Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.",
+          "basis": [
+            "obs_d253eb71ef14",
+            "obs_231baabea704"
+          ],
+          "by": "rules"
+        }
+      },
+      {
+        "targetId": "fathom-video",
+        "name": "fathom.video",
+        "status": "captured",
+        "primaryUrl": "https://www.fathom.ai/",
+        "pageTitle": "Fathom AI Notetaker - Never Take Notes Again",
+        "capturedAt": "2026-10-28T11:12:38.592Z",
+        "sourcesCaptured": 2,
+        "sourcesAttempted": 2,
+        "description": {
+          "value": "Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.",
+          "obsId": "obs_575559ce524e",
+          "sourceUrl": "https://www.fathom.ai/",
+          "excerpt": "Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams."
+        },
+        "headline": {
+          "value": "AI notetaking that is out of this world",
+          "obsId": "obs_b0d0b65d1cdf",
+          "sourceUrl": "https://www.fathom.ai/",
+          "excerpt": "AI notetaking that is out of this world"
+        },
+        "prices": [
+          {
+            "value": "$15",
+            "obsId": "obs_922c1e01b717",
+            "sourceUrl": "https://www.fathom.ai/pricing",
+            "excerpt": "$15"
+          },
+          {
+            "value": "$25",
+            "obsId": "obs_053d547cbe6e",
+            "sourceUrl": "https://www.fathom.ai/pricing",
+            "excerpt": "$25"
+          },
+          {
+            "value": "$0",
+            "obsId": "obs_daeb32eed9aa",
+            "sourceUrl": "https://www.fathom.ai/pricing",
+            "excerpt": "$0"
+          },
+          {
+            "value": "$16",
+            "obsId": "obs_53898eaa71c0",
+            "sourceUrl": "https://www.fathom.ai/pricing",
+            "excerpt": "$16"
+          }
+        ],
+        "pricingStatus": "Found",
+        "freeTier": {
+          "value": "Free option displayed",
+          "obsId": "obs_78b91b6e515f",
+          "sourceUrl": "https://www.fathom.ai/pricing",
+          "excerpt": "Free plan"
+        },
+        "audiences": [
+          {
+            "value": "Teams & collaboration",
+            "obsId": "obs_402c280b03d9",
+            "sourceUrl": "https://www.fathom.ai/pricing",
+            "excerpt": "FOR TEAMS"
+          },
+          {
+            "value": "Marketing & content",
+            "obsId": "obs_c4b2aecc14b3",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Marketing"
+          },
+          {
+            "value": "Research & analysis",
+            "obsId": "obs_94d060f3dd18",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Meeting notes, insights and action items sync automatically with your tools – Slack, Salesforce, HubSpot, Notion, Asana, and beyond – without you lifting a finger."
+          }
+        ],
+        "claims": [
+          {
+            "value": "Whether you’re a team of 1 or 1,000, Fathom’s got your back",
+            "obsId": "obs_1f8a9ff5b572",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Whether you’re a team of 1 or 1,000, Fathom’s got your back"
+          },
+          {
+            "value": "Shared visibility. Smarter execution.",
+            "obsId": "obs_cc52aed19e90",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Shared visibility. Smarter execution."
+          },
+          {
+            "value": "Fathom teams ‍work smarter",
+            "obsId": "obs_2e222f327497",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Fathom teams ‍work smarter"
+          },
+          {
+            "value": "Make your team unstoppable",
+            "obsId": "obs_81fb262141f5",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Make your team unstoppable"
+          },
+          {
+            "value": "Works where you meet",
+            "obsId": "obs_287a3014c1d9",
+            "sourceUrl": "https://www.fathom.ai/",
+            "excerpt": "Works where you meet"
+          }
+        ],
+        "differentiators": [
+          {
+            "text": "Vendor-stated: Whether you’re a team of 1 or 1,000, Fathom’s got your back",
+            "basis": [
+              "obs_1f8a9ff5b572"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Shared visibility. Smarter execution.",
+            "basis": [
+              "obs_cc52aed19e90"
+            ],
+            "by": "rules"
+          },
+          {
+            "text": "Vendor-stated: Fathom teams ‍work smarter",
+            "basis": [
+              "obs_2e222f327497"
+            ],
+            "by": "rules"
+          }
+        ],
+        "positioning": {
+          "text": "Leads with \"AI notetaking that is out of this world\"; describes itself as: Fathom captures, transcribes, and summarizes Zoom, Google Meet, and Microsoft Teams calls. Free for individuals, with AI-powered CRM updates for teams.",
+          "basis": [
+            "obs_b0d0b65d1cdf",
+            "obs_575559ce524e"
+          ],
+          "by": "rules"
+        }
+      }
+    ],
+    "gaps": [
+      {
+        "id": "gap_f68e211f4e9d",
+        "statement": "\"Developers & engineers\" appears under-addressed: only 0 of 3 captured competitor pages show it among their top audience signals.",
+        "rationale": "Computed from keyword audience signals on captured pages. Absence of a keyword is weak evidence; review before relying on it.",
+        "basis": [
+          "obs_009434cf29de",
+          "obs_ca4cdc19c1dd",
+          "obs_e8afc0f86a5c",
+          "obs_8e7b119b765d",
+          "obs_1c5afc186f94",
+          "obs_01cefe0a6ac5",
+          "obs_402c280b03d9",
+          "obs_c4b2aecc14b3",
+          "obs_94d060f3dd18"
+        ],
+        "confidence": "low",
+        "by": "rules"
+      },
+      {
+        "id": "gap_062b1ba572a5",
+        "statement": "\"Enterprises\" appears under-addressed: only 1 of 3 captured competitor pages show it among their top audience signals.",
+        "rationale": "Computed from keyword audience signals on captured pages. Absence of a keyword is weak evidence; review before relying on it.",
+        "basis": [
+          "obs_009434cf29de",
+          "obs_ca4cdc19c1dd",
+          "obs_e8afc0f86a5c",
+          "obs_8e7b119b765d",
+          "obs_1c5afc186f94",
+          "obs_01cefe0a6ac5",
+          "obs_402c280b03d9",
+          "obs_c4b2aecc14b3",
+          "obs_94d060f3dd18"
+        ],
+        "confidence": "low",
+        "by": "rules"
+      },
+      {
+        "id": "gap_95157008fe3f",
+        "statement": "\"Individuals & professionals\" appears under-addressed: only 0 of 3 captured competitor pages show it among their top audience signals.",
+        "rationale": "Computed from keyword audience signals on captured pages. Absence of a keyword is weak evidence; review before relying on it.",
+        "basis": [
+          "obs_009434cf29de",
+          "obs_ca4cdc19c1dd",
+          "obs_e8afc0f86a5c",
+          "obs_8e7b119b765d",
+          "obs_1c5afc186f94",
+          "obs_01cefe0a6ac5",
+          "obs_402c280b03d9",
+          "obs_c4b2aecc14b3",
+          "obs_94d060f3dd18"
+        ],
+        "confidence": "low",
+        "by": "rules"
+      }
+    ],
+    "landing": {
+      "headline": "Your Product: the AI workspace built for developers & engineers",
+      "subheadline": "Every answer comes with its sources, every output is checked, and nothing is claimed that was not observed.",
+      "valueProps": [
+        {
+          "title": "Made for Developers & engineers",
+          "body": "Workflows, defaults and examples designed for this audience from day one.",
+          "gapId": "gap_f68e211f4e9d"
+        },
+        {
+          "title": "Evidence, not assertions",
+          "body": "Outputs link to the exact source pages they came from, with capture time and excerpt."
+        },
+        {
+          "title": "Verified deliverables",
+          "body": "Files are read back and checked before they are handed over."
+        }
+      ],
+      "pricingAngle": "Competitor list prices observed on captured pages include $19.99/month, $8.33, $4.17, $19.99, $6.67. Price Your Product transparently and publish it on the page.",
+      "cta": "Join the Your Product early access list",
+      "by": "rules"
+    },
+    "notes": [
+      "Deterministic mode: positioning summaries restate captured headlines and descriptions; audiences come from keyword signals; gaps are computed by counting signals across competitors. No AI reasoning was used."
+    ],
+    "rejectedModelClaims": 0,
+    "generatedAt": "2026-10-28T11:12:43.708Z"
+  },
+  "summary": {
+    "generatedAt": "2026-10-28T11:12:44.004Z",
+    "sourcesAttempted": 6,
+    "sourcesCaptured": 6,
+    "sourcesFailed": 0,
+    "targetsTotal": 3,
+    "targetsWithAnyCapture": 3,
+    "descriptionsFound": 3,
+    "pricesFound": 3,
+    "pricesUnavailable": 0,
+    "observationsTotal": 54,
+    "observationsGrounded": 54,
+    "observationsUngrounded": 0,
+    "inferences": 24,
+    "claimsNeedingReview": 24,
+    "artifactsChecked": 3,
+    "checksPassed": 28,
+    "checksFailed": 0,
+    "checksWarned": 0,
+    "integrityNote": "Artifact checks prove the files are well-formed, complete and traceable to captured pages. They do not prove the vendors' claims are true or current."
+  },
+  "finalSummary": "Captured 6/6 sources across 3/3 competitors. Found 3 descriptions and displayed prices for 3 competitors (0 unavailable). 54/54 observations re-grounded; 24 inferences need review. 28 checks passed, 0 failed."
+}

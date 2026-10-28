@@ -9,7 +9,8 @@ import { BrowserManager } from "./browser/browserManager.js";
 import { createRegistry } from "./tools/index.js";
 import { ToolError } from "./tools/registry.js";
 import { llmStatus } from "./llm/claude.js";
-import { PlanValidationError } from "./core/planner.js";
+import { pricingPages, readPricingScreenshots } from "./core/vision.js";
+import { PlanValidationError, type FixtureCatalog } from "./core/planner.js";
 import { UnsafePathError, assertSafeId } from "./security/paths.js";
 import { UnsafeUrlError, type UrlPolicy } from "./security/urlSafety.js";
 import { config } from "./config.js";
@@ -19,6 +20,8 @@ export interface AppOptions {
   urlPolicy?: UrlPolicy;
   forceMode?: "claude" | "deterministic";
   staticDir?: string;
+  /** Offline demo: fictional vendors served locally. Missions are labelled as fixture data everywhere. */
+  fixture?: FixtureCatalog;
 }
 
 const CreateBody = z.object({
@@ -42,6 +45,17 @@ const TargetsBody = z.object({
     .max(8),
 });
 
+const LOOPBACK_HOST = /^(?:127\.0\.0\.1|localhost|\[::1\])(?::\d{1,5})?$/i;
+
+function isLoopbackOrigin(origin: string): boolean {
+  try {
+    const u = new URL(origin);
+    return (u.protocol === "http:" || u.protocol === "https:") && LOOPBACK_HOST.test(u.host);
+  } catch {
+    return false;
+  }
+}
+
 const MIME: Record<string, string> = {
   ".csv": "text/csv; charset=utf-8",
   ".md": "text/markdown; charset=utf-8",
@@ -60,9 +74,23 @@ export function createApp(opts: AppOptions = {}) {
     stepTimeoutMs: config.stepTimeoutMs,
     maxParallel: 2,
     urlPolicy: opts.urlPolicy,
+    fixture: opts.fixture,
   });
   const app = express();
   app.disable("x-powered-by");
+  // Loopback only: a non-loopback Host means DNS rebinding, and a foreign Origin on a write means a cross-site post.
+  app.use((req, res, next) => {
+    if (!LOOPBACK_HOST.test(req.headers.host ?? "")) {
+      res.status(403).json({ error: "This server only answers requests addressed to 127.0.0.1 or localhost", code: "forbidden_host" });
+      return;
+    }
+    const origin = req.headers.origin;
+    if (origin !== undefined && req.method !== "GET" && req.method !== "HEAD" && !isLoopbackOrigin(origin)) {
+      res.status(403).json({ error: "Requests started by another website are not accepted", code: "forbidden_origin" });
+      return;
+    }
+    next();
+  });
   app.use(express.json({ limit: "64kb" }));
   app.use((_req, res, next) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
@@ -85,6 +113,8 @@ export function createApp(opts: AppOptions = {}) {
     res.json({
       ok: true,
       reasoning: { mode: opts.forceMode ?? llm.mode, configured: llm.configured, model: llm.configured ? llm.model : null },
+      dataSource: opts.fixture ? "fixture" : "live",
+      fixtureSites: opts.fixture ? opts.fixture.catalog.map((e) => ({ name: e.name, urls: e.urls })) : [],
       browser: { engine: "chromium (Playwright)", headed: browser.isHeaded, manualTakeover: browser.isHeaded ? "window" : "pause-only" },
       tools: registry.describe(),
     });
@@ -117,6 +147,30 @@ export function createApp(opts: AppOptions = {}) {
   app.post("/api/missions/:id/pause", wrap((req, res) => res.json(engine.pause(mission(req).id))));
   app.post("/api/missions/:id/takeover", wrap((req, res) => res.json(engine.pause(mission(req).id, "Manual takeover requested"))));
   app.post("/api/missions/:id/resume", wrap((req, res) => res.json(engine.resume(mission(req).id))));
+  // Multimodal companion: Claude reads the captured pricing screenshots. Paid, so the request must
+  // carry the user's explicit confirmation, and it runs at most once per mission.
+  const visionBusy = new Set<string>();
+  app.post(
+    "/api/missions/:id/vision/pricing",
+    wrap(async (req, res) => {
+      z.object({ confirmPaidCall: z.literal(true, "Reading screenshots is a paid Claude call and needs confirmPaidCall: true") }).parse(req.body ?? {});
+      const m = mission(req);
+      if (!llmStatus().configured) throw new ToolError("Claude is not configured on this server", "invalid_state", "Start the server with ANTHROPIC_API_KEY set to use screenshot reading.");
+      // The offline demo forces rule-based mode and promises no Claude calls; that holds here too.
+      if ((opts.forceMode ?? llmStatus().mode) !== "claude") throw new ToolError("This server runs in rule-based mode and makes no Claude calls", "invalid_state");
+      if (m.status !== "completed" && m.status !== "completed_with_warnings") throw new ToolError("Screenshots can be read once the mission has completed", "invalid_state");
+      if (m.visionRuns?.length) throw new ToolError("The screenshots of this mission were already read", "invalid_state");
+      if (!pricingPages(m).length) throw new ToolError("This mission has no captured pricing screenshots", "invalid_state");
+      if (visionBusy.has(m.id)) throw new ToolError("Screenshot reading is already running for this mission", "invalid_state");
+      visionBusy.add(m.id);
+      try {
+        const run = await readPricingScreenshots(store, m.id);
+        res.json({ run, mission: store.get(m.id) });
+      } finally {
+        visionBusy.delete(m.id);
+      }
+    }),
+  );
   app.post(
     "/api/missions/:id/approvals/:approvalId",
     wrap((req, res) => {

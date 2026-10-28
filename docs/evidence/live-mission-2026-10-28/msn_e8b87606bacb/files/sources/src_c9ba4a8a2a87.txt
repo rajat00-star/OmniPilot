@@ -1,0 +1,432 @@
+URL: https://fireflies.ai/
+REQUESTED_URL: https://fireflies.ai/
+CAPTURED_AT: 2026-10-28T11:12:32.645Z
+HTTP_STATUS: 200
+TITLE: Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM
+META_DESCRIPTION: Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.
+OG_TITLE: Fireflies.ai | #1 AI Teammate for Meetings, Email, Chat & CRM
+OG_DESCRIPTION: Fireflies takes notes, manages tasks, and automates workflows across meetings, email, chat, CRM, and your apps. Build a searchable knowledge base of your team’s work in one place.
+CANONICAL: https://fireflies.ai
+H1: The #1 AI Assistant For Your Meetings
+H2: High Quality Meeting Transcription & Recording
+H2: Comprehensive AI Summaries
+H2: Capture Meetings Anywhere & Anytime
+H2: Remember Every Conversation With AI Powered Search
+H2: Get Real-Time Suggestions, Coaching, And Answers During Meetings.
+H2: Drive Insights With Conversation Intelligence
+H2: All Your Tasks, Contacts, & Knowledge In One Place
+H2: Go Beyond Notetaking With 200+ AI Skills
+H2: Meeting Intelligence With Fireflies MCP
+H2: Integrate Fireflies With Your Favorite Work Tools
+H2: Enterprise-Grade Security
+H2: Don't Take Our Word For It
+H2: Frequently Asked Questions
+H2: Unlock The Knowledge Buried Inside Your Conversations
+H2: Product
+H2: Use Cases
+H2: Integrations
+H2: Company
+H2: Learn
+H2: Download
+H3: Your privacy
+H3: 95% Accurate
+H3: 100+ Languages
+H3: Speaker Recognition
+H3: Auto-Language Detection
+H3: AI Note Taker Bot
+H3: Chrome Extension
+H3: Mobile App
+H3: Desktop App
+H3: Dialers & API
+H3: Audio & Video Files
+H3: Meeting Search
+H3: AskFred
+H3: Speaker Talk-time
+H3: AI Filters
+H3: Sentiment Analysis
+H3: Topic Trackers
+H3: CRM
+H3: Project Management
+H3: ATS
+H3: Slack
+H3: SOC 2 Type II
+H3: ISO 42001
+H3: HIPAA & FERPA
+H3: Zero Data Retention
+H3: Private Storage
+H3: GDPR & Data Ownership
+H3: Expand Summary Notes
+H3: Download Meetings
+H3: Soundbites
+---- VISIBLE TEXT ----
+Your privacy
+
+Store cookies to enhance your experience, improve navigation, analyze site usage, and assist in delivering content that's more relevant to you.
+
+Preference
+Accept all cookies
+NEW
+
+Meet Fireflies Talk: Free, unlimited dictation wherever you type. See Now
+
+Request Demo
+Get Started
+The #1 AI Assistant For
+Your Meetings
+
+Transcribe, summarize, search, and analyze all your team conversations.
+
+Get Started
+Request Demo
+Rated 4.8 / 5
+GDPR, SOC2, More
+
+USED ACROSS 1 MILLION+ COMPANIES
+
+High Quality Meeting Transcription & Recording
+Get Started
+95% Accurate
+
+Fireflies is the industry leader in transcription accuracy.
+
+100+ Languages
+
+Transcribe meetings in English, Spanish, French, & several others.
+
+Speaker Recognition
+
+Fireflies identifies different speakers in meetings and audio files.
+
+Auto-Language Detection
+
+Automatically switch languages from meeting to meeting with ease.
+
+Comprehensive AI Summaries
+Get detailed notes, action items, and customized summaries instantly after every meeting.
+Get Started
+Overview
+Bullet Points
+Action Items
+Custom Notes
+Capture Meetings Anywhere & Anytime
+
+AI Note Taker Bot
+
+Invite fred@fireflies.ai to a live meeting or have it autojoin your calendar meetings to record, transcribe, and summarize.
+
+Chrome Extension
+
+Automatically record your Google Meet calls and get real-time transcripts.
+
+Mobile App
+
+Transcribe and summarize in-person conversation with the Fireflies mobile app.
+
+Desktop App
+
+Transcribe and summarize your calls with the Fireflies desktop app.
+
+Dialers & API
+
+Transcribe calls from Aircall, Ringcentral and other dialers or use our API to process audio files.
+
+Audio & Video Files
+
+Transcribe audio and video files with AI meeting summaries. (MP3, MP4, WAV, M4A)
+
+Remember Every Conversation With AI Powered Search
+Fireflies gives you perfect memory after every conversation.
+Meeting Search
+
+Remember what was discussed on calls several months ago down to the specific sentence and timestamp.
+
+AskFred
+
+Let Fred review your meetings and come back with answers to any question you have.
+
+Get Real-Time Suggestions, Coaching,
+And Answers During Meetings.
+
+Meet the new Live Assist that can provide real-time suggestions, coaching, and answers during your meetings.
+
+Explore Live Assist
+Drive Insights With Conversation Intelligence
+Detailed analytics to help you uncover insights across every conversation.
+Speaker Talk-time
+
+Automatically track each participant's speaking time and easily monitor participation in meetings.
+
+AI Filters
+Sentiment Analysis
+Topic Trackers
+All Your Tasks, Contacts, & Knowledge In One Place
+
+Understand what’s happening across the company and what your team needs to get done.
+
+Get Started
+Tasks
+Contacts
+Feed
+Go Beyond Notetaking With 200+ AI Skills
+
+AI Skills help you automatically extract key details, generate follow-up emails, score candidates, and other insights from your meetings. Browse
+
+Get Started
+Sales
+Recruiting
+Marketing
+User Research
+Engineering
+Finance
+Healthcare
+Media & Podcasting
+Venture Capital
+New
+Meeting Intelligence With
+Fireflies MCP
+Fireflies MCP Server lets you bring meeting insights into your AI tools like Claude, Devin, and ChatGPT in one click.
+Integrate Fireflies With Your Favorite Work Tools
+
+Integrate Fireflies with your favorite Work Tools
+
+5+
+CRM
+Auto-fill out your CRM with notes and call logs.
+9+
+Project Management
+Create tasks automatically after every meeting.
+1+
+ATS
+Send meeting notes and transcripts to Greenhouse, Lever and others.
+Slack
+Get notes and alerts in the channels where you work.
+Enterprise-Grade Security
+Fireflies is the preferred platform for CIOs across the Fortune 500, offering robust admin controls and stringent security protocols.
+Get Started
+SOC 2 Type II
+
+Fireflies follows industry standards for data security, privacy, and confidentiality.
+
+ISO 42001
+
+Certified to the international standard for governing and managing AI responsibly.
+
+HIPAA & FERPA
+
+BAA for healthcare and DSA for education, available on Enterprise with Private Storage.
+
+Zero Data Retention
+
+Your data is never used for AI training or any purpose outside your direct business needs.
+
+Private Storage
+
+Dedicated cloud storage for your organization’s data.
+
+GDPR & Data Ownership
+
+Customers keep full ownership of their data, explicitly stated in our Terms of Service.
+
+...and many more capabilities
+Expand Summary Notes
+Expand specific summary bullet points for additional context and details.
+Download Meetings
+Easily download summary, transcript, meeting audio or video.
+Soundbites
+Clip out important moments from calls into easily shareable audio snippets.
+Channels
+Organize your team meetings into different channels.
+User Groups
+Create different user groups for different teams to easily share meetings.
+Comments & Bookmarks
+Leave time-stamped comments or bookmark action items, important moments, etc.
+Don't Take Our Word For It
+
+See why thousands of organizations are switching to Fireflies
+
+Matias Rodsevich
+
+CEO @PR Labs
+
+“Fireflies brought more structure in our meetings and more transparency within our company.”
+
+Ed Leon Klinger
+
+CEO @Flock
+
+“Impressed by Fireflies' analytics. It helps tracks my team conversations.”
+
+Lee McMahon
+
+Co founder @Clara
+
+“Fireflies cuts down on additional calls with customers, letting us focus directly on solutions.”
+
+Achintya Gupta
+
+Co founder @Phyllo
+
+“Super impressed with how Fireflies helps us analyze what our customers actually need!”
+
+Matias Rodsevich
+
+CEO @PR Labs
+
+“Fireflies brought more structure in our meetings and more transparency within our company.”
+
+Ed Leon Klinger
+
+CEO @Flock
+
+“Impressed by Fireflies' analytics. It helps tracks my team conversations.”
+
+Lee McMahon
+
+Co founder @Clara
+
+“Fireflies cuts down on additional calls with customers, letting us focus directly on solutions.”
+
+Achintya Gupta
+
+Co founder @Phyllo
+
+“Super impressed with how Fireflies helps us analyze what our customers actually need!”
+
+Matias Rodsevich
+
+CEO @PR Labs
+
+“Fireflies brought more structure in our meetings and more transparency within our company.”
+
+Ed Leon Klinger
+
+CEO @Flock
+
+“Impressed by Fireflies' analytics. It helps tracks my team conversations.”
+
+Lee McMahon
+
+Co founder @Clara
+
+“Fireflies cuts down on additional calls with customers, letting us focus directly on solutions.”
+
+Achintya Gupta
+
+Co founder @Phyllo
+
+“Super impressed with how Fireflies helps us analyze what our customers actually need!”
+
+Matias Rodsevich
+
+CEO @PR Labs
+
+“Fireflies brought more structure in our meetings and more transparency within our company.”
+
+Ed Leon Klinger
+
+CEO @Flock
+
+“Impressed by Fireflies' analytics. It helps tracks my team conversations.”
+
+Lee McMahon
+
+Co founder @Clara
+
+“Fireflies cuts down on additional calls with customers, letting us focus directly on solutions.”
+
+Achintya Gupta
+
+Co founder @Phyllo
+
+“Super impressed with how Fireflies helps us analyze what our customers actually need!”
+
+Frequently Asked Questions
+What is Fireflies AI Assistant?
+How is Fireflies different from a regular AI notetaker?
+What are AI Skills?
+What are Voice Agents?
+Does Fireflies work with the tools I already use?
+Does Fireflies connect with Claude or other AI tools?
+Is my data safe with Fireflies?
+Does Fireflies record without people knowing?
+What languages does Fireflies support?
+Can I use Fireflies for free?
+How does Fireflies handle enterprise teams?
+
+Still have more questions? Please write to support@fireflies.ai and
+we will respond as quickly as we can.
+
+Unlock The Knowledge Buried Inside Your Conversations
+Try Fireflies For Free
+Request Demo
+Product
+Features
+Notetaker
+Fireflies Talk
+AI Assistant
+Personal Assistant
+Daily Brief
+Email Assistant
+Live Assist
+Voice Agents
+Slack Assistant
+Conversation intelligence
+Chrome Extension
+AI Skills Store
+API
+Pricing
+Security
+Trust Center (SOC2, HIPAA, GDPR)
+Use Cases
+Sales
+Recruiting
+Marketing
+Product & User Research
+Collaboration
+Engineering
+Venture Capital
+Healthcare
+Podcasting
+Real Estate
+Integrations
+All integrations
+Video conferencing
+Audio recording
+CRM
+Dialers
+Collaboration
+Storage
+Company
+About
+Careers
+Partnership
+HIPAA
+Terms of Service
+Privacy Policy
+Download
+Desktop App
+iOS App
+Android App
+Chrome Extension
+Learn
+Guide | Help center
+Fireflies Community
+Blog
+Product Announcements
+Customers
+Fireflies for Startups
+Media kit
+Contact & Help
+Report bug
+Help Center
+Contact us
+© 2026 Fireflies.ai Corp. All rights reserved.
+English
+·
+Español
+·
+Deutsch
+·
+Français
+·
+Português (BR)

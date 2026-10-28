@@ -1,8 +1,11 @@
 import { useMemo, useState } from "react";
 import { AlertTriangle, CheckCircle2, Download, ExternalLink, FileSearch, ImageIcon, Info, Lightbulb, XCircle } from "lucide-react";
-import type { Analysis, Mission, Observation } from "../lib/api";
+import type { Analysis, Health, Mission, Observation } from "../lib/api";
 import { fileUrl } from "../lib/api";
 import { bytes, clock, host } from "../lib/format";
+import { isDisplayed } from "../lib/dashboard";
+import { ResearchDashboard } from "./Dashboard";
+import { VisionPanel } from "./VisionPanel";
 import { Badge, Empty, SectionTitle, Stat } from "./ui";
 
 function VerBadge({ v }: { v: string }) {
@@ -12,7 +15,7 @@ function VerBadge({ v }: { v: string }) {
   return <Badge>Unverified</Badge>;
 }
 
-export function ResultsView({ mission }: { mission: Mission }) {
+export function ResultsView({ mission, health, busy = false, onReadPricing }: { mission: Mission; health?: Health; busy?: boolean; onReadPricing?: () => void }) {
   const a = mission.analysis as Analysis | undefined;
   const s = mission.summary;
   if (!a && !mission.artifacts.length) {
@@ -36,8 +39,10 @@ export function ResultsView({ mission }: { mission: Mission }) {
 
   return (
     <div className="results">
-      <section className="card hero-card">
-        <div className="eyebrow">Executive summary</div>
+      {a && isDisplayed(mission.status) && <ResearchDashboard mission={mission} />}
+      {a && onReadPricing && <VisionPanel mission={mission} health={health} busy={busy} onRead={onReadPricing} />}
+      <section className={`card ${a && isDisplayed(mission.status) ? "" : "hero-card"}`}>
+        <div className="eyebrow">{a && isDisplayed(mission.status) ? "Run details" : "Executive summary"}</div>
         <p className="summary-text">{mission.finalSummary ?? "Mission still in progress. Figures below update as steps complete."}</p>
         {s && (
           <div className="stat-grid">

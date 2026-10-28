@@ -2,7 +2,7 @@ import { z } from "zod";
 import { AUDIENCE_LEXICON } from "./extraction.js";
 import { newId } from "./store.js";
 import type { Mission, Observation, Target } from "./types.js";
-import { structured, untrusted, UNTRUSTED_POLICY } from "../llm/claude.js";
+import { structured, untrusted, UNTRUSTED_POLICY, type ClaudeCallOptions } from "../llm/claude.js";
 
 export interface Cited {
   value: string;
@@ -216,6 +216,7 @@ export async function claudeAnalysis(
   productName: string,
   pitch: string,
   signal?: AbortSignal,
+  llm: ClaudeCallOptions = {},
 ): Promise<Omit<Analysis, "generatedAt">> {
   const known = new Set(m.observations.map((o) => o.id));
   const evidence = m.observations
@@ -226,6 +227,7 @@ export async function claudeAnalysis(
   const out = await structured({
     schema: ClaudeAnalysisSchema,
     signal,
+    ...llm,
     system: [
       "You are the synthesis module of OmniPilot. Compare competitors using ONLY the evidence lines provided.",
       "Every positioning statement, differentiator and market gap must cite evidence ids from the list. Do not cite ids that are not listed. Do not invent prices, features or audiences.",

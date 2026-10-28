@@ -1,0 +1,290 @@
+URL: https://www.microsoft.com/en-us/copilot/solutions/individuals
+REQUESTED_URL: https://www.microsoft.com/en-us/microsoft-copilot/for-individuals
+CAPTURED_AT: 2026-10-25T04:40:53.466Z
+HTTP_STATUS: 200
+TITLE: Microsoft Copilot Plans for Individuals | Microsoft 365
+META_DESCRIPTION: Create, organize, and move faster with Copilot in your favorite apps like Word, Excel, and PowerPoint. Explore Microsoft 365 plans for work and life.
+OG_TITLE: Microsoft Copilot Plans for Individuals | Microsoft 365
+OG_DESCRIPTION: Create, organize, and move faster with Copilot in your favorite apps like Word, Excel, and PowerPoint. Explore Microsoft 365 plans for work and life.
+CANONICAL: https://www.microsoft.com/en-us/copilot/solutions/individuals
+H1: Built for Work. Made for you.
+H2: Explore Copilot in Microsoft 365
+H2: Get exclusive access to advanced Copilot features in Microsoft 365 Premium and Pro
+H2: Copilot in Microsoft 365 plans for individuals
+H2: Learn how to make your every day easier with Microsoft Copilot
+H2: Frequently asked questions
+H2: Try Copilot with a free trial of Microsoft 365 Premium
+H2: Follow Microsoft Copilot
+H2: What's new
+H2: Microsoft Store
+H2: Education
+H2: Business
+H2: Developer & IT
+H2: Company
+H3: Get to a first draft fast
+H3: From numbers to knowledge
+H3: Prompt to presentation
+H3: Your inbox, in a nutshell
+H3: Cowork
+H3: More AI usage
+H3: Researcher
+H3: Analyst
+H3: AI Restyle
+H3: Microsoft 365 Personal
+H3: Microsoft 365 Premium
+H3: Microsoft 365 Pro
+H3: Microsoft 365 Personal
+H3: Microsoft 365 Premium
+H3: Microsoft 365 Pro
+H3: Copilot learning center
+H3: AI privacy
+H3: Microsoft Copilot
+H3: Microsoft Frontier program
+H3: Microsoft Workplace Discount Program
+H3: What is Microsoft Copilot and what does it do?
+H3: What is the difference between the Copilot mobile app and the Copilot experience within the Microsoft 365 apps?
+H3: How do I use Copilot in Outlook, Excel, Word, PowerPoint, and does it work across Microsoft 365 apps?
+H3: What are the most common use cases for Copilot in Microsoft 365?
+H3: Are there AI features in Copilot for writing, deep research, data analysis, creating presentations, and image editing?
+H3: How can I manage my Microsoft 365 Personal, Family, Premium or Pro subscription?
+H3: I'm a Microsoft 365 Family subscriber. Does my family get access to Copilot as a part of our plan now?
+H3: Are there any special offers for college students?
+H3: What are the benefits of Copilot in Microsoft 365 compared to other AI tools?
+H3: Is Copilot secure? How does Microsoft use my data and protect my privacy?
+---- VISIBLE TEXT ----
+Skip to main content
+Copilot
+Products and features
+Solutions
+Plans and pricing
+Resources
+Open Copilot
+Download the app
+ME
+Built for Work. Made for you.
+Copilot is the AI for work, helping you create, research, analyze, and get things done in the Microsoft 365 apps you use every day.1
+Try for free
+See plans and pricing
+How it works
+Copilot features
+Plans 
+Resources
+FAQ 
+Get started
+Try for free
+See plans and pricing
+HOW IT WORKS
+Explore Copilot in Microsoft 365
+Get to a first draft fast 
+Prompt Copilot with the task, add and upload notes, then refine in the chat—all with Copilot in Word.1 
+Try Word
+#
+From numbers to knowledge 
+Prompt to presentation 
+Your inbox, in a nutshell
+COPILOT FEATURES
+Get exclusive access to advanced Copilot features in Microsoft 365 Premium and Pro
+Showing 1-2 of 5 slides
+Previous Slide
+Next Slide
+Cowork
+Turn ideas into action with Cowork in Microsoft Copilot, an AI-powered collaborator that helps plan and complete complex, multi-step tasks while keeping you in control.1
+More AI usage
+Microsoft 365 Premium includes extensive usage limits in Copilot for advanced features, image creation, and chat; with the highest usage limits in Microsoft 365 Pro.1
+Researcher 
+Find, synthesize, and understand information faster with Researcher.1
+Analyst 
+Go from raw numbers to real insight—use Analyst to help analyze data with ease.1
+AI Restyle 
+Refresh your photos with OneDrive, using AI-powered editing tools to easily transform images with new looks and styles.1
+Back to Copilot feature section
+PLANS
+Copilot in Microsoft 365 plans for individuals
+Select a plan to help increase your productivity and make every day a little easier with the power of AI.
+Monthly
+Yearly
+
+SAVE UP TO 17%
+
+Microsoft 365 Personal
+$9.99
+/month
+Subscription automatically renews unless canceled in Microsoft account. See terms.
+Try free for 1 month
+Buy now
+Microsoft 365 Personal includes: 
+For 1 person​
+Sign into 5 devices at once​
+Use on PCs, Macs, phones, and tablets 
+ 
+1 TB of secure cloud storage
+Word, Excel, 
+ PowerPoint, and Outlook desktop apps with Microsoft Copilot 
+​
+Advanced Copilot 
+ chat with higher usage than free​
+Higher usage than free for visual AI assistance from your screen or camera 
+Higher usage than free for AI-generated audio (English only) 
+​
+Use Copilot in select apps with work files in a secure way 
+Higher usage than free for AI image creation in Copilot 
+All-day video calling and Copilot 
+  in Teams
+Identity, 
+ data and device security
+Best for AI & productivity
+Microsoft 365 Premium
+$19.99
+/month
+Subscription automatically renews unless canceled in Microsoft account. See terms.
+Try free for 1 month
+Buy now
+Everything in Microsoft 365 Personal, plus:
+Advanced Copilot 
+  chat with extensive usage​
+Extensive usage for visual AI assistance from your screen or camera 
+Extensive usage for AI-generated audio (English only) 
+Access to Copilot features currently exclusive to Premium & Pro 
+Limited usage for agentic AI that gets things done for you including advanced research and analytics 
+Extensive usage for AI image creation in Copilot 
+New usage limits
+Microsoft 365 Pro
+$99.99
+/month
+Monthly billing only. Subscription automatically renews unless canceled in Microsoft accounts. See terms.
+Buy now
+Everything in Microsoft 365 Premium, plus:
+5 TB of shared, secure cloud storage
+Advanced Copilot 
+  chat with highest usage
+Highest usage for agentic AI that gets things done for you including advanced research and analytics 
+Highest usage for visual AI assistance from your screen or camera 
+Highest usage for AI-generated audio (English only) 
+See more Microsoft 365 plans
+Back to tabs
+RESOURCES
+Learn how to make your every day easier with Microsoft Copilot
+Showing 1-2 of 5 slides
+Previous Slide
+Next Slide
+Copilot learning center
+Explore quick, easy-to-follow videos that help you get started and do more with Copilot in Word, Excel, Outlook, and more.
+Learn more
+AI privacy 
+Get answers to questions about Microsoft’s commitment to AI privacy, including how we train our AI models and protect your data.
+Learn more
+Microsoft Copilot 
+Discover the AI-first productivity app for work and life, providing you with one place to chat with your AI assistant, create and edit content, manage projects, and quickly find files on the go.
+Get started
+Microsoft Frontier program 
+Opt in to try experimental and emerging AI features before they’re generally available by joining the Frontier program.
+Learn more
+Microsoft Workplace Discount Program 
+Save on select Microsoft 365 subscriptions through eligible employers and a valid work email address.
+Learn more
+Back to Resources section
+Frequently asked questions
+Expand all
+Collapse all
+01/
+What is Microsoft Copilot and what does it do?
+02/
+What is the difference between the Copilot mobile app and the Copilot experience within the Microsoft 365 apps?
+03/
+How do I use Copilot in Outlook, Excel, Word, PowerPoint, and does it work across Microsoft 365 apps?
+04/
+What are the most common use cases for Copilot in Microsoft 365?
+05/
+Are there AI features in Copilot for writing, deep research, data analysis, creating presentations, and image editing?
+06/
+How can I manage my Microsoft 365 Personal, Family, Premium or Pro subscription?
+07/
+I'm a Microsoft 365 Family subscriber. Does my family get access to Copilot as a part of our plan now?
+08/
+Are there any special offers for college students?
+09/
+What are the benefits of Copilot in Microsoft 365 compared to other AI tools? 
+10/
+Is Copilot secure? How does Microsoft use my data and protect my privacy?
+GET STARTED
+Try Copilot with a free trial of Microsoft 365 Premium 
+Get AI in familiar apps like Word, Excel, and Outlook.1 Plus, get cloud storage and advanced security—all in one plan. Try it free for one month.4
+Try free for one month
+See plans and pricing
+App availability varies by device/language. Features vary by platform. Minimum age limits may apply to use of AI features. See details.
+[1]
+Microsoft 365 Personal, Family, or Premium subscription required; AI features only available to subscription owner and cannot be shared; usage limits apply. Learn more.
+[2]
+Copilot in Excel requires AutoSave to be enabled, meaning the file must be saved to OneDrive; it doesn't function with unsaved files.
+[3]
+Identity theft monitoring is only available in the United States and US territories.
+[4]
+Subscription automatically renews unless canceled. After your trial, the applicable subscription fee will be charged. Cancel anytime to avoid future charges. 
+[5]
+Employer must have an enterprise subscription that includes Microsoft 365 desktop apps and have multi-account access enabled (excludes government tenants). Applies to select AI features in Word, Excel, PowerPoint, and Outlook desktop apps and in select mobile apps. See details.
+Follow Microsoft Copilot       
+What's new
+Surface Laptop Ultra
+Surface Pro
+Surface Laptop
+Surface RTX Spark Dev Box
+Explore Copilot
+Explore Microsoft products
+Windows 11 apps
+Microsoft Store
+Account profile
+Download Center
+Microsoft Store support
+Returns
+Order tracking
+Certified Refurbished
+Why buy from Microsoft Store
+Flexible Payments
+Education
+Microsoft in education
+Devices for education
+Microsoft Teams for Education
+Microsoft 365 Education
+How to buy for your school
+Educator training and development
+Deals for students and parents
+AI for education
+Business
+Microsoft AI
+Microsoft Security
+Dynamics 365
+Microsoft 365
+Microsoft Power Platform
+Microsoft Teams
+Microsoft Copilot
+Small Business
+Developer & IT
+Azure
+Microsoft Developer
+Microsoft Learn
+Support for AI marketplace apps
+Microsoft Tech Community
+Microsoft Marketplace
+Software companies
+Visual Studio
+Company
+Careers
+About Microsoft
+Company news
+Privacy at Microsoft
+Investors
+Diversity and inclusion
+Accessibility
+Sustainability
+English (United States)
+Your Privacy Choices
+Consumer Health Privacy
+Sitemap
+Contact Microsoft
+Privacy
+Terms of use
+Trademarks
+Safety & eco
+Recycling
+About our ads
+© Microsoft 2026

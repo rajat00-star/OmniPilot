@@ -1,5 +1,7 @@
 # Product validation
 
+> **Current status:** see [REQUIREMENTS.md](REQUIREMENTS.md) (2026-10-28 Grand Finale checklist) and [EVIDENCE_INDEX.md](EVIDENCE_INDEX.md). This file is kept as the historical record of 2026-10-24.
+
 This file has two parts. **Part A** is measured on the developer machine on 2026-10-24 during an AdaL session (evidence: `docs/evidence/adal/`). **Part B** is the earlier validation from a cloud build container, kept for history and labelled with its original environment. Part B results were not re-run on the Mac and must not be read as measured here.
 
 Status key: **Verified** = executed and passed in the stated environment. **Partial** = works with a stated gap. **Not verified** = implemented or documented, not executed in any environment I can point to. **Blocked** = cannot be run without something missing. **Not met** = absent.

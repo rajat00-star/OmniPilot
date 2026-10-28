@@ -1,0 +1,216 @@
+URL: https://www.microsoft.com/en-us/copilot
+REQUESTED_URL: https://www.microsoft.com/en-us/microsoft-365/copilot
+CAPTURED_AT: 2026-10-25T04:40:59.648Z
+HTTP_STATUS: 200
+TITLE: Microsoft Copilot: AI built for work
+META_DESCRIPTION: Microsoft Copilot knows your work, lives in the apps you already use, and brings you the leading AI models. Explore Copilot for individuals, business, and enterprise.
+OG_TITLE: Microsoft Copilot: AI built for work
+OG_DESCRIPTION: Microsoft Copilot knows your work, lives in the apps you already use, and brings you the leading AI models. Explore Copilot for individuals, business, and enterprise.
+CANONICAL: https://www.microsoft.com/en-us/copilot
+H1: AI built for work
+H1: AI built for work
+H2: AI that knows your work
+H2: Build your agents. Work your way.
+H2: Keeps your work secure
+H2: Copilot offers solutions for everyone
+H2: Find the Copilot plan that works for you
+H2: Follow Microsoft Copilot
+H2: What's new
+H2: Microsoft Store
+H2: Education
+H2: Business
+H2: Developer & IT
+H2: Company
+H3: Think, create, and move work forward with Copilot
+H3: Bring ideas to life with Copilot Code
+H3: Keep work moving with Copilot Autopilot
+H3: Think, create, and move work forward with Copilot
+H3: Bring ideas to life with Copilot Code
+H3: Keep work moving with Copilot Autopilot
+H3: AI integrated into your apps
+H3: Grounded in your work
+H3: Leading AI models, all in one place
+H3: Auto advantage, the right model for the task
+H3: Create agents for work
+H3: One Copilot across your devices
+H3: Copilot for Enterprise
+H3: Copilot for Business
+H3: Copilot for Individuals
+H3: For individuals
+H3: For business
+H3: For enterprise
+---- VISIBLE TEXT ----
+Skip to main content
+Copilot
+Products and features
+Solutions
+Plans and pricing
+Resources
+Open Copilot
+Download the app
+ME
+
+Explore the new Copilot, built for the way you work.
+
+Read here
+MICROSOFT COPILOT
+AI built for work
+Copilot connects with your work content and the apps you already use, bringing together the latest
+AI models to help you create finished work, not just answers.
+Open Copilot
+Download the app
+The new Copilot
+Why Copilot
+Build your agents
+Secure by design
+Copilot solutions
+Plans & pricing
+Open Copilot
+Download the app
+   
+The new Copilot
+Home
+Code
+Autopilot
+Think, create, and move work forward with Copilot
+Home is your starting point in Copilot, bringing Chat and Cowork together in one place. Review recent activity, discover suggested actions, pick up where you left off, or start something new. Use Chat for answers grounded in your work, or hand off complex, multi-step work to Cowork across your apps, data, and workflows. Home view is available in Microsoft Frontier.
+Open Copilot
+Learn more
+Back to tabs
+AI that knows your work
+AI integrated into your apps
+
+Copilot is integrated into Word, Excel, PowerPoint, Outlook, and Teams, where your work already happens.
+
+Grounded in your work
+
+Work IQ grounds Copilot in your company, your team’s roles, and the context behind your projects.
+
+Leading AI models, all in one place
+
+Copilot brings together leading AI models with Work IQ so you can benefit from the distinct strengths of each in a single experience.
+
+Auto advantage, the right model for the task
+
+Focus on the work, not the model. Auto weighs accuracy, speed, and cost for each request, helping determine the right model and effort for the task at hand. Looking ahead, Copilot will also help orchestrate work across Chat, Cowork, and Code.
+
+Build your agents. Work your way.
+Create agents for work
+
+Turn your expertise into personalized, work-grounded agents in minutes using natural language with Agent Builder in Copilot. Extend and manage them with Copilot Studio when you're ready to scale.
+
+One Copilot across your devices
+
+Work with Copilot across desktop, mobile, and web using voice, keyboard, or pen.
+
+Keeps your work secure
+Copilot is designed to be secure and private, built on the trusted Microsoft 365 foundation your organization already uses. Enterprise-grade controls protect your data, people, and business, while keeping work and personal accounts separate.
+Copilot offers solutions for everyone
+Enterprise
+Copilot for Enterprise
+
+Empower your organization with secure AI grounded in your business and built into the apps your teams use every day.
+
+Learn more
+Business
+Copilot for Business
+
+Help your business work smarter with AI built into the apps your team uses every day—so everyone can move from ideas to impact.
+
+Learn more
+Individuals
+Copilot for Individuals
+
+Simplify everyday work with Copilot in the apps you use, from creating to managing your email and calendar, so you can stay focused on what matters.
+
+Learn more
+Find the Copilot plan that works for you
+Plan options that fit your work, needs, and budget
+Showing 1-2 of 3 slides
+Previous Slide
+Next Slide
+For individuals
+Get Copilot, productivity apps, and cloud storage.
+ 
+From$9.99
+/month
+See all benefits
+For business
+Get Copilot with Work IQ, productivity apps, identity management, security, and cloud storage.
+From$23.50
+user/month, paid yearly
+See all benefits
+For enterprise
+Get Copilot, productivity apps, and Copilot Studio—all with enterprise-grade security.
+From$30.00
+user/month, paid yearly
+See all benefits
+Back to carousel navigation controls
+Follow Microsoft Copilot       
+What's new
+Surface Laptop Ultra
+Surface Pro
+Surface Laptop
+Surface RTX Spark Dev Box
+Explore Copilot
+Explore Microsoft products
+Windows 11 apps
+Microsoft Store
+Account profile
+Download Center
+Microsoft Store support
+Returns
+Order tracking
+Certified Refurbished
+Why buy from Microsoft Store
+Flexible Payments
+Education
+Microsoft in education
+Devices for education
+Microsoft Teams for Education
+Microsoft 365 Education
+How to buy for your school
+Educator training and development
+Deals for students and parents
+AI for education
+Business
+Microsoft AI
+Microsoft Security
+Dynamics 365
+Microsoft 365
+Microsoft Power Platform
+Microsoft Teams
+Microsoft Copilot
+Small Business
+Developer & IT
+Azure
+Microsoft Developer
+Microsoft Learn
+Support for AI marketplace apps
+Microsoft Tech Community
+Microsoft Marketplace
+Software companies
+Visual Studio
+Company
+Careers
+About Microsoft
+Company news
+Privacy at Microsoft
+Investors
+Diversity and inclusion
+Accessibility
+Sustainability
+English (United States)
+Your Privacy Choices
+Consumer Health Privacy
+Sitemap
+Contact Microsoft
+Privacy
+Terms of use
+Trademarks
+Safety & eco
+Recycling
+About our ads
+© Microsoft 2026
+Ask Microsoft​
+Ask questions or make requests to the web AI assistant. Use the text input at the bottom to send messages.

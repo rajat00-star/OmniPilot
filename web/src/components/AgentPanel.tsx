@@ -74,7 +74,8 @@ export function AgentPanel({ mission, connected, onApproval }: Props) {
   const pending = mission.approvals.filter((a) => !a.resolution);
   const failures = mission.steps.filter((s) => s.status === "failed");
   const evidence = mission.observations.filter((o) => o.kind === "observation").length;
-  const captured = mission.sources.filter((s) => s.ok).length;
+  const captured = mission.sources.filter((s) => s.ok && s.targetId !== "manual").length;
+  const manual = mission.sources.filter((s) => s.ok && s.targetId === "manual").length;
   const pct = mission.steps.length ? Math.round((done / mission.steps.length) * 100) : 0;
 
   return (
@@ -101,7 +102,7 @@ export function AgentPanel({ mission, connected, onApproval }: Props) {
             <span>
               {done}/{mission.steps.length} steps
             </span>
-            <span>{captured} pages captured</span>
+            <span>{captured} pages captured{manual ? ` + ${manual} manual` : ""}</span>
             <span>{evidence} observations</span>
           </div>
         </div>
@@ -194,7 +195,7 @@ export function AgentPanel({ mission, connected, onApproval }: Props) {
                 <XCircle size={14} aria-hidden /> {mission.summary.checksFailed} failed
               </span>
               <span className={mission.summary.checksWarned ? "tone-warning-fg" : "tone-muted-fg"}>
-                <CircleDashed size={14} aria-hidden /> {mission.summary.checksWarned} warnings
+                <CircleDashed size={14} aria-hidden /> {mission.summary.checksWarned} {mission.summary.checksWarned === 1 ? "warning" : "warnings"}
               </span>
             </div>
           </div>

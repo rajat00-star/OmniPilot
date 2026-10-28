@@ -1,0 +1,2 @@
+rebind Host: 403
+cross-site POST: 403

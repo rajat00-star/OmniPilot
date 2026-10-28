@@ -1,0 +1,364 @@
+URL: https://www.fathom.ai/pricing
+REQUESTED_URL: https://fathom.video/pricing
+CAPTURED_AT: 2026-10-28T11:12:43.653Z
+HTTP_STATUS: 200
+TITLE: Fathom Pricing 2026: Free Plan or Plans from $15/mo
+META_DESCRIPTION: Fathom's free plan includes unlimited recordings, transcripts, and AI summaries. Paid plans start at $15/user/mo, backed by a 90-day money-back guarantee.
+OG_TITLE: 
+OG_DESCRIPTION: 
+CANONICAL: https://www.fathom.ai/pricing
+H1: Pricing to supercharge every meeting
+H2: Meet your brilliant AI meeting partner
+H2: Ready to explore what’s out there?
+H3: Stop guessing Ask Fathom
+---- VISIBLE TEXT ----
+We use cookies 🍪
+
+We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
+
+Customize
+Reject All
+Accept All
+Overview
+Solutions
+
+Integrations
+
+Resources
+
+Pricing
+
+Book a Demo
+
+Log In
+
+SIGN UP FREE
+
+Pricing to supercharge every meeting
+Individuals
+Teams
+Monthly
+Annually
+ (save 25%+)
+
+Free plan
+
+Unlimited recordings, instant call summaries, integrations with LLMs & more.
+
+Sign up. Free forever. →
+FOR TEAMS
+Team
+$15
+/month / per user
+(2 user min)
+
+START FREE TRIAL
+
+90 day guarantee
+
+Unlimited meetings captured & instant AI summaries
+
+AI generated action items
+
+Conversational meeting assistant
+
+Playlists of highlights from meetings
+
+Collaboration using comments, folders, keyword alerts, + more
+
+FOR TEAMS
+Business
+$25
+/month / per user
+(2 user min)
+
+START FREE TRIAL
+
+90 day guarantee
+
+Everything from Team
+
+CRM field sync, updating records after meetings automatically
+
+Deal View summarizing insights
+
+Coaching metrics & AI scorecards
+
+Advanced call summaries, including custom summaries*
+
+FOR TEAMS
+Enterprise
+Talk to sales
+
+BOOK A MEETING
+
+90 day guarantee
+
+Everything from Business
+
+Launch Assist Onboarding Program
+
+Organization-wide security controls
+
+SSO & SCIM provisioning
+
+Custom data retention programs
+
+Dedicated Success Manager & priority Support SLAs
+
+FOR INDIVIDUALS
+Free
+$0
+Free forever.
+
+GET STARTED
+
+90 day guarantee
+
+Unlimited recordings + transcriptions
+
+Choice of bot-free (in beta) or bot capture
+
+Instant AI call summaries
+
+Clips, playlists + search across calls
+
+FOR INDIVIDUALS
+Premium
+$16
+/month / per user
+
+
+START FREE TRIAL
+
+90 day guarantee
+
+Everything from Free
+
+Advanced call summaries
+
+AI-generated action items
+
+Conversational meeting assistant
+
+Custom meeting bot
+
+FOR TEAMS
+Team
+$15
+/month / per user
+(2 user min)
+
+START FREE TEAM TRIAL (2+ USERS)
+
+90 day guarantee
+
+Everything from Premium
+
+Global search across calls
+
+Playlists of highlights from meetings
+
+Collaboration using comments, folders, keyword alerts, + more
+
+Get the best plan for your team. Talk to sales →
+
+More ways to get started with Fathom
+Qualified Portfolio Program
+Affilliated startups of select VCs & accelerators get up to 2 years free of Fathom Team.
+CHECK ELIGIBILITY →
+Get 10 free seats for nonprofits
+Because we know that doing good is hard enough. Let us help get you started.
+APPLY HERE TO QUALIFY →
+Switching from Gong?
+Or something similar? Get Fathom Business free through your contract plus data migration.
+SWITCH NOW →
+
+Features
+
+Meet your brilliant AI meeting partner
+
+
+Free
+
+GET STARTED
+
+Premium
+
+START FREE TRIAL
+
+Team
+
+START FREE TRIAL
+
+Business
+
+START FREE TRIAL
+
+Enterprise
+
+CONTACT SALES
+
+CAPTURING & MANAGING CONTENT
+
+NEW! Choice of bot-free* and bot capture-types
+(*Beta feature for Mac)
+
+Recordings & call storage (unlimited)
+
+Transcription (unlimited)
+
+Call downloads and clips (unlimited)
+
+Playlists of clips & highlights for your meetings
+
+Playlists of clips & highlights for all team meetings
+
+INSIGHTS
+
+Automated summaries
+
+Advanced summaries
+
+AI action items
+
+AI follow-up emails
+
+Coaching metrics
+
+Custom summaries
+
+SEARCH, DISCOVERY & TRACKERS
+
+Attendee and keyword search in your meetings
+
+Ask Fathom: AI within a single call
+
+Account-wide Ask Fathom: AI for all calls
+(*Beta feature)
+
+Unlimited for "My Calls"
+
+Unlimited for "My Calls"; limited lookback for "Team Calls"
+
+Attendee and keyword search in all team meetings
+
+Trackers
+
+TEAM WORKSPACE
+
+Team members
+
+Team recordings view
+
+Team folders
+
+Comments & mentions
+
+Customer view
+
+Deal view
+
+ADMIN, INTEGRATIONS & SECURITY
+
+NEW! Claude & ChatGPT Integrations
+
+Zapier, Make & other automation integrations
+
+Slack integration
+
+Public API & MCP
+
+CRM syncs
+
+Max 3 users/ domain
+
+Max 3 users/ domain
+
+Max 3 users/ domain
+
+Disable in-meeting banner
+
+Custom bot name
+
+CRM Field sync
+
+Launch Assist Onboarding
+
+$
+
+Custom data retention policies
+
+Single sign-on integration
+
+Okta SCIM provisioning
+
+Organization wide security controls
+
+Increased cyber security insurance coverage
+
+Custom contracts & red-line support
+
+Dedicated Customer Success & channel
+
+HIPAA: signed BAA
+
+Ready to explore what’s out there?
+
+Whether you’d like to learn more about Fathom, how it works for your team, or which plan is the best fit – our sales team is here to help.
+
+CONTACT SALES
+
+Never miss what matters
+
+Stop guessing
+Ask Fathom
+
+
+GET STARTED. IT’S FREE.
+
+Product
+Overview
+Pricing
+What's New
+iOS Mobile App
+Company
+About Us
+Careers
+Solutions
+For Sales
+For Marketing
+For Customer Success
+For Teams
+Integrations
+Asana
+ChatGPT
+Claude
+HubSpot
+Salesforce
+Zapier
+Public API & MCP
+All Integrations
+Competitors
+Competitor Overview
+Fathom vs. Fireflies
+Fathom vs. Granola
+Fathom vs. Gong
+Fathom vs. Otter
+Fathom vs. Read AI
+Fathom vs. ZoomMate
+Fathom vs. Google Meet's Gemini
+Fathom vs. Built-In Solutions
+Resources
+Resource Hub
+Help Center
+Partner Program
+
+TRY FATHOM TODAY
+
+Terms of Service
+Privacy Policy
+Security & Compliance
+Status
+
+Fathom © All Rights Reserved 2026

@@ -1,0 +1,51 @@
+8fceb93
+8fceb93 docs: record Phase A evidence commit
+ M .gitignore
+ M README.md
+ M docs/CAPABILITIES.md
+ M package.json
+ M server/app.ts
+ M server/browser/browserManager.ts
+ M server/core/artifacts.ts
+ M server/core/catalog.ts
+ M server/core/engine.ts
+ M server/core/planner.ts
+ M server/core/store.ts
+ M server/core/types.ts
+ M server/core/verifier.ts
+ M server/security/urlSafety.ts
+ M server/tools/missionTools.ts
+ M tests/engine.test.ts
+ M tests/planner.test.ts
+ M tests/urlSafety.test.ts
+ M web/src/App.tsx
+ M web/src/components/AgentPanel.tsx
+ M web/src/components/BrowserSurface.tsx
+ M web/src/components/Composer.tsx
+ M web/src/components/PlanReview.tsx
+ M web/src/components/Sidebar.tsx
+ M web/src/lib/api.ts
+ M web/src/styles/app.css
+?? docs/FINALE.md
+?? docs/evidence/adal/phaseB/
+?? docs/evidence/finale-mac-2026-10-28/
+?? docs/screenshots/offline-demo/
+?? omnipilot-finale-changes.patch
+?? scripts/demo-offline.ts
+?? server/demo/
+?? tests/e2e/offline-demo-ui.mjs
+?? tests/offlineDemo.test.ts
+diff-check exit=0
+ 26 files changed, 231 insertions(+), 40 deletions(-)
+26
+-rw-r--r--@ 1 rajatsanger  staff  3383755 Oct 28 09:16 /Users/rajatsanger/Downloads/omnipilot-finale-changes.patch
+-rw-r--r--@ 1 rajatsanger  staff  3383755 Oct 28 09:16 omnipilot-finale-changes.patch
+41c7d2ee8ffb593e9cadd420455c21ec2a6cc38aa857870808ba5e8c1bf30e04  /Users/rajatsanger/Downloads/omnipilot-finale-changes.patch
+41c7d2ee8ffb593e9cadd420455c21ec2a6cc38aa857870808ba5e8c1bf30e04  omnipilot-finale-changes.patch
+v26.11.1
+11.20.0
+Version 1.63.0
+NODE_ENV=<unset>
+shell key: no
+.env key: no
+ls: .env: No such file or directory

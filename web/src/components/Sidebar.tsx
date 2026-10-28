@@ -95,7 +95,7 @@ export function Sidebar({ missions, selectedId, current, health, healthError, on
             </div>
             <div className="conn muted">
               <Bot size={14} aria-hidden />
-              <span>Read-only research mode</span>
+              <span>{health?.dataSource === "fixture" ? "Offline demo: fixture sites only" : "Read-only research mode"}</span>
             </div>
           </>
         )}

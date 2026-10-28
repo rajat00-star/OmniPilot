@@ -1,0 +1,570 @@
+URL: https://claude.com/pricing
+REQUESTED_URL: https://claude.com/pricing
+CAPTURED_AT: 2026-10-25T04:40:37.946Z
+HTTP_STATUS: 200
+TITLE: Plans & pricing | Claude by Anthropic
+META_DESCRIPTION: Choose the Claude plan that fits how you solve problems. Free, Pro, Max, Team, and Enterprise tiers, plus API pricing for developers.
+OG_TITLE: Plans & pricing | Claude by Anthropic
+OG_DESCRIPTION: Choose the Claude plan that fits how you solve problems. Free, Pro, Max, Team, and Enterprise tiers, plus API pricing for developers.
+CANONICAL: https://claude.com/pricing
+H1: Pricing
+H2: Compare features across plans
+H2: Compare features across plans
+H2: Latest models
+H2: Pricing for Claude Platform features
+H2: Legacy models
+H2: FAQ
+H2: Products
+H2: Capabilities
+H2: Extensions
+H2: Models
+H2: Enterprise
+H2: Departments
+H2: Industries
+H2: Programs
+H2: Developers
+H2: Platform
+H2: Resources
+H2: Help and security
+H2: Company
+H2: Terms and policies
+H3: Cookie settings
+H3: Free
+H3: Pro
+H3: Max
+H3: Features and capabilities
+H3: Security and administration
+H3: Payment options
+H3: Models and usage
+H3: Team
+H3: Enterprise
+H3: Education plan
+H3: Features and capabilities
+H3: Security and administration
+H3: Payment options
+H3: Partnership
+H3: Models and usage
+H3: Fable 5.1
+H3: Opus 5.5
+H3: Sonnet 5.5
+H3: Haiku 5.5
+H3: Managed Agents
+H3: Web search
+H3: Code execution
+H3: Service tiers
+H3: Haiku 4.5
+H3: Sonnet 5
+H3: Opus 5
+H3: Fable 5
+H3: Opus 4.8
+H3: Sonnet 4.6
+---- VISIBLE TEXT ----
+Cookie settings
+
+We use cookies to deliver and improve our services, analyze site usage, and if you agree, to customize or personalize your experience and market our services to you. You can read our Cookie Policy here.
+
+Customize
+cookie settings
+Reject
+all cookies
+Accept
+all cookies
+Skip to main content
+Product
+Developers
+Enterprise
+Resources
+Pricing
+Login
+Contact sales
+Try Claude
+Pricing
+Explore here
+Pricing
+Individual
+Team & Enterprise
+API
+Free
+
+Try Claude
+
+$0
+
+Free for everyone
+
+Try Claude
+Chat on web, desktop, and mobile
+Search the web, create files, and run code
+Memory across conversations
+Connect your apps and tools
+Create Artifacts
+Claude Design, Slides, Docs
+Pro
+
+For everyday work
+
+$17
+
+Per month with annual subscription discount ($200 billed up front). $20 if billed monthly.
+
+Try Claude
+
+Everything in Free, plus:
+
+More usage*
+Hand off and schedule tasks
+Claude Dashboards (beta)
+Claude Code
+Claude Science
+Projects
+More Claude models
+Claude in Chrome and Microsoft 365
+Max
+
+For people who work with Claude all day
+
+From $100
+
+Per month
+
+Try Claude
+
+Everything in Pro, plus:
+
+Choose 5x or 20x more usage than Pro*
+Higher output limits for all tasks
+Early access to advanced Claude features
+Priority access at high traffic times
+$100 to $200/month in API credits to build on the Claude Platform†
+
+Usage limits apply. Prices shown don’t include applicable tax. Price and plans are subject to change at Anthropic's discretion.
+
+Compare features across plans
+Search
+Free
+Try Claude
+Pro
+Try Claude
+Max 5x
+Try Claude
+Max 20x
+Try Claude
+Features and capabilities
+Features	Free	Pro	Max 5x	Max 20x
+@Claude
+No
+No
+No
+No
+Claude Code
+No
+Yes
+Yes
+Yes
+Claude Science
+No
+Yes
+Yes
+Yes
+Claude in Chrome
+No
+Yes
+Yes
+Yes
+Claude for Microsoft 365
+No
+Yes
+Yes
+Yes
+Claude for Microsoft Outlook
+No
+Yes
+Yes
+Yes
+Chat on web, iOS, Android and Desktop
+Yes
+Yes
+Yes
+Yes
+Claude Design
+Yes
+Yes
+Yes
+Yes
+Claude Slides
+Yes
+Yes
+Yes
+Yes
+Claude Docs
+Yes
+Yes
+Yes
+Yes
+Claude Dashboards (beta)
+No
+Yes
+Yes
+Yes
+Claude Motion (beta)
+No
+No
+No
+No
+Ability to search the web
+Yes
+Yes
+Yes
+Yes
+Create Artifacts
+More information
+Yes
+Yes
+Yes
+Yes
+Desktop extensions
+Yes
+Yes
+Yes
+Yes
+Voice mode
+Yes
+Yes
+Yes
+Yes
+Incognito chats
+More information
+Yes
+Yes
+Yes
+Yes
+User preferences
+Yes
+Yes
+Yes
+Yes
+Projects
+Up to 5
+Yes
+Yes
+Yes
+Project sharing and collaboration
+No
+No
+No
+No
+Create and edit files with code execution
+More information
+Yes
+Yes
+Yes
+Yes
+Research
+No
+Yes
+Yes
+Yes
+Memory
+Yes
+Yes
+Yes
+Yes
+Skills
+More information
+Yes
+Yes
+Yes
+Yes
+Connectors
+More information
+Yes
+Yes
+Yes
+Yes
+Web search
+Yes
+Yes
+Yes
+Yes
+Enterprise search
+More information
+No
+No
+No
+No
+Security and administration
+Features	Free	Pro	Max 5x	Max 20x
+Single sign-on (SSO) and domain capture
+No
+No
+No
+No
+Central billing and administration
+No
+No
+No
+No
+Admin controls for remote and local connectors
+No
+No
+No
+No
+Enterprise deployment for the Claude desktop app
+No
+No
+No
+No
+Role-based access
+No
+No
+No
+No
+System for Cross-domain Identity Management (SCIM)
+No
+No
+No
+No
+Audit logs
+No
+No
+No
+No
+Usage analytics
+No
+No
+No
+No
+Compliance API
+No
+No
+No
+No
+HIPAA-ready offering
+No
+No
+No
+No
+Custom data retention controls
+No
+No
+No
+No
+Organization wide skills deployment
+No
+No
+No
+No
+Payment options
+Features	Free	Pro	Max 5x	Max 20x
+Credit card
+n/a
+Yes
+Yes
+Yes
+ACH
+No
+No
+No
+No
+Invoicing / net terms
+No
+No
+No
+No
+Billing cycle
+n/a
+Monthly and annual
+Monthly
+Monthly
+Adding seats midterm
+n/a
+n/a
+n/a
+n/a
+Models and usage
+Features	Free	Pro	Max 5x	Max 20x
+Fable
+More information
+No
+Usage credits
+50% of weekly limits*
+50% of weekly limits*
+Opus
+No
+Yes
+Yes
+Yes
+Sonnet
+Yes
+Yes
+Yes
+Yes
+Haiku
+Yes
+Yes
+Yes
+Yes
+Context window
+More information
+Up to 1M
+varies by model
+Up to 1M
+varies by model
+Up to 1M
+varies by model
+Up to 1M
+varies by model
+Usage credits
+More information
+No
+Yes
+Yes
+Yes
+NEW Monthly API credits†
+No
+No
+$100/month
+$200/month
+Priority access at high traffic times
+No
+No
+Yes
+Yes
+User and organizational level spend controls
+No
+No
+No
+No
+Model training
+More information
+Opt-out
+Opt-out
+Opt-out
+Opt-out
+FAQ
+Plans and usage
+Billing and payments
+Managing your plan
+Plans and usage
+What do I get with Claude Pro?
+
+The Pro plan gives you everything in a Free plan with more usage and more of Claude's capabilities. That includes Claude Code, along with projects to organize your chats and documents, access to more Claude models, and Claude for Microsoft 365. You can choose a monthly or annual subscription.
+
+How is Claude Max different from Pro?
+
+The Max plan is built for people who work with Claude throughout the day and want longer, uninterrupted sessions. You get everything in Pro, plus more usage: choose from 5x or 20x the usage of Pro per 5-hour session. Max also gives you higher output limits. Both options are billed monthly. See the cards above for current pricing.
+
+What are the usage limits on each plan, and what happens when I hit them?
+
+Every plan has usage limits that reset on a rolling five-hour session window, and paid plans add weekly limits on top. Your activity across Claude on web, desktop, mobile, and Claude Code all draws from the same pool. How much you can do depends on the length and complexity of your conversations, the model you choose, and the features you use, so there's no fixed message count. Free covers everyday questions. Pro gives you at least 5x more usage per 5-hour session than Free. Max gives you 5x or 20x more usage per 5-hour session than Pro. On Team plans, Standard seats give more than Pro and Premium seats give 5x more than Standard. To manage capacity and make sure all users have fair access, we may limit your usage in other ways, such as weekly and monthly caps or model and feature usage, at our discretion. When you reach a limit, you can wait for it to reset, move to a higher plan, or, on paid plans, turn on usage credits to keep working at standard API rates. You can see where you stand anytime in Settings > Usage.
+
+Is Claude Code included in my plan?
+
+Claude Code is included in all paid plans. It shares the same usage limits as the rest of your plan, so your work in the terminal and your chats draw from one pool. For heavy coding sessions, you can also switch to pay-as-you-go API credits through a Console account.
+
+How much does the Claude Enterprise plan cost?
+
+The Claude Enterprise plan is built for large businesses operating at scale. Pricing is $20 per seat per month plus usage billed at API rates, so cost scales with the models and tasks your team runs. Enterprise is billed annually and includes everything in Team plus advanced security and admin controls, including SCIM, audit logs, custom data retention, and role-based access. You can get started self-serve or contact sales for a tailored quote.
+
+© 2026 Anthropic PBC
+
+Products
+Claude
+Claude Code
+Claude Cowork
+Claude Duet
+Claude Tag
+Claude Science
+Claude Security
+Download app
+Pricing
+Log in
+Capabilities
+Artifacts
+Design
+Connectors
+Plugins
+Skills
+Extensions
+Claude in Chrome
+Claude for Google Workspace
+Claude for Microsoft 365
+Models
+Mythos (including Fable)
+Opus
+Sonnet
+Haiku
+Enterprise
+Overview
+Claude Code for Enterprise
+Departments
+Customer support
+Cybersecurity
+Legal
+Sales
+Industries
+Financial advisors
+Financial services
+Government
+Healthcare
+Higher education
+K-12 teachers
+Life sciences
+Nonprofits
+Small business
+Programs
+Campus
+Frontier Academy
+Scientists
+Startups
+Developers
+Developer docs
+Developer blog
+Community
+Console
+Engineering at Anthropic
+Platform
+Overview
+Marketplace
+Claude on AWS
+Google Cloud
+Microsoft Foundry
+Managed Agents
+Resources
+Overview
+Articles
+Webinars
+Claude partner network
+Claude Academy
+Customer stories
+Events
+Powered by Claude
+Service partners
+Help and security
+Availability
+Check files
+Regional compliance
+Report abuse
+Security and compliance
+Status
+Support center
+Company
+Anthropic
+Careers
+Policy
+Research
+Anthropic news
+Policy on the AI Exponential
+Responsible Scaling Policy
+Transparency
+Terms and policies
+Privacy choices
+Privacy policy
+Responsible disclosure policy
+Terms of service: Commercial
+Terms of service: Consumer
+Terms of Service: US K-12
+Data Processing Agreement: US K-12
+Usage Policy
+Add to Preferred Sources
+English

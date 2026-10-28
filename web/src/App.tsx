@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FileSearch, Globe, Hand, ListChecks, Loader2, Pause, Play, ShieldCheck, Square, Table2 } from "lucide-react";
+import { FileSearch, FlaskConical, Globe, Hand, ListChecks, Loader2, Pause, Play, Presentation, ShieldCheck, Square, Table2 } from "lucide-react";
 import { api, ApiError, useMissionStream, type Health, type Mission, type MissionListItem, type Target } from "./lib/api";
 import { MISSION_LABEL, MISSION_TONE, isActive, isDone } from "./lib/format";
 import { Sidebar } from "./components/Sidebar";
@@ -8,6 +8,8 @@ import { PlanReview, StepGraph } from "./components/PlanReview";
 import { BrowserSurface } from "./components/BrowserSurface";
 import { AgentPanel } from "./components/AgentPanel";
 import { EvidenceView, ResultsView, VerificationView } from "./components/Results";
+import { JudgeView } from "./components/JudgeView";
+import { isDisplayed } from "./lib/dashboard";
 import { Badge, Button, StatusDot } from "./components/ui";
 
 type View = "browser" | "plan" | "results" | "evidence" | "verification";
@@ -20,22 +22,35 @@ const VIEWS: { id: View; label: string; icon: typeof Globe }[] = [
   { id: "verification", label: "Verification", icon: ShieldCheck },
 ];
 
-function useHashSelection(): [string | undefined, (id?: string) => void] {
-  const read = () => (location.hash.startsWith("#/m/") ? location.hash.slice(4) : undefined);
-  const [id, setId] = useState<string | undefined>(read);
+interface Route {
+  id?: string;
+  /** #/judge/<id>: the read-only presentation view of a finished mission. */
+  judge: boolean;
+}
+
+export function parseHash(hash: string): Route {
+  if (hash.startsWith("#/judge/")) return { id: decodeURIComponent(hash.slice(8)) || undefined, judge: true };
+  if (hash.startsWith("#/m/")) return { id: hash.slice(4) || undefined, judge: false };
+  return { judge: false };
+}
+
+export const judgeHash = (id: string) => `#/judge/${encodeURIComponent(id)}`;
+
+function useHashSelection(): [Route, (id?: string) => void] {
+  const [route, setRoute] = useState<Route>(() => parseHash(location.hash));
   useEffect(() => {
-    const on = () => setId(read());
+    const on = () => setRoute(parseHash(location.hash));
     window.addEventListener("hashchange", on);
     return () => window.removeEventListener("hashchange", on);
   }, []);
-  return [id, (next) => (location.hash = next ? `#/m/${next}` : "#/")];
+  return [route, (next) => (location.hash = next ? `#/m/${next}` : "#/")];
 }
 
 export function App() {
   const [health, setHealth] = useState<Health>();
   const [healthError, setHealthError] = useState<string>();
   const [missions, setMissions] = useState<MissionListItem[]>([]);
-  const [selectedId, select] = useHashSelection();
+  const [{ id: selectedId, judge }, select] = useHashSelection();
   const { mission: streamed, connected } = useMissionStream(selectedId);
   const [view, setView] = useState<View>("browser");
   const [busy, setBusy] = useState(false);
@@ -93,6 +108,12 @@ export function App() {
       select(m.id);
     });
 
+  const exitJudge = useCallback(() => {
+    if (selectedId) location.hash = `#/m/${selectedId}`;
+  }, [selectedId]);
+
+  if (judge && selectedId) return <JudgeView mission={mission} missionId={selectedId} onExit={exitJudge} />;
+
   return (
     <div className="app">
       <Sidebar
@@ -112,6 +133,13 @@ export function App() {
       />
 
       <main className="workspace">
+        {(health?.dataSource === "fixture" || mission?.dataSource === "fixture") && (
+          <div className="fixture-strip" role="note">
+            <FlaskConical size={14} aria-hidden />
+            <strong>Offline demo mode</strong>
+            <span>Fixture data from five fictional vendor sites running on this machine. Nothing is fetched from the internet. This is not live research.</span>
+          </div>
+        )}
         {!selectedId ? (
           <Composer health={health} busy={busy} error={error} onSubmit={create} />
         ) : !mission ? (
@@ -157,12 +185,18 @@ function MissionWorkspace({ mission, health, view, setView, busy, error, act }: 
             </Badge>
             <span className="mission-id mono">{mission.id}</span>
             <span className="mission-mode">{mission.mode === "claude" ? "Claude reasoning" : "Deterministic mode"}</span>
+            <span className="mission-mode">{mission.dataSource === "fixture" ? "Offline fixture data" : "Live web"}</span>
           </div>
           <h1 className="mission-title" title={mission.prompt}>
             {mission.prompt}
           </h1>
         </div>
         <div className="mission-controls">
+          {isDisplayed(s) && Boolean(mission.analysis) && (
+            <Button size="sm" icon={Presentation} onClick={() => (location.hash = judgeHash(mission.id))} title="Read-only presentation of these results">
+              Judge mode
+            </Button>
+          )}
           {s === "running" && (
             <>
               <Button size="sm" icon={Pause} onClick={() => act(() => api.pause(mission.id))} disabled={busy}>
@@ -240,7 +274,7 @@ function MissionWorkspace({ mission, health, view, setView, busy, error, act }: 
                 </section>
               </div>
             )}
-            {view === "results" && <ResultsView mission={mission} />}
+            {view === "results" && <ResultsView mission={mission} health={health} busy={busy} onReadPricing={() => act(() => api.readPricing(mission.id))} />}
             {view === "evidence" && <EvidenceView mission={mission} />}
             {view === "verification" && <VerificationView mission={mission} />}
           </div>

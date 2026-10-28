@@ -10,6 +10,8 @@ export interface ToolContext {
   store: MissionStore;
   browser: BrowserManager;
   signal: AbortSignal;
+  /** Agent time this step may use before it fails with a timeout (paused time is not counted). */
+  budgetMs: number;
   mission(): Mission;
   log(level: ActivityEntry["level"], message: string, data?: Record<string, unknown>, tool?: string): void;
   frame(frame: Omit<BrowserFrame, "at">): void;
