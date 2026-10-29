@@ -81,7 +81,11 @@ export function PlanReview({ mission, busy, error, onSaveTargets, onApprove, onC
       <div className="plan-header">
         <div>
           <div className="eyebrow">Plan preview · nothing has run yet</div>
-          <h2>{plan.objective}</h2>
+          <h2>Review the plan, then approve it to start</h2>
+          <p className="plan-objective">
+            <span className="micro-label">Objective</span>
+            {plan.objective}
+          </p>
           <div className="plan-meta">
             <Badge tone={plan.planner === "claude" ? "accent" : "neutral"}>{plan.planner === "claude" ? "Planned by Claude" : "Rule-based planner"}</Badge>
             {mission.dataSource === "fixture" ? <Badge tone="warning">Offline fixture · fictional vendors</Badge> : <Badge tone="info">Read-only public research</Badge>}

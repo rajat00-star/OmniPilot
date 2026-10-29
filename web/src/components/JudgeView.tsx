@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { ArrowLeft, ExternalLink, FlaskConical, Loader2, Lock } from "lucide-react";
+import { ArrowLeft, ExternalLink, FlaskConical, Lock } from "lucide-react";
 import type { Mission } from "../lib/api";
 import { fileUrl } from "../lib/api";
 import { isDisplayed } from "../lib/dashboard";
 import { MISSION_LABEL, MISSION_TONE } from "../lib/format";
 import { ResearchDashboard } from "./Dashboard";
-import { Badge, Button, Logo } from "./ui";
+import { Badge, Button, Logo, Orbit } from "./ui";
 
 /**
  * Presentation view of one finished mission. It only reads the stored record: no mission controls,
@@ -42,7 +42,7 @@ export function JudgeView({ mission, missionId, onExit }: { mission?: Mission; m
       <main className="judge-body">
         {!mission || mission.id !== missionId ? (
           <div className="loading-state">
-            <Loader2 className="spin" size={20} aria-hidden /> Loading mission…
+            <Orbit size={20} /> Loading mission…
           </div>
         ) : !isDisplayed(mission.status) || !mission.analysis ? (
           <div className="judge-empty card">

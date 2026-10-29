@@ -11,14 +11,16 @@ const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } });
 const consoleErrors = [];
 page.on("console", (m) => m.type() === "error" && consoleErrors.push(m.text()));
 page.on("pageerror", (e) => consoleErrors.push(e.message));
-const shot = (name) => page.screenshot({ path: `${out}/${name}.png` });
+// Entrance animations are fast-forwarded so screenshots show the settled UI.
+const shot = (name) => page.screenshot({ path: `${out}/${name}.png`, animations: "disabled" });
 
 await page.goto(base);
-await page.getByRole("heading", { name: "What should OmniPilot do?" }).waitFor();
+await page.getByRole("heading", { name: "What should OmniPilot do for you?" }).waitFor();
 await shot("01-composer");
 await page.getByRole("button", { name: /Named competitors/ }).click();
+await page.getByRole("button", { name: "Advanced settings" }).click();
 await page.getByLabel("Your product name (optional)").fill("VerityDesk");
-await page.getByRole("button", { name: "Draft plan" }).click();
+await page.getByRole("button", { name: "Create plan" }).click();
 await page.getByRole("button", { name: "Approve and run" }).waitFor({ timeout: 60000 });
 await shot("02-plan-review");
 await page.getByRole("button", { name: "Approve and run" }).click();

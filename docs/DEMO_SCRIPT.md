@@ -16,7 +16,7 @@ ANTHROPIC_API_KEY= npm start            # rule-based mode, no paid calls
 npm start                               # with the key in .env; the UI shows "Claude connected"
 ```
 
-- Open http://127.0.0.1:8787. Keep the finished live mission (`msn_e8b87606bacb`) in the sidebar as a fallback.
+- Open http://127.0.0.1:8787. Keep the finished live mission (`msn_e8b87606bacb`) in **History** as a fallback.
 - Paste this instruction into a text editor, ready to copy:
 
   > Compare three AI meeting assistants using only their public pages: https://otter.ai/ https://otter.ai/pricing https://fireflies.ai/ https://fireflies.ai/pricing https://fathom.video/ https://fathom.video/pricing. Report main features and publicly listed pricing and plan limits with source URLs, and write a CSV and a report.
@@ -25,10 +25,10 @@ npm start                               # with the key in .env; the UI shows "Cl
 
 | Time | Do | Say | Expected on screen |
 |---|---|---|---|
-| 0:00–0:20 | Show the empty composer and the sidebar footer (mode, browser, tools) | "Most agents tell you they did something. OmniPilot shows you, and checks its own work before it reports." | Composer; mode badge says Claude connected or Deterministic |
-| 0:20–0:45 | Paste the instruction, press **Draft plan** | "One plain-language instruction. Nothing has run yet: this is the plan." | Plan review: 3 targets (Otter.ai, Fireflies.ai, Fathom) with 2 URLs each, dependency stages, **Approve and run** |
+| 0:00–0:20 | Show the home screen: the OmniPilot core and the system status in the top bar (**Settings** lists mode, browser and tools under System) | "Most agents tell you they did something. OmniPilot shows you, and checks its own work before it reports." | "What should OmniPilot do for you?"; the status chip says Online with Claude reasoning or Rule-based, or Offline demo |
+| 0:20–0:45 | Paste the instruction, press **Create plan** | "One plain-language instruction. Nothing has run yet: this is the plan." | Plan review: 3 targets (Otter.ai, Fireflies.ai, Fathom) with 2 URLs each, dependency stages, **Approve and run** |
 | 0:45–1:00 | Point at the stages, press **Approve and run** | "Registered tools only, inputs validated, every URL checked. I approve, then it runs." | Status Running; the browser view starts loading the first page |
-| 1:00–1:40 | Browser view and agent panel | "That's a real Chromium. Each page is saved as text with a SHA-256 hash, plus a screenshot." | Tabs for otter.ai and fireflies.ai; activity `browser.open → browser.extract → browser.screenshot` |
+| 1:00–1:40 | The execution view: current step, the real browser, the plan timeline and live activity (open **Execution details** for the full tool log) | "That's a real Chromium. Each page is saved as text with a SHA-256 hash, plus a screenshot." | Tabs for otter.ai and fireflies.ai; activity `browser.open → browser.extract → browser.screenshot` |
 | 1:40–2:15 | **Failure workflow:** press **Take over**, type `http://192.168.1.1` in the address bar, press Enter, then type `https://fathom.video/pricing`, press **Resume agent** | "I can take over at any time. If I, or a web page, try to reach my private network, it's refused, and that holds for redirects too." | Red error: private address blocked. The public page opens normally. Agent resumes |
 | 2:15–2:30 | Wait for **Completed** (or *Completed with warnings*) | "When a site blocks us, the run says *with warnings* rather than pretending." | Results tab opens by itself |
 | 2:30–3:30 | Press **Judge mode** | "This is the read-only view for reviewers." Walk the page: objective, three findings with source links, limitations, conclusion label. Click a finding's **Evidence** | Executive summary; each finding has a source host and "Quote re-matched". The evidence dialog shows URL, capture time, the exact excerpt and the page screenshot |
@@ -59,8 +59,8 @@ Start a second mission, approve it, and press **Stop** after a few seconds. **Ex
 
 | Problem | Do this |
 |---|---|
-| Venue or home network blocks the vendor sites | Use the offline demo: `ANTHROPIC_API_KEY= npm run demo:offline`, then **Signature mission → Draft plan → Approve**. It shows a redirect, a missing price ("Not found"), an HTTP 403 page and a prompt-injection page, all on fictional vendors and labelled as fixture data. In Take over, `https://example.com` is refused. |
-| The live run is slow or stuck | Press **Stop**, then open the finished mission `msn_e8b87606bacb` from the sidebar and continue from Judge mode. |
+| Venue or home network blocks the vendor sites | Use the offline demo: `ANTHROPIC_API_KEY= npm run demo:offline`, then **Signature mission → Create plan → Approve and run**. It shows a redirect, a missing price ("Not found"), an HTTP 403 page and a prompt-injection page, all on fictional vendors and labelled as fixture data. In Take over, `https://example.com` is refused. |
+| The live run is slow or stuck | Press **Stop**, then open the finished mission `msn_e8b87606bacb` from **History** and continue from Judge mode. |
 | Claude call fails or there is no key | Skip the screenshot step. Rule-based mode is complete and labelled. |
 | Anything else | Use the screenshots in `docs/screenshots/offline-demo/` and `docs/evidence/judge-dashboard-2026-10-28/`. |
 

@@ -39,8 +39,20 @@ export function StatusDot({ tone, pulse }: { tone: Tone; pulse?: boolean }) {
   return <span className={`dot tone-${tone} ${pulse ? "pulse" : ""}`} aria-hidden />;
 }
 
+/** The loading indicator: a thin track with one orbiting arc, matching the core. */
+export function Orbit({ size = 16, label }: { size?: number; label?: string }) {
+  return (
+    <span className="orbit" style={{ width: size, height: size }} role={label ? "status" : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" className="orbit-track" />
+        <circle cx="12" cy="12" r="9" className="orbit-arc" pathLength="100" />
+      </svg>
+    </span>
+  );
+}
+
 export function Spinner({ size = 16 }: { size?: number }) {
-  return <span className="spinner" style={{ width: size, height: size }} role="status" aria-label="Loading" />;
+  return <Orbit size={size} label="Loading" />;
 }
 
 export function SectionTitle({ children, action, count }: { children: ReactNode; action?: ReactNode; count?: number }) {
@@ -77,13 +89,21 @@ export function Stat({ label, value, sub, tone }: { label: string; value: ReactN
   );
 }
 
+/** The OmniPilot mark: the core and two of its orbits. */
 export function Logo({ size = 22 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden>
-      <rect width="32" height="32" rx="8" fill="#1d2029" />
-      <circle cx="16" cy="16" r="8.5" fill="none" stroke="#7c7aff" strokeWidth="2.4" />
-      <path d="M16 4.5v4M16 23.5v4M4.5 16h4M23.5 16h4" stroke="#7c7aff" strokeWidth="2" strokeLinecap="round" opacity=".55" />
-      <circle cx="16" cy="16" r="2.6" fill="#eceef3" />
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden className="logo">
+      <defs>
+        <radialGradient id="op-logo-core" cx="42%" cy="38%" r="62%">
+          <stop offset="0%" stopColor="#f4fbff" />
+          <stop offset="38%" stopColor="#7fe6ff" />
+          <stop offset="78%" stopColor="#2b6fe0" />
+          <stop offset="100%" stopColor="#2b6fe0" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="16" cy="16" rx="13.5" ry="5" fill="none" stroke="#7fe6ff" strokeOpacity="0.8" strokeWidth="1.3" transform="rotate(-24 16 16)" />
+      <ellipse cx="16" cy="16" rx="11.5" ry="3.6" fill="none" stroke="#9585ff" strokeOpacity="0.6" strokeWidth="1" transform="rotate(34 16 16)" />
+      <circle cx="16" cy="16" r="6.4" fill="url(#op-logo-core)" />
     </svg>
   );
 }

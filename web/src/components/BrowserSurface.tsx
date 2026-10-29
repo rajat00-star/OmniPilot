@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, ArrowRight, Ban, Globe, Loader2, Lock, MousePointer2, RotateCw } from "lucide-react";
+import { AlertTriangle, ArrowRight, Ban, Globe, Lock, MousePointer2, RotateCw } from "lucide-react";
 import type { BrowserFrame, Health, Mission } from "../lib/api";
 import { fileUrl } from "../lib/api";
 import { clock, host } from "../lib/format";
-import { Empty } from "./ui";
+import { Empty, Orbit } from "./ui";
 
 interface Tab {
   key: string;
@@ -48,9 +48,13 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
   const [follow, setFollow] = useState(true);
   const active = tabs.find((t) => t.key === (follow ? latest : selected)) ?? tabs[tabs.length - 1];
   const [address, setAddress] = useState("");
+  // While the viewer is typing a URL, live frames must not overwrite it.
+  const [editing, setEditing] = useState(false);
   const [navBusy, setNavBusy] = useState(false);
   const [navError, setNavError] = useState<string>();
-  useEffect(() => setAddress(active?.url ?? ""), [active?.url]);
+  useEffect(() => {
+    if (!editing) setAddress(active?.url ?? "");
+  }, [active?.url, editing]);
 
   const executing = mission.status === "running" || mission.status === "verifying";
   const canNavigate = !executing && mission.status !== "planning";
@@ -66,6 +70,7 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
       setNavError((e as Error).message);
     } finally {
       setNavBusy(false);
+      setEditing(false);
     }
   };
 
@@ -85,7 +90,7 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
             }}
             title={t.url}
           >
-            {t.state === "loading" ? <Loader2 size={13} className="spin" aria-hidden /> : t.state === "failed" ? <AlertTriangle size={13} aria-hidden /> : t.state === "blocked" ? <Ban size={13} aria-hidden /> : <Globe size={13} aria-hidden />}
+            {t.state === "loading" ? <Orbit size={13} /> : t.state === "failed" ? <AlertTriangle size={13} aria-hidden /> : t.state === "blocked" ? <Ban size={13} aria-hidden /> : <Globe size={13} aria-hidden />}
             <span className="tab-title">{t.title || host(t.url)}</span>
           </button>
         ))}
@@ -98,7 +103,11 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
           <Lock size={13} aria-hidden className={active?.url.startsWith("https") ? "secure" : ""} />
           <input
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              setEditing(true);
+            }}
+            onBlur={() => setEditing(false)}
             onKeyDown={(e) => e.key === "Enter" && go()}
             readOnly={!canNavigate}
             aria-label="Address"
@@ -108,7 +117,7 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
           />
         </div>
         <button className="icon-btn" aria-label="Go" disabled={!canNavigate || navBusy} onClick={go}>
-          {navBusy ? <Loader2 size={15} className="spin" aria-hidden /> : <ArrowRight size={15} aria-hidden />}
+          {navBusy ? <Orbit size={15} /> : <ArrowRight size={15} aria-hidden />}
         </button>
         <span className={`driver ${executing ? "agent" : "user"}`}>
           {executing ? "Agent driving" : mission.status === "paused" ? "You have control" : "Idle"}
@@ -126,7 +135,7 @@ export function BrowserSurface({ mission, health, onBrowse }: Props) {
           </Empty>
         ) : active.state === "loading" && !active.shot ? (
           <div className="viewport-state">
-            <Loader2 size={22} className="spin" aria-hidden />
+            <Orbit size={26} />
             <div>Loading {host(active.url)}…</div>
           </div>
         ) : active.state === "failed" || active.state === "blocked" ? (

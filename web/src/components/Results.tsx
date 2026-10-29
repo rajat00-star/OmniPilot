@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AlertTriangle, CheckCircle2, Download, ExternalLink, FileSearch, ImageIcon, Info, Lightbulb, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ChevronDown, Download, ExternalLink, FileSearch, ImageIcon, Info, Lightbulb, XCircle } from "lucide-react";
 import type { Analysis, Health, Mission, Observation } from "../lib/api";
 import { fileUrl } from "../lib/api";
 import { bytes, clock, host } from "../lib/format";
@@ -41,7 +41,8 @@ export function ResultsView({ mission, health, busy = false, onReadPricing }: { 
     <div className="results">
       {a && isDisplayed(mission.status) && <ResearchDashboard mission={mission} />}
       {a && onReadPricing && <VisionPanel mission={mission} health={health} busy={busy} onRead={onReadPricing} />}
-      <section className={`card ${a && isDisplayed(mission.status) ? "" : "hero-card"}`}>
+      {!(a && isDisplayed(mission.status)) && (
+        <section className={`card ${a && isDisplayed(mission.status) ? "" : "hero-card"}`}>
         <div className="eyebrow">{a && isDisplayed(mission.status) ? "Run details" : "Executive summary"}</div>
         <p className="summary-text">{mission.finalSummary ?? "Mission still in progress. Figures below update as steps complete."}</p>
         {s && (
@@ -66,8 +67,8 @@ export function ResultsView({ mission, health, busy = false, onReadPricing }: { 
             {a.rejectedModelClaims > 0 && ` · ${a.rejectedModelClaims} uncited model claims discarded`}
           </div>
         )}
-      </section>
-
+        </section>
+      )}
       <section className="card">
         <SectionTitle count={mission.artifacts.length}>Deliverables</SectionTitle>
         <div className="file-grid">
@@ -96,6 +97,77 @@ export function ResultsView({ mission, health, busy = false, onReadPricing }: { 
         </div>
       </section>
 
+      {a && (
+        <section className="card">
+          <SectionTitle count={a.gaps.length}>Potential market gaps</SectionTitle>
+          {a.gaps.length === 0 && <div className="muted">No gaps could be inferred from the captured evidence.</div>}
+          <ul className="gaps">
+            {a.gaps.map((g) => (
+              <li key={g.id}>
+                <Lightbulb size={16} aria-hidden />
+                <div>
+                  <div className="gap-statement">{g.statement}</div>
+                  <div className="gap-meta">
+                    <Badge tone="info">Inferred</Badge>
+                    <Badge tone={g.confidence === "medium" ? "accent" : "neutral"}>{g.confidence} confidence</Badge>
+                    <span>
+                      {g.by === "claude" ? "Claude" : "rules"} · based on {g.basis.length} observations
+                    </span>
+                  </div>
+                  <div className="gap-rationale">{g.rationale}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {a && isDisplayed(mission.status) && (
+      <details className="disclosure">
+        <summary>
+          <ChevronDown size={15} aria-hidden className="chev" />
+          Run details and verification metrics
+          <span className="disclosure-meta">{s ? `${s.checksPassed} checks passed · ${s.observationsGrounded}/${s.observationsTotal} observations grounded` : ""}</span>
+        </summary>
+        <div className="disclosure-body">
+      <section className={`card ${a && isDisplayed(mission.status) ? "" : "hero-card"}`}>
+        <div className="eyebrow">{a && isDisplayed(mission.status) ? "Run details" : "Executive summary"}</div>
+        <p className="summary-text">{mission.finalSummary ?? "Mission still in progress. Figures below update as steps complete."}</p>
+        {s && (
+          <div className="stat-grid">
+            <Stat label="Sources captured" value={`${s.sourcesCaptured}/${s.sourcesAttempted}`} tone={s.sourcesFailed ? "warning" : "success"} sub={s.sourcesFailed ? `${s.sourcesFailed} failed` : "all captured"} />
+            <Stat label="Descriptions found" value={`${s.descriptionsFound}/${s.targetsTotal}`} />
+            <Stat label="Displayed prices" value={`${s.pricesFound}/${s.targetsTotal}`} sub={`${s.pricesUnavailable} unavailable`} tone={s.pricesUnavailable ? "warning" : undefined} />
+            <Stat label="Observations grounded" value={`${s.observationsGrounded}/${s.observationsTotal}`} tone={s.observationsUngrounded ? "danger" : "success"} sub="re-matched on disk" />
+            <Stat label="Need human review" value={s.claimsNeedingReview} sub="inferences" tone="info" />
+            <Stat label="Artifact checks" value={`${s.checksPassed}/${s.checksPassed + s.checksFailed + s.checksWarned}`} tone={s.checksFailed ? "danger" : "success"} sub={s.checksFailed ? `${s.checksFailed} failed` : "passed"} />
+          </div>
+        )}
+        {s && (
+          <div className="callout subtle">
+            <Info size={15} aria-hidden />
+            <span>{s.integrityNote}</span>
+          </div>
+        )}
+        {a && (
+          <div className="mode-line">
+            Analysis: {a.generatedBy === "claude" ? "Claude, evidence-cited" : "rule-based (deterministic mode, no AI reasoning)"}
+            {a.rejectedModelClaims > 0 && ` · ${a.rejectedModelClaims} uncited model claims discarded`}
+          </div>
+        )}
+      </section>
+
+        </div>
+      </details>
+      )}
+      {a && (
+      <details className="disclosure">
+        <summary>
+          <ChevronDown size={15} aria-hidden className="chev" />
+          Full competitor comparison
+          <span className="disclosure-meta">{a.profiles.length} competitors</span>
+        </summary>
+        <div className="disclosure-body">
       {a && (
         <section className="card">
           <SectionTitle count={a.profiles.length}>Competitor comparison</SectionTitle>
@@ -144,31 +216,16 @@ export function ResultsView({ mission, health, busy = false, onReadPricing }: { 
         </section>
       )}
 
-      {a && (
-        <section className="card">
-          <SectionTitle count={a.gaps.length}>Potential market gaps</SectionTitle>
-          {a.gaps.length === 0 && <div className="muted">No gaps could be inferred from the captured evidence.</div>}
-          <ul className="gaps">
-            {a.gaps.map((g) => (
-              <li key={g.id}>
-                <Lightbulb size={16} aria-hidden />
-                <div>
-                  <div className="gap-statement">{g.statement}</div>
-                  <div className="gap-meta">
-                    <Badge tone="info">Inferred</Badge>
-                    <Badge tone={g.confidence === "medium" ? "accent" : "neutral"}>{g.confidence} confidence</Badge>
-                    <span>
-                      {g.by === "claude" ? "Claude" : "rules"} · based on {g.basis.length} observations
-                    </span>
-                  </div>
-                  <div className="gap-rationale">{g.rationale}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+        </div>
+      </details>
       )}
-
+      <details className="disclosure">
+        <summary>
+          <ChevronDown size={15} aria-hidden className="chev" />
+          Sources and page captures
+          <span className="disclosure-meta">{mission.sources.length} pages</span>
+        </summary>
+        <div className="disclosure-body">
       <section className="card">
         <SectionTitle count={mission.sources.length}>Sources and citations</SectionTitle>
         <ol className="sources">
@@ -212,6 +269,8 @@ export function ResultsView({ mission, health, busy = false, onReadPricing }: { 
           })}
         </ol>
       </section>
+        </div>
+      </details>
     </div>
   );
 }

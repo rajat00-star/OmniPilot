@@ -47,7 +47,7 @@ The judge-facing script, with narration, expected results, a failure workflow, a
 | Run is too fast to narrate | Press **Pause** (time paused no longer counts against the step budget), or restart with `OMNIPILOT_DEMO_LATENCY_MS=3500`. |
 | Run is stuck on a step | Each page has a 25 s navigation timeout and each step a 120 s budget of agent time; it will fail honestly. Press **Stop** and show the completed rehearsal mission from the sidebar. |
 | Chromium fails to launch | `npx playwright install chromium`, or point `OMNIPILOT_CHROMIUM_PATH` at an installed Chromium. |
-| Anything else on stage | Open the completed mission in the sidebar (keep one from the rehearsal), or show the screenshots in `docs/screenshots/offline-demo/`. |
+| Anything else on stage | Open the completed mission from **History** (keep one from the rehearsal), or show the screenshots in `docs/screenshots/offline-demo/`. |
 | Judges ask for a live site | Only if the venue network allows it: `npm start`, then **Your own URLs** with a reachable page. Say up front that live results depend on the network. |
 
 ## 5. Technical Q&A

@@ -22,18 +22,20 @@ const page = await browser.newPage({ viewport: { width: 1600, height: 1000 } });
 const consoleErrors = [];
 page.on("console", (m) => m.type() === "error" && consoleErrors.push(m.text()));
 page.on("pageerror", (e) => consoleErrors.push(e.message));
-const shot = (name) => page.screenshot({ path: `${out}/${name}.png` });
+// Entrance animations are fast-forwarded so screenshots show the settled UI.
+const shot = (name) => page.screenshot({ path: `${out}/${name}.png`, animations: "disabled" });
 const badge = () => page.locator(".mission-status-line .badge").first().textContent();
 
 // 1. Intent
 await page.goto(base);
-await page.getByRole("heading", { name: "What should OmniPilot do?" }).waitFor();
+await page.getByRole("heading", { name: "What should OmniPilot do for you?" }).waitFor();
 await page.getByRole("button", { name: /Signature mission/ }).click();
+await page.getByRole("button", { name: "Advanced settings" }).click();
 await page.getByLabel("Your product name (optional)").fill("VerityDesk");
 await shot("01-composer-offline");
 
 // 2. Plan review and an edit
-await page.getByRole("button", { name: "Draft plan" }).click();
+await page.getByRole("button", { name: "Create plan" }).click();
 await page.getByRole("button", { name: "Approve and run" }).waitFor({ timeout: 30000 });
 note("plan targets", (await page.getByLabel("Target name").evaluateAll((els) => els.map((e) => e.value))).join(", "));
 await shot("02-plan-review");
@@ -126,7 +128,7 @@ note("judge: Escape returns to workspace", new URL(page.url()).hash === `#/m/${i
 // 6. Stop mid-run
 await page.getByRole("button", { name: "New mission" }).click();
 await page.getByRole("button", { name: /Signature mission/ }).click();
-await page.getByRole("button", { name: "Draft plan" }).click();
+await page.getByRole("button", { name: "Create plan" }).click();
 await page.getByRole("button", { name: "Approve and run" }).waitFor({ timeout: 30000 });
 await page.getByRole("button", { name: "Approve and run" }).click();
 await page.getByRole("button", { name: "Stop" }).waitFor({ timeout: 10000 });

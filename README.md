@@ -88,7 +88,7 @@ It has no mission controls. **Exit judge mode** or Esc returns to the workspace.
 * Plan approval before anything executes.
 * **Stop** cancels the run, aborts in-flight navigation and closes browser pages.
 * **Pause** and **Take over** hold the agent before its next browser action. You can then drive the browser from the address bar (headless) or the visible Chromium window (`OMNIPILOT_HEADED=1`), and resume.
-* Consequential tools (currently `artifact.delete`) always stop for explicit approval in the agent panel, and cannot be run ad hoc.
+* Consequential tools (currently `artifact.delete`) always stop for explicit approval in the mission view, and cannot be run ad hoc.
 
 ## Documentation
 
