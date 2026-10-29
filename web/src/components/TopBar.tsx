@@ -41,14 +41,23 @@ export function TopBar({ health, healthError, missionCount, home, onNew, onHisto
           <span className="sys-label">{status.label}</span>
           <span className="sys-detail">{status.detail}</span>
         </span>
-        <IconButton
-          icon={soundOn ? Volume2 : VolumeX}
-          label={soundOn ? "Turn interface sound off" : "Turn interface sound on"}
+        <button
+          type="button"
+          className={`sound-pill ${soundOn ? "on" : ""}`}
           aria-pressed={soundOn}
-          className={`sound-btn ${soundOn ? "on" : ""}`}
           disabled={!sound.available}
+          title={sound.available ? (soundOn ? "Turn interface sound off" : "Turn interface sound on") : "Sound is not supported in this browser"}
           onClick={() => void toggleSound(!soundOn)}
-        />
+        >
+          {soundOn ? <Volume2 size={15} aria-hidden /> : <VolumeX size={15} aria-hidden />}
+          <span className="sound-label">Sound</span>
+          <span className="sound-state">{soundOn ? "on" : "off"}</span>
+          <span className="eq" aria-hidden>
+            <i />
+            <i />
+            <i />
+          </span>
+        </button>
         <Settings health={health} healthError={healthError} />
         <Button variant="ghost" size="sm" icon={History} onClick={onHistory} aria-haspopup="dialog">
           <span className="hide-sm">History</span>
@@ -68,7 +77,8 @@ function Settings({ health, healthError }: { health?: Health; healthError?: stri
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
-  const { sound: soundOn, effects } = usePrefs();
+  const { sound: soundOn, effects, volume } = usePrefs();
+  const [previewing, setPreviewing] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -100,7 +110,10 @@ function Settings({ health, healthError }: { health?: Health; healthError?: stri
         title="Settings"
         aria-expanded={open}
         aria-controls="settings-panel"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          sound.play("ui");
+          setOpen((v) => !v);
+        }}
       >
         <Settings2 size={16} strokeWidth={2} aria-hidden />
       </button>
@@ -120,10 +133,34 @@ function Settings({ health, healthError }: { health?: Health; healthError?: stri
               <label className="switch-row">
                 <span>
                   <span className="switch-title">Interface sound</span>
-                  <span className="switch-desc">{sound.available ? "Soft synthesized cues for real events. Off by default." : "Not supported in this browser."}</span>
+                  <span className="switch-desc">{sound.available ? "Original synthesized sounds for real events. Off by default." : "Not supported in this browser."}</span>
                 </span>
                 <input type="checkbox" role="switch" checked={soundOn} disabled={!sound.available} onChange={(e) => void toggleSound(e.target.checked)} />
               </label>
+              <div className="volume-row">
+                <label htmlFor="master-volume" className="switch-title">
+                  Master volume
+                </label>
+                <input
+                  id="master-volume"
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={Math.round(volume * 100)}
+                  disabled={!soundOn}
+                  onChange={(e) => prefs.set({ volume: Number(e.target.value) / 100 })}
+                  onPointerUp={() => sound.play("ui")}
+                  onKeyUp={() => sound.play("ui")}
+                />
+                <span className="volume-value">{Math.round(volume * 100)}%</span>
+              </div>
+              <button type="button" className="btn btn-secondary btn-sm preview-btn" disabled={!soundOn || previewing} onClick={() => {
+                setPreviewing(true);
+                setTimeout(() => setPreviewing(false), sound.preview() * 1000);
+              }}>
+                {previewing ? "Playing the palette…" : "Preview the sound palette"}
+              </button>
               <label className="switch-row">
                 <span>
                   <span className="switch-title">Reduce visual effects</span>

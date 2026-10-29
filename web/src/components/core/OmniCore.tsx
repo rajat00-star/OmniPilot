@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useMedia, usePrefs } from "../../lib/prefs";
-import type { CoreMode, CoreRenderer } from "./core-renderer";
+import type { ChamberRenderer as CoreRenderer, CoreMode } from "./chamber-renderer";
 
 export type { CoreMode };
 type Engine = "pending" | "webgl" | "css";
@@ -69,12 +69,12 @@ export function CoreProvider({ children, enabled = true }: { children: ReactNode
     let cancelled = false;
     let r: CoreRenderer | null = null;
     setEngine("pending");
-    import("./core-renderer")
+    import("./chamber-renderer")
       .then((mod) => {
         if (cancelled || !canvasRef.current) return;
         if (!mod.supportsWebGL2()) return setEngine("css");
         try {
-          r = new mod.CoreRenderer(canvasRef.current, { reducedMotion: reducedRef.current, lowPower: lowPowerDevice(), onContextLost: () => setFailed(true) });
+          r = new mod.ChamberRenderer(canvasRef.current, { reducedMotion: reducedRef.current, lowPower: lowPowerDevice(), onContextLost: () => setFailed(true) });
         } catch {
           return setEngine("css");
         }

@@ -3,17 +3,20 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 /** Viewer preferences kept in this browser only. Sound starts off; effects start full. */
 export interface Prefs {
   sound: boolean;
+  /** Master volume, 0 to 1. */
+  volume: number;
   effects: "full" | "reduced";
 }
 
 const KEY = "omnipilot:prefs";
-const DEFAULTS: Prefs = { sound: false, effects: "full" };
+const DEFAULTS: Prefs = { sound: false, volume: 0.7, effects: "full" };
 
 function load(): Prefs {
   try {
     const raw = localStorage.getItem(KEY);
     const parsed = raw ? (JSON.parse(raw) as Partial<Prefs>) : {};
-    return { sound: parsed.sound === true, effects: parsed.effects === "reduced" ? "reduced" : "full" };
+    const volume = typeof parsed.volume === "number" && parsed.volume >= 0 && parsed.volume <= 1 ? parsed.volume : DEFAULTS.volume;
+    return { sound: parsed.sound === true, volume, effects: parsed.effects === "reduced" ? "reduced" : "full" };
   } catch {
     return DEFAULTS;
   }

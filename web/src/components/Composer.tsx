@@ -87,7 +87,34 @@ export function Composer({ health, busy, error, initialPrompt = "", coreLabel, o
   };
 
   return (
-    <m.div className="home" variants={sequence(0.08, 0.2)} initial="hidden" animate="show">
+    <m.div className="home" data-focused={focused || undefined} data-busy={busy || undefined} variants={sequence(0.08, 0.9)} initial="hidden" animate="show">
+      {/* The identity: one word in light, letter by letter, layered over the chamber. Decorative. */}
+      <div className="home-wordmark" aria-hidden>
+        {"OMNIPILOT".split("").map((ch, i) => (
+          <m.span
+            key={i}
+            initial={{ opacity: 0, y: "38%", scaleY: 1.35 }}
+            animate={{ opacity: 1, y: 0, scaleY: 1 }}
+            transition={{ delay: 0.35 + i * 0.065, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {ch}
+          </m.span>
+        ))}
+      </div>
+      <ol className="chapters" aria-label="How a mission runs">
+        {["Describe", "Plan", "Execute", "Verify"].map((c, i) => (
+          <m.li
+            key={c}
+            className={i === (busy ? 1 : 0) ? "on" : ""}
+            initial={{ opacity: 0, x: -14 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.1 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="chapter-num">{String(i + 1).padStart(2, "0")}</span>
+            <span className="chapter-name">{c}</span>
+          </m.li>
+        ))}
+      </ol>
       <m.div className="home-core" variants={fade}>
         <CoreAnchor size="hero" label={coreLabel} />
       </m.div>

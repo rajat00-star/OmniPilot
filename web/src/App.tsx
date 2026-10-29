@@ -222,13 +222,16 @@ function Shell({ route, select }: { route: Route; select(id?: string): void }) {
       case "completed":
         sound.play("success");
         core.celebrate();
+        setVeil((v) => ({ key: (v?.key ?? 0) + 1, kind: "complete" }));
         break;
       case "completed_with_warnings":
         sound.play("warning");
         core.celebrate();
+        setVeil((v) => ({ key: (v?.key ?? 0) + 1, kind: "complete" }));
         break;
       case "failed":
         sound.play("error");
+        setVeil((v) => ({ key: (v?.key ?? 0) + 1, kind: "fail" }));
         break;
       case "cancelled":
         if (!stopRequested.current) sound.play("cancel");
@@ -238,6 +241,14 @@ function Shell({ route, select }: { route: Route; select(id?: string): void }) {
   }, [mission, core]);
 
   const onFocusChange = useCallback((f: boolean) => setComposerFocused(f), []);
+
+  // Cinematic beats keyed to real transitions: entering a mission, and a mission finishing.
+  const [veil, setVeil] = useState<{ key: number; kind: "enter" | "complete" | "fail" }>();
+  const lastRoute = useRef(selectedId);
+  useEffect(() => {
+    if (!lastRoute.current && selectedId) setVeil((v) => ({ key: (v?.key ?? 0) + 1, kind: "enter" }));
+    lastRoute.current = selectedId;
+  }, [selectedId]);
 
   const exitJudge = useCallback(() => {
     if (selectedId) location.hash = `#/m/${selectedId}`;
@@ -257,7 +268,10 @@ function Shell({ route, select }: { route: Route; select(id?: string): void }) {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <TopBar health={health} healthError={healthError} missionCount={missions.length} home={!selectedId} onNew={goNew} onHistory={() => setHistoryOpen(true)} />
+      <TopBar health={health} healthError={healthError} missionCount={missions.length} home={!selectedId} onNew={goNew} onHistory={() => {
+          sound.play("ui");
+          setHistoryOpen(true);
+        }} />
       {fixture && (
         <div className="fixture-strip" role="note">
           <FlaskConical size={14} aria-hidden />
@@ -267,6 +281,19 @@ function Shell({ route, select }: { route: Route; select(id?: string): void }) {
       )}
 
       <main className="workspace" id="main" tabIndex={-1}>
+        <AnimatePresence>
+          {veil && (
+            <m.div
+              key={veil.key}
+              className={`veil veil-${veil.kind}`}
+              aria-hidden
+              initial={veil.kind === "enter" ? { opacity: 0, y: "58vh" } : { opacity: 0, scale: 0.6 }}
+              animate={veil.kind === "enter" ? { opacity: [0, 1, 0], y: ["58vh", "28vh", "4vh"] } : { opacity: [0, veil.kind === "fail" ? 0.5 : 0.9, 0], scale: [0.6, 1.15, 1.4] }}
+              transition={{ duration: veil.kind === "enter" ? 0.95 : 1.4, ease: [0.16, 1, 0.3, 1], times: [0, 0.35, 1] }}
+              onAnimationComplete={() => setVeil(undefined)}
+            />
+          )}
+        </AnimatePresence>
         <AnimatePresence mode="wait" initial={false}>
           <m.div key={selectedId ?? "home"} className="view" variants={viewMotion} initial="hidden" animate="show" exit="exit">
             {!selectedId ? (
@@ -363,19 +390,28 @@ function MissionWorkspace({ mission, health, connected, view, setView, busy, err
           </h1>
           <div className="mission-controls">
             {isDisplayed(s) && Boolean(mission.analysis) && (
-              <Button size="sm" icon={Presentation} onClick={() => (location.hash = judgeHash(mission.id))} title="Read-only presentation of these results">
+              <Button size="sm" icon={Presentation} onClick={() => {
+                  sound.play("ui");
+                  location.hash = judgeHash(mission.id);
+                }} title="Read-only presentation of these results">
                 Judge mode
               </Button>
             )}
             {s === "running" && (
               <>
-                <Button size="sm" icon={Pause} onClick={() => act(() => api.pause(mission.id))} disabled={busy}>
+                <Button size="sm" icon={Pause} onClick={() => {
+                    sound.play("ui");
+                    void act(() => api.pause(mission.id));
+                  }} disabled={busy}>
                   Pause
                 </Button>
                 <Button
                   size="sm"
                   icon={Hand}
-                  onClick={() => act(() => api.takeover(mission.id))}
+                  onClick={() => {
+                    sound.play("ui");
+                    void act(() => api.takeover(mission.id));
+                  }}
                   disabled={busy}
                   title={
                     health?.browser.headed
